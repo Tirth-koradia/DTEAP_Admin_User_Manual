@@ -1,0 +1,368 @@
+13. Weight Formula Reference Guide
+13.1 Purpose
+
+The Weight Formula Reference Guide serves as the official technical reference for all material weight calculations performed within the DTEAP system. These formulas are used by:
+
+Weight Calculator Module
+Estimation Module – Section A (Material Cost)
+Procurement Cost Calculation
+Material Consumption Analysis
+Cost Validation Activities
+
+The system calculates two types of weights:
+
+Raw Weight
+
+Raw Weight represents the procurement or stock material weight before machining, drilling, cutting, rolling, or finishing operations.
+
+Finished Weight
+
+Finished Weight represents the final component weight after all manufacturing operations have been completed.
+
+Source Formula Repository:
+
+13.2 Formula Variables
+Symbol	Description	Unit
+OD	Outer Diameter	mm
+ID	Inner Diameter	mm
+T / Thk	Thickness	mm
+L	Length	mm
+W	Width	mm
+ρ	Density	g/cc
+Q	Quantity	Nos
+π	Mathematical Constant (3.14159)	-
+13.3 Tube Weight Formula
+Applicable For
+Straight Tubes
+U-Tubes
+Heat Exchanger Tubes
+Condenser Tubes
+Formula
+Effective Thickness
+Effective Thickness = Nominal Thickness × Basis Factor
+
+Where:
+
+Basis Factor = 1.0 (Average Thickness)
+Basis Factor = 1.1 (Minimum Thickness)
+Inner Diameter
+ID = OD − (2 × Effective Thickness)
+Weight Per Unit
+Weight Per Unit =
+(π/4) × (OD² − ID²) × (ρ/1000) × (L/1000)
+Raw Weight
+Raw Weight =
+((π/4) × (OD² − ID²) × (ρ/1000))
+× (L/1000)
+× (Q + Extra Tubes)
+Finished Weight
+Finished Weight =
+((π/4) × (OD² − ID²) × (ρ/1000))
+× (L/1000)
+× Q
+Extra Tube Allowance
+Quantity	Extra Tubes
+≤1000	2
+≤2000	4
+≤3000	6
+≤4000	8
+≤10000	10
+≤15000	15
+>15000	18
+Notes
+Straight tubes include procurement allowance.
+U-Tubes do not include extra tube allowance.
+Raw Weight is generally greater than Finished Weight.
+13.4 Plate Weight Formula
+Applicable For
+Carbon Steel Plates
+Stainless Steel Plates
+Duplex Plates
+Inconel Plates
+Clad Plates
+Cutting Allowances
+Material	Allowance
+CS / AS / MS	10 mm
+SS / Duplex / Inconel	15 mm
+Formula
+Raw Length = Length + Allowance
+Raw Width  = Width + Allowance
+Raw Weight
+Raw Weight =
+(Raw Length × Raw Width × Thickness)
+× Density × Quantity × 10⁻⁶
+Finished Weight
+Finished Weight =
+(Length × Width × Thickness)
+× Density × Quantity × 10⁻⁶
+Notes
+
+Raw Weight includes cutting allowance while Finished Weight represents actual component dimensions.
+
+13.5 Shell Plate Weight Formula (Rolled Shell)
+Applicable When
+Rolling Feasible = YES
+Circumference
+Circumference =
+(ID + Thickness) × π
+Edge Bevel Allowance
+EB =
+Edge Bevel Allowance × Thickness × 2
+Raw Dimensions
+Raw Length =
+Circumference + EB + Cutting Allowance
+
+Raw Width =
+Width + Cutting Allowance
+Raw Weight
+Raw Weight =
+(Raw Length × Raw Width × Thickness)
+× Density × Quantity × 10⁻⁶
+Finished Weight
+Finished Weight =
+(Circumference × Width × Thickness)
+× Density × Quantity × 10⁻⁶
+Notes
+
+Raw Weight includes:
+
+Rolling Allowance
+Edge Bevel Allowance
+Cutting Allowance
+13.6 Shell Plate Weight Formula (Annular Ring)
+Applicable When
+Rolling Feasible = NO
+Derived Thickness
+Thickness =
+(OD − ID)/2
+Constant
+K =
+(π/4)
+× (OD² − ID²)
+× Density
+× Thickness
+× Quantity
+× 10⁻⁶
+Raw Weight
+Raw Weight =
+K × Length
+Finished Weight
+Finished Weight =
+K × (Length + Allowance)
+Notes
+
+Current application behavior results in Finished Weight being larger than Raw Weight.
+
+13.7 Pipe Weight Formula
+Applicable For
+Seamless Pipes
+Welded Pipes
+Inner Diameter
+ID = OD − (2 × Thickness)
+Weight Formula
+Weight =
+(π/4)
+× (OD² − ID²)
+× Thickness
+× Density
+× Quantity
+× 10⁻⁶
+Result
+Raw Weight = Finished Weight
+13.8 Forging Weight Formula
+Applicable For
+Forged Discs
+Forged Blocks
+Forged Components
+Formula
+Weight =
+(π/4)
+× OD²
+× Thickness
+× Density
+× Quantity
+× 10⁻⁶
+Result
+Raw Weight = Finished Weight
+13.9 Rod Weight Formula
+Applicable For
+Round Bars
+Rod Stock
+Formula
+Weight =
+(π/4)
+× OD²
+× Length
+× Density
+× Quantity
+× 10⁻⁶
+Result
+Raw Weight = Finished Weight
+13.10 Stud Weight Formula
+Stud Without Head
+Formula
+Weight =
+(π/4)
+× OD²
+× Length
+× Density
+× Quantity
+× 10⁻⁶
+Result
+Raw Weight = Finished Weight
+Stud With Head
+Raw Weight
+Raw Weight =
+(π/4)
+× HAC²
+× Length
+× Density
+× Quantity
+× 10⁻⁶
+Finished Weight
+Finished Weight =
+[(π/4) × HAC² × OD × Density × Quantity × 10⁻⁶]
++
+[(π/4) × OD² × (Length−OD) × Density × Quantity × 10⁻⁶]
+
+Where:
+
+HAC = Head Across Corner
+Stud With Collar
+Raw Weight
+Raw Weight =
+(π/4)
+× Collar OD²
+× Length
+× Density
+× Quantity
+× 10⁻⁶
+Finished Weight
+Finished Weight =
+[(π/4) × Collar OD² × Collar Thickness × Density × Quantity × 10⁻⁶]
++
+[(π/4) × OD² × (Length−Collar Thickness) × Density × Quantity × 10⁻⁶]
+13.11 Nut Weight Formula
+Applicable For
+Hex Nuts
+Special Nuts
+Formula
+Weight Per Nut =
+(π/4)
+× (NAC² − NID²)
+× Height
+× Density
+× 10⁻⁶
+Total Weight
+Total Weight =
+Weight Per Nut × Quantity
+
+Where:
+
+Variable	Description
+NAC	Nut Across Corner
+NID	Nut Inner Diameter
+13.12 Tubesheet Weight Formula
+Components Considered
+Forged Disc
+Shell Side Lip
+Channel Side Lip
+Tube Holes
+Bolt Holes
+Disc Weight
+Disc =
+(π/4)
+× OD²
+× Thickness
+× Density
+× Quantity
+× 10⁻⁶
+Lip Weight
+Lip =
+(π/4)
+× ((Lip ID + 2×Lip Thickness)² − Lip ID²)
+× Lip Length
+× Density
+× 10⁻⁶
+Tube Hole Weight
+Tube Holes =
+(π/4)
+× Tube Hole Diameter²
+× Thickness
+× Number of Tube Holes
+× Density
+× 10⁻⁶
+Bolt Hole Weight
+Bolt Holes =
+(π/4)
+× Bolt Hole Diameter²
+× Thickness
+× Number of Bolt Holes
+× Density
+× 10⁻⁶
+Raw Weight
+Raw Weight =
+Disc + Shell Lip + Channel Lip
+Finished Weight
+Finished Weight =
+Raw Weight
+− Tube Hole Weight
+− Bolt Hole Weight
+13.13 Shell Flange Weight Formula
+Components
+Ring
+Hub
+Bolt Holes
+Ring Weight
+Ring =
+(π/4)
+× (OD² − ID²)
+× Thickness
+× Density
+× Quantity
+× 10⁻⁶
+Bolt Hole Weight
+Bolt Weight =
+(π/4)
+× Bolt Diameter²
+× Thickness
+× Density
+× Number of Bolts
+× Quantity
+× 10⁻⁶
+Hub Weight
+Hub =
+0.5 × (G1 + G0)
+× Hub Length
+× π
+× (ID + 2×J31)
+× Density
+× 10⁻⁶
+× Quantity
+Raw Weight
+Raw Weight =
+(π/4)
+× (OD² − ID²)
+× (Thickness + Hub Length)
+× Density
+× Quantity
+× 10⁻⁶
+Finished Weight
+Finished Weight =
+Ring
+− Bolt Weight
++ Hub Weight
+13.14 Quick Reference Summary
+Material Category	Raw Weight	Finished Weight
+Tube	Separate	Separate
+Plate	Separate	Separate
+Shell Plate (Rolled)	Separate	Separate
+Shell Plate (Annular)	Separate	Separate
+Stud With Head	Separate	Separate
+Stud With Collar	Separate	Separate
+Tubesheet	Separate	Separate
+Shell Flange	Separate	Separate
+Pipe	Same	Same
+Forging	Same	Same
+Rod	Same	Same
+Nut	Same	Same
