@@ -197,6 +197,19 @@
       font-weight: 600;
       padding-top: 6px;
       padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toc-chevron {
+      font-size: 10px;
+      color: #999;
+      transition: transform 0.2s;
+    }
+
+    #toc-nav a.toc-l1.collapsed .toc-chevron {
+      transform: rotate(-90deg);
     }
 
     #toc-nav a.toc-l2 {
@@ -671,17 +684,17 @@
       <a href="#s3-11" class="toc-l2">3.11 Calculate Material Weight</a>
       <a href="#s3-12" class="toc-l2">3.12 Best Practices</a>
 
-      <a href="#ch5-estimation" class="toc-l1">5. Estimation Management</a>
-      <a href="#s5-1-est" class="toc-l2">5.1 Overview</a>
-      <a href="#s5-2-est" class="toc-l2">5.2 Creating a New Estimation</a>
-      <a href="#s5-3-est" class="toc-l2">5.3 Estimation Header</a>
-      <a href="#s5-4-est" class="toc-l2">5.4 Customs Duty Configuration</a>
-      <a href="#s5-5-est" class="toc-l2">5.5 Country &amp; Exchange Rate Config</a>
-      <a href="#s5-6-est" class="toc-l2">5.6 Section A – Material Cost</a>
-      <a href="#s5-7-est" class="toc-l2">5.7 Section B – Labour &amp; Machine Cost</a>
-      <a href="#s5-8-est" class="toc-l2">5.8 Section C – Other Expenses</a>
-      <a href="#s5-9-est" class="toc-l2">5.9 Section D – Material Handling</a>
-      <a href="#s5-10-est" class="toc-l2">5.10 Grand Total Calculation</a>
+      <a href="#ch5-estimation" class="toc-l1">8. Estimation Management</a>
+      <a href="#s5-1-est" class="toc-l2">8.1 Overview</a>
+      <a href="#s5-2-est" class="toc-l2">8.2 Creating a New Estimation</a>
+      <a href="#s5-3-est" class="toc-l2">8.3 Estimation Header</a>
+      <a href="#s5-4-est" class="toc-l2">8.4 Customs Duty Configuration</a>
+      <a href="#s5-5-est" class="toc-l2">8.5 Country &amp; Exchange Rate Config</a>
+      <a href="#s5-6-est" class="toc-l2">8.6 Section A – Material Cost</a>
+      <a href="#s5-7-est" class="toc-l2">8.7 Section B – Labour &amp; Machine Cost</a>
+      <a href="#s5-8-est" class="toc-l2">8.8 Section C – Other Expenses</a>
+      <a href="#s5-9-est" class="toc-l2">8.9 Section D – Material Handling</a>
+      <a href="#s5-10-est" class="toc-l2">8.10 Grand Total Calculation</a>
 
       <a href="#ch4" class="toc-l1">4. Master Data Management</a>
       <a href="#s4-1" class="toc-l2">4.1 Masters Overview</a>
@@ -747,52 +760,84 @@
       <a href="#s7-11" class="toc-l2">7.12 Search &amp; Export in Estimation</a>
       <a href="#s7-12" class="toc-l2">7.12 Administrative Recommendations</a>
 
-      <a href="#ch8" class="toc-l1">8. Administrative Workflows</a>
-      <a href="#s8-1" class="toc-l2">8.1 Overview</a>
-      <a href="#s8-2" class="toc-l2">8.2 Creating a New User</a>
-      <a href="#s8-3" class="toc-l2">8.3 Creating a New Role</a>
-      <a href="#s8-4" class="toc-l2">8.4 Creating a New Permission</a>
-      <a href="#s8-5" class="toc-l2">8.5 Creating a New Group</a>
-      <a href="#s8-6" class="toc-l2">8.6 Adding Users to a Group</a>
-      <a href="#s8-7" class="toc-l2">8.7 Creating a New Estimation</a>
-      <a href="#s8-8" class="toc-l2">8.8 Managing Exchange Rates</a>
-      <a href="#s8-9" class="toc-l2">8.9 Managing Customs Duty</a>
-      <a href="#s8-10" class="toc-l2">8.10 Currency Conversion Config</a>
-      <a href="#s8-11" class="toc-l2">8.11 Material Cost Review</a>
-      <a href="#s8-12" class="toc-l2">8.12 Weight Calculation Workflow</a>
-      <a href="#s8-13" class="toc-l2">8.13 Workflow Best Practices</a>
+      <a href="#ch8" class="toc-l1">9. Administrative Workflows</a>
+      <a href="#s8-1" class="toc-l2">9.1 Overview</a>
+      <a href="#s8-2" class="toc-l2">9.2 Creating a New User</a>
+      <a href="#s8-3" class="toc-l2">9.3 Creating a New Role</a>
+      <a href="#s8-4" class="toc-l2">9.4 Creating a New Permission</a>
+      <a href="#s8-5" class="toc-l2">9.5 Creating a New Group</a>
+      <a href="#s8-6" class="toc-l2">9.6 Adding Users to a Group</a>
+      <a href="#s8-7" class="toc-l2">9.7 Creating a New Estimation</a>
+      <a href="#s8-8" class="toc-l2">9.8 Managing Exchange Rates</a>
+      <a href="#s8-9" class="toc-l2">9.9 Managing Customs Duty</a>
+      <a href="#s8-10" class="toc-l2">9.10 Currency Conversion Config</a>
+      <a href="#s8-11" class="toc-l2">9.11 Material Cost Review</a>
+      <a href="#s8-12" class="toc-l2">9.12 Weight Calculation Workflow</a>
+      <a href="#s8-13" class="toc-l2">9.13 Workflow Best Practices</a>
 
-      <a href="#ch9" class="toc-l1">9. Troubleshooting</a>
+      <a href="#ch9" class="toc-l1">10. Troubleshooting</a>
+      <a href="#s9-1" class="toc-l2">10.1 Overview</a>
+      <a href="#s9-2" class="toc-l2">10.2 User Login Issues</a>
+      <a href="#s9-3" class="toc-l2">10.3 User Access Issues</a>
+      <a href="#s9-4" class="toc-l2">10.4 Role and Permission Issues</a>
+      <a href="#ch8-estimation" class="toc-l1">8. Estimation Management</a>
+      <a href="#s8-1-est" class="toc-l2">8.1 Overview</a>
+      <a href="#s8-2-est" class="toc-l2">8.2 Creating a New Estimation</a>
+      <a href="#s8-3-est" class="toc-l2">8.3 Estimation Header</a>
+      <a href="#s8-4-est" class="toc-l2">8.4 Customs Duty Configuration</a>
+      <a href="#s8-5-est" class="toc-l2">8.5 Country &amp; Exchange Rate Config</a>
+      <a href="#s8-6-est" class="toc-l2">8.6 Section A – Material Cost</a>
+      <a href="#s8-7-est" class="toc-l2">8.7 Section B – Labour &amp; Machine Cost</a>
+      <a href="#s8-8-est" class="toc-l2">8.8 Section C – Other Expenses</a>
+      <a href="#s8-9-est" class="toc-l2">8.9 Section D – Material Handling</a>
+      <a href="#s8-10-est" class="toc-l2">8.10 Grand Total Calculation</a>
+
+      <a href="#ch9" class="toc-l1">9. Administrative Workflows</a>
       <a href="#s9-1" class="toc-l2">9.1 Overview</a>
-      <a href="#s9-2" class="toc-l2">9.2 User Login Issues</a>
-      <a href="#s9-3" class="toc-l2">9.3 User Access Issues</a>
-      <a href="#s9-4" class="toc-l2">9.4 Role and Permission Issues</a>
-      <a href="#s9-5" class="toc-l2">9.5 Group Management Issues</a>
-      <a href="#s9-6" class="toc-l2">9.6 Master Data Issues</a>
-      <a href="#s9-7" class="toc-l2">9.7 Exchange Rate Issues</a>
-      <a href="#s9-8" class="toc-l2">9.8 Estimation Issues</a>
-      <a href="#s9-9" class="toc-l2">9.9 Material Costing Issues</a>
-      <a href="#s9-10" class="toc-l2">9.10 Weight Calculator Issues</a>
-      <a href="#s9-11" class="toc-l2">9.11 Export Issues</a>
-      <a href="#s9-12" class="toc-l2">9.12 Performance Issues</a>
-      <a href="#s9-13" class="toc-l2">9.13 When to Escalate</a>
+      <a href="#s9-2" class="toc-l2">9.2 Creating a New User</a>
+      <a href="#s9-3" class="toc-l2">9.3 Creating a New Role</a>
+      <a href="#s9-4" class="toc-l2">9.4 Creating a New Permission</a>
+      <a href="#s9-5" class="toc-l2">9.5 Creating a New Group</a>
+      <a href="#s9-6" class="toc-l2">9.6 Adding Users to a Group</a>
+      <a href="#s9-7" class="toc-l2">9.7 Creating a New Estimation</a>
+      <a href="#s9-8" class="toc-l2">9.8 Managing Exchange Rates</a>
+      <a href="#s9-9" class="toc-l2">9.9 Managing Customs Duty</a>
+      <a href="#s9-10" class="toc-l2">9.10 Currency Conversion Config</a>
+      <a href="#s9-11" class="toc-l2">9.11 Material Cost Review</a>
+      <a href="#s9-12" class="toc-l2">9.12 Weight Calculation Workflow</a>
+      <a href="#s9-13" class="toc-l2">9.13 Workflow Best Practices</a>
 
-      <a href="#ch10" class="toc-l1">10. Appendix</a>
-      <a href="#s10-1" class="toc-l2">10.1 Purpose</a>
-      <a href="#s10-2" class="toc-l2">10.2 Common Icons and Actions</a>
-      <a href="#s10-3" class="toc-l2">10.3 Common Buttons and Controls</a>
-      <a href="#s10-4" class="toc-l2">10.4 Common Status Definitions</a>
-      <a href="#s10-5" class="toc-l2">10.5 Glossary of Terms</a>
-      <a href="#s10-6" class="toc-l2">10.6 Acronyms</a>
-      <a href="#s10-7" class="toc-l2">10.7 Reference Data Relationships</a>
-      <a href="#s10-8" class="toc-l2">10.8 Estimation Data Flow</a>
-      <a href="#s10-9" class="toc-l2">10.9 Weight Calculator Categories</a>
-      <a href="#s10-10" class="toc-l2">10.10 Best Practices Checklist</a>
-      <a href="#s10-11" class="toc-l2">10.11 Reference Documents</a>
+      <a href="#ch10" class="toc-l1">10. Troubleshooting</a>
+      <a href="#s10-1" class="toc-l2">10.1 Overview</a>
+      <a href="#s10-2" class="toc-l2">10.2 User Login Issues</a>
+      <a href="#s10-3" class="toc-l2">10.3 User Access Issues</a>
+      <a href="#s10-4" class="toc-l2">10.4 Role and Permission Issues</a>
+      <a href="#s10-5" class="toc-l2">10.5 Group Management Issues</a>
+      <a href="#s10-6" class="toc-l2">10.6 Master Data Issues</a>
+      <a href="#s10-7" class="toc-l2">10.7 Exchange Rate Issues</a>
+      <a href="#s10-8" class="toc-l2">10.8 Estimation Issues</a>
+      <a href="#s10-9" class="toc-l2">10.9 Material Costing Issues</a>
+      <a href="#s10-10" class="toc-l2">10.10 Weight Calculator Issues</a>
+      <a href="#s10-11" class="toc-l2">10.11 Export Issues</a>
+      <a href="#s10-12" class="toc-l2">10.12 Performance Issues</a>
+      <a href="#s10-13" class="toc-l2">10.13 When to Escalate</a>
 
-      <a href="#ch11" class="toc-l1">11. Version History</a>
-      <a href="#s11-1" class="toc-l2">11.1 Document Revision History</a>
-      <a href="#s11-2" class="toc-l2">11.2 Change Log</a>
+      <a href="#ch11" class="toc-l1">11. Appendix</a>
+      <a href="#s11-1" class="toc-l2">11.1 Purpose</a>
+      <a href="#s11-2" class="toc-l2">11.2 Common Icons and Actions</a>
+      <a href="#s11-3" class="toc-l2">11.3 Common Buttons and Controls</a>
+      <a href="#s11-4" class="toc-l2">11.4 Common Status Definitions</a>
+      <a href="#s11-5" class="toc-l2">11.5 Glossary of Terms</a>
+      <a href="#s11-6" class="toc-l2">11.6 Acronyms</a>
+      <a href="#s11-7" class="toc-l2">11.7 Reference Data Relationships</a>
+      <a href="#s11-8" class="toc-l2">11.8 Estimation Data Flow</a>
+      <a href="#s11-9" class="toc-l2">11.9 Weight Calculator Categories</a>
+      <a href="#s11-10" class="toc-l2">11.10 Best Practices Checklist</a>
+      <a href="#s11-11" class="toc-l2">11.11 Reference Documents</a>
+
+      <a href="#ch12" class="toc-l1">12. Version History</a>
+      <a href="#s12-1" class="toc-l2">12.1 Document Revision History</a>
+      <a href="#s12-2" class="toc-l2">12.2 Change Log</a>
 
       <a href="#ch13-weight-formulas" class="toc-l1">13. Weight Calculation Reference Guide</a>
       <a href="#s13-1" class="toc-l2">13.1 Formula Symbols and Definitions</a>
@@ -1296,17 +1341,22 @@ User</pre>
         <h3 id="s2-4">2.4 Dashboard Overview</h3>
         <p>The Dashboard is the default landing page displayed after successful login. It provides administrators with a
           consolidated view of application activity and quick access to major modules.</p>
-        <p>Depending on assigned permissions, the Dashboard may display:</p>
+        <p>Depending on assigned permissions, the Dashboard may display the following metrics and widgets:</p>
         <ul>
-          <li>Total Estimations</li>
-          <li>Total Projects</li>
-          <li>Total Customers</li>
-          <li>Recent Activities</li>
-          <li>Project Progress Information</li>
-          <li>User Notifications</li>
+          <li><strong>Total Estimations:</strong> Aggregate count of all estimations.</li>
+          <li><strong>Total Projects:</strong> Aggregate count of all registered projects.</li>
+          <li><strong>Total Customers:</strong> Aggregate count of all customers in the system.</li>
+          <li><strong>Top Customers:</strong> A ranking of customers by volume or value of estimations.</li>
+          <li><strong>Recent Estimations:</strong> A quick-access list of the most recently created or modified estimation records.</li>
+          <li><strong>Comments:</strong> A feed of recent comments and annotations made on active estimations.</li>
+          <li><strong>Recent Activities:</strong> A log of recent administrative actions.</li>
+          <li><strong>Project Progress Information:</strong> Visual indicators of ongoing project statuses.</li>
+          <li><strong>User Notifications:</strong> Important system alerts and messages.</li>
         </ul>
 
-        <div class="img-placeholder"><span>🖼</span>Screenshot: Dashboard Overview<br><em>[ Add screenshot here ]</em>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/recent_estimation_history.png" alt="Recent Estimation Activity Dashboard Widget" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Recent Estimation Activity Widget</em></p>
         </div>
 
         <h4>Create New Estimation</h4>
@@ -1760,9 +1810,9 @@ User</pre>
       </div>
 
       <div class="section" id="ch5-estimation">
-        <h2 class="section-title">5. Estimation Management</h2>
+        <h2 class="section-title">8. Estimation Management</h2>
 
-        <h3 id="s5-1-est">5.1 Overview</h3>
+        <h3 id="s5-1-est">8.1 Overview</h3>
         <p>The Estimation Management module enables administrators and authorized users to create, manage, modify, and
           maintain detailed project cost estimations. The module provides a structured estimation workflow consisting of
           four major cost categories:</p>
@@ -1774,6 +1824,17 @@ User</pre>
         </ul>
         <p>The system automatically calculates subtotals for each section and generates a consolidated Grand Total for
           the complete estimation.</p>
+
+        <h4>5.1.5 Estimation Listing Table Structure</h4>
+        <p>When navigating to the Estimation module, the index page displays a tabular list of all existing estimations. The table columns include:</p>
+        <ul>
+          <li><strong>Estimation No.:</strong> The internal estimation identifier.</li>
+          <li><strong>JEP No.:</strong> The project reference number.</li>
+          <li><strong>Customer:</strong> The client organization.</li>
+          <li><strong>Equipment:</strong> The primary equipment being estimated.</li>
+          <li><strong>Edit:</strong> Action button to open the estimation form for detailed modification.</li>
+          <li><strong>Download XLSX:</strong> Action button to rapidly export the specific estimation record into an Excel format spreadsheet.</li>
+        </ul>
 
         <hr class="section-divider">
 
@@ -1953,14 +2014,16 @@ User</pre>
         <p><strong>Weight / Length:</strong> Calculated weight or length of material.</p>
         <p><strong>Weight Type:</strong> Basis of weight calculation. <em>Examples: Raw, Finished</em></p>
         <p><strong>Rate Per Unit:</strong> Unit measurement basis. <em>Examples: Kg, Meter, Piece</em></p>
+        <p><strong>Density:</strong> Material density used in weight calculations.</p>
         <p><strong>MOQ:</strong> Minimum Order Quantity applicability.</p>
-        <p><strong>Unit Price:</strong> Price per unit of material.</p>
+        <p><strong>Unit Rate:</strong> Base price per unit of material.</p>
         <p><strong>Currency:</strong> Pricing currency.</p>
-        <p><strong>Landed Rate (With Duty):</strong> Material cost after applying customs duty.</p>
-        <p><strong>Total Landed Cost:</strong> Final material cost contribution.</p>
+        <p><strong>Unit Rate (INR):</strong> The base unit rate converted to the local currency.</p>
+        <p><strong>Landed Rs Per Unit:</strong> Unit cost after applying customs duty and conversions.</p>
+        <p><strong>Total Landed Cost:</strong> Final material cost contribution (Landed Rs Per Unit × Quantity/Weight).</p>
         <p><strong>CIF:</strong> Cost, Insurance and Freight value.</p>
         <p><strong>Country:</strong> Country of material origin.</p>
-        <p><strong>Price Basis &amp; Remarks:</strong> Additional commercial remarks.</p>
+        <p><strong>Remarks:</strong> Additional commercial remarks or supplier notes.</p>
 
         <h4>5.6.2 Material Detail Expansion</h4>
         <p>When a material row is expanded, additional technical parameters become available:</p>
@@ -2943,6 +3006,10 @@ User</pre>
         <p>Administration → Roles</p>
 
         <h4>5.2.2 Creating a Role</h4>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/new_role_create.png" alt="New Role Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Role Creation Screen</em></p>
+        </div>
         <ol class="step-list">
           <li>Navigate to Roles.</li>
           <li>Click Add Role.</li>
@@ -2954,6 +3021,12 @@ User</pre>
         <h4>5.2.3 Editing Roles</h4>
         <p>Administrators can: Update descriptions, Modify role details, Activate roles, and Deactivate roles. Role
           modifications immediately impact users assigned to those roles.</p>
+        <p><strong>Role Permissions Assignment Screen:</strong> When editing a role, administrators use this screen to assign access. It features:</p>
+        <ul>
+          <li><strong>Role Dropdown:</strong> To easily switch between different roles being configured.</li>
+          <li><strong>Permission Assignment Matrix:</strong> A grid layout displaying all available modules as rows.</li>
+          <li><strong>Permission Checkboxes:</strong> Individual checkboxes for each permission type (e.g., View, Edit, Search, Export) directly inside the matrix, allowing administrators to rapidly toggle specific rights on or off for the selected role.</li>
+        </ul>
 
         <h4>5.2.4 Role Status Management</h4>
         <p>An <strong>Active</strong> role is available for assignment. An <strong>Inactive</strong> role is unavailable
@@ -2974,6 +3047,10 @@ User</pre>
         <p>Administration → Permissions</p>
 
         <h4>5.3.2 Creating Permissions</h4>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/new_permission_create.png" alt="New Permission Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Permission Creation Screen</em></p>
+        </div>
         <ol class="step-list">
           <li>Navigate to Permissions.</li>
           <li>Click Add Permission.</li>
@@ -2999,6 +3076,10 @@ User</pre>
         <p>Administration → Modules</p>
 
         <h4>5.4.2 Creating Modules</h4>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/new_modules_create.png" alt="New Module Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Module Creation Screen</em></p>
+        </div>
         <ol class="step-list">
           <li>Open Modules.</li>
           <li>Click Add Module.</li>
@@ -3018,6 +3099,10 @@ User</pre>
         <hr class="section-divider">
 
         <h3 id="s5-5">5.5 Role Permission Matrix</h3>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/role_permission_view.png" alt="Role Permission Matrix Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Role Permission Matrix View</em></p>
+        </div>
         <h4>Purpose</h4>
         <p>The Role Permission Matrix provides a consolidated view of permissions assigned to each role. This feature
           allows administrators to verify access control configurations.</p>
@@ -3064,6 +3149,10 @@ User</pre>
         <p>Administration → Groups</p>
 
         <h4>5.6.2 Creating Groups</h4>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/new_group_create.png" alt="New Group Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Group Creation Screen</em></p>
+        </div>
         <ol class="step-list">
           <li>Open Groups.</li>
           <li>Click Add Group.</li>
@@ -3074,12 +3163,19 @@ User</pre>
 
         <h4>5.6.3 Editing Groups</h4>
         <p>Administrators may: Change group details, Modify assigned roles, Activate groups, and Deactivate groups.</p>
+        
+        <h4>5.6.4 Group Members Action</h4>
+        <p>Inside the Groups data table, administrators can click the dedicated <strong>Members</strong> action button for a specific group. This directly opens the Group Members Management screen pre-filtered for the selected group, streamlining the member assignment workflow.</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/Group_member_view_edit.png" alt="Group Members Management Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Group Members Management Screen</em></p>
+        </div>
 
-        <h4>5.6.4 Assigning Roles to Groups</h4>
+        <h4>5.6.5 Assigning Roles to Groups</h4>
         <p>Users belonging to a group automatically inherit roles assigned to that group. This reduces manual
           administration effort.</p>
 
-        <h4>5.6.5 Exporting Group Data</h4>
+        <h4>5.6.6 Exporting Group Data</h4>
         <p>Group information can be exported for administrative review and audit purposes.</p>
 
         <hr class="section-divider">
@@ -3211,6 +3307,18 @@ User</pre>
             <tr>
               <td>Export</td>
               <td>Export records</td>
+            </tr>
+            <tr>
+              <td>Search</td>
+              <td>Filter and search for records</td>
+            </tr>
+            <tr>
+              <td>Download XLSX</td>
+              <td>Export data specifically in Excel (.xlsx) format</td>
+            </tr>
+            <tr>
+              <td>Download CSV</td>
+              <td>Export data specifically in Comma-Separated Values (.csv) format</td>
             </tr>
             <tr>
               <td>Import</td>
@@ -3536,9 +3644,9 @@ Result: John Smith automatically receives permission to create estimations.</pre
       </div>
 
       <div class="section" id="ch8">
-        <h2 class="section-title">8. Administrative Workflows</h2>
+        <h2 class="section-title">9. Administrative Workflows</h2>
 
-        <h3 id="s8-1">8.1 Overview</h3>
+        <h3 id="s8-1">9.1 Overview</h3>
         <p>The DTEAP application provides administrators with several operational workflows used for managing users,
           access control, master data, estimation activities, and system configuration. This section provides
           step-by-step guidance for performing common administrative activities. The workflows described in this chapter
@@ -3552,8 +3660,17 @@ Result: John Smith automatically receives permission to create estimations.</pre
         <ol class="step-list">
           <li>Open the Users module.</li>
           <li>Click the <strong>Add User</strong> button.</li>
-          <li>Enter the required information: Company, Business Unit, User Name, Full Name, Email Address, Employee
-            Code, and Department.</li>
+          <li>Enter the required information in the user form:
+            <ul>
+              <li><strong>Company Name:</strong> The official organization name the user belongs to.</li>
+              <li><strong>Business Unit:</strong> The specific division or unit within the company.</li>
+              <li><strong>Employee Code:</strong> The unique alphanumeric employee identifier.</li>
+              <li><strong>User Name:</strong> The unique login ID for the user.</li>
+              <li><strong>Full Name:</strong> The user's complete display name.</li>
+              <li><strong>Email Address:</strong> Official contact email for notifications.</li>
+              <li><strong>Department:</strong> The functional department of the user.</li>
+            </ul>
+          </li>
           <li>Assign one or more roles.</li>
           <li>Set the account status to Active.</li>
           <li>Click Save.</li>
@@ -3649,8 +3766,7 @@ Result: John Smith automatically receives permission to create estimations.</pre
           Information.</p>
 
         <h4>Step 4 – Review Project Information</h4>
-        <p>Administrators should verify: Customer information, Project information, Equipment details, and Revision
-          information. Any discrepancies should be resolved before proceeding.</p>
+        <p>Administrators should verify the detailed fields populated in the estimation form. This includes Header Fields (DTE No, Revision, Validity, Date Prepared), Customer & Project Section Fields (Customer, Project, Prepared By, Design By), and Equipment Section Fields (Tag No, Equipment Weight, Surface Area, Shell Per Unit, Major Component Size, Major Component MOC, Support Type). Any discrepancies should be resolved before proceeding. Documentation & Notes (MDR Doc No, MDR Revision, Notes) should also be reviewed. Refer to Chapter 5 for exact field definitions.</p>
 
         <h4>Step 5 – Material Information Review</h4>
         <p>The system automatically loads material-related information. The Material Costing section displays: Material
@@ -3661,8 +3777,10 @@ Result: John Smith automatically receives permission to create estimations.</pre
         <p>For each material, the system calculates: Weight, Unit Cost, Currency Conversion, Landed Rate, and Total Cost
           using configured master data and formula definitions.</p>
 
-        <div class="img-placeholder"><span>🖼</span>Screenshot: New Estimation Creation Screen<br><em>[ Add screenshot
-            here ]</em></div>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/new_estimation_create.png" alt="New Estimation Creation Modal" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Start a New Estimation Screen</em></p>
+        </div>
 
         <hr class="section-divider">
 
@@ -3743,9 +3861,9 @@ Result: John Smith automatically receives permission to create estimations.</pre
       </div>
 
       <div class="section" id="ch9">
-        <h2 class="section-title">9. Troubleshooting</h2>
+        <h2 class="section-title">10. Troubleshooting</h2>
 
-        <h3 id="s9-1">9.1 Overview</h3>
+        <h3 id="s9-1">10.1 Overview</h3>
         <p>This section provides guidance for diagnosing and resolving common issues encountered while administering the
           DTEAP application. Most issues can be resolved through verification of: User configuration, Role assignments,
           Permissions, Group memberships, Master data, Exchange rates, and System configuration. Administrators should
@@ -4645,6 +4763,10 @@ Complete Estimation</pre>
         <h3 id="s13-8">13.8 Stud Weight Calculation</h3>
         <p><strong>Purpose:</strong> Used for Stud Bolts, Fasteners, and Anchor Studs. The system supports three
           specific configurations:</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="images/studs_demo_data.png" alt="Stud Weight Calculator Demonstration" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Stud Weight Calculator Demonstration</em></p>
+        </div>
 
         <h4>13.8.1 Stud Without Head</h4>
         <p>Used for standard stud bolts. Profile: <code>Raw Weight = Finished Weight</code></p>
@@ -4789,11 +4911,59 @@ Complete Estimation</pre>
     // Highlight active TOC link on scroll
     var tocLinks = document.querySelectorAll('#toc-nav a[href^="#"]');
     var sections = [];
+    var currentL1 = null;
+
+    // Initialize collapsible TOC
     tocLinks.forEach(function (link) {
+      if (link.classList.contains('toc-l1')) {
+        currentL1 = link;
+        
+        // Add chevron
+        var chevron = document.createElement('span');
+        chevron.className = 'toc-chevron';
+        chevron.innerHTML = '▼';
+        link.appendChild(chevron);
+        
+        // Collapse by default
+        link.classList.add('collapsed');
+        link.subItems = [];
+        
+        // Click to toggle
+        link.addEventListener('click', function(e) {
+          if (link.classList.contains('collapsed')) {
+            expandChapter(link);
+          } else {
+            // Only collapse if they specifically click the chevron, or if we want toggle on whole row
+            // Let's toggle on row click too
+            collapseChapter(link);
+          }
+        });
+      } else if (link.classList.contains('toc-l2') || link.classList.contains('toc-l3')) {
+        if (currentL1) {
+          currentL1.subItems.push(link);
+          link.parentL1 = currentL1;
+          link.style.display = 'none'; // hidden initially
+        }
+      }
+      
       var id = link.getAttribute('href').substring(1);
       var el = document.getElementById(id);
       if (el) sections.push({ id: id, el: el, link: link });
     });
+
+    function expandChapter(l1) {
+      l1.classList.remove('collapsed');
+      if (l1.subItems) {
+        l1.subItems.forEach(function(sub) { sub.style.display = 'block'; });
+      }
+    }
+
+    function collapseChapter(l1) {
+      l1.classList.add('collapsed');
+      if (l1.subItems) {
+        l1.subItems.forEach(function(sub) { sub.style.display = 'none'; });
+      }
+    }
 
     function onScroll() {
       var scrollY = window.scrollY + 80;
@@ -4808,10 +4978,19 @@ Complete Estimation</pre>
         current.link.style.color = '#003087';
         current.link.style.borderLeftColor = '#003087';
         current.link.style.background = '#eef2fa';
+
+        // Auto-expand parent chapter
+        if (current.link.parentL1 && current.link.parentL1.classList.contains('collapsed')) {
+          expandChapter(current.link.parentL1);
+        } else if (current.link.classList.contains('toc-l1') && current.link.classList.contains('collapsed')) {
+          expandChapter(current.link);
+        }
       }
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Run once on load to expand correct chapter
+    onScroll();
 
     // Native Client-side text search highlights engine
     let searchTimeout;
