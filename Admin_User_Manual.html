@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DTEAP Administrator User Manual – Larsen & Toubro Limited</title>
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-blue:   #003087;
+      --brand-red:    #c8102e;
+      --accent:       #1a5276;
+      --text-main:    #1a1a1a;
+      --text-muted:   #555555;
+      --border:       #d0d4db;
+      --bg-page:      #f4f5f7;
+      --bg-sidebar:   #ffffff;
+      --bg-content:   #ffffff;
+      --sidebar-w:    290px;
+      --font-body:    Georgia, 'Times New Roman', serif;
+      --font-ui:      'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-main);
+      background: var(--bg-page);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar / TOC ────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 20px 18px 16px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header .manual-title {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    .sidebar-header .company-name {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      opacity: 0.75;
+      margin-top: 4px;
+    }
+
+    #toc-nav {
+      padding: 12px 0 24px;
+      flex: 1;
+    }
+
+    /* section group label */
+    .toc-group-label {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 14px 18px 4px;
+    }
+
+    /* top-level items */
+    #toc-nav a {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--text-main);
+      text-decoration: none;
+      padding: 5px 18px;
+      border-left: 3px solid transparent;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    #toc-nav a:hover {
+      background: #eef2fa;
+      border-left-color: var(--brand-blue);
+      color: var(--brand-blue);
+    }
+
+    #toc-nav a.toc-l1 {
+      font-weight: 600;
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+
+    #toc-nav a.toc-l2 {
+      padding-left: 30px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    #toc-nav a.toc-l3 {
+      padding-left: 44px;
+      font-size: 12px;
+      color: #777;
+    }
+
+    /* ── Main Content Area ────────────────────────────────────── */
+    #main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Cover Page */
+    #cover {
+      background: var(--brand-blue);
+      color: #fff;
+      padding: 64px 64px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 240px; height: 240px;
+      background: var(--brand-red);
+      opacity: 0.18;
+      border-radius: 50%;
+      transform: translate(60px, 60px);
+    }
+
+    .cover-logo-placeholder {
+      width: 120px;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      opacity: 0.6;
+      margin-bottom: 40px;
+      letter-spacing: 0.05em;
+    }
+
+    #cover h1 {
+      font-family: var(--font-ui);
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.25;
+      max-width: 600px;
+      margin-bottom: 12px;
+    }
+
+    #cover .cover-sub {
+      font-family: var(--font-ui);
+      font-size: 15px;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 36px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    .cover-meta span strong {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.65;
+      margin-bottom: 2px;
+    }
+
+    /* Document Control block */
+    #doc-control {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 40px 64px;
+    }
+
+    /* Content sections */
+    #content {
+      padding: 48px 64px 80px;
+      max-width: 960px;
+    }
+
+    /* Section anchors */
+    .section {
+      margin-bottom: 56px;
+    }
+
+    /* Headings */
+    h2.section-title {
+      font-family: var(--font-ui);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--brand-blue);
+      border-bottom: 2px solid var(--brand-blue);
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+    }
+
+    h3 {
+      font-family: var(--font-ui);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 28px 0 10px;
+    }
+
+    h4 {
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 20px 0 8px;
+    }
+
+    p { margin-bottom: 12px; }
+
+    /* Lists */
+    ul, ol {
+      margin: 8px 0 14px 24px;
+    }
+
+    ul li, ol li {
+      margin-bottom: 5px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      margin: 16px 0 24px;
+    }
+
+    thead tr {
+      background: var(--brand-blue);
+      color: #fff;
+    }
+
+    thead th {
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    tbody tr:nth-child(even) { background: #f0f4fb; }
+    tbody tr:nth-child(odd)  { background: #fff; }
+
+    tbody td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    /* Note / Info boxes */
+    .note-box {
+      background: #eef4fb;
+      border-left: 4px solid var(--brand-blue);
+      padding: 12px 16px;
+      border-radius: 0 4px 4px 0;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: #1a3a5c;
+      margin: 16px 0;
+    }
+
+    /* Step boxes */
+    .step-list {
+      counter-reset: step-counter;
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .step-list li {
+      counter-increment: step-counter;
+      position: relative;
+      padding-left: 36px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .step-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0; top: 1px;
+      background: var(--brand-blue);
+      color: #fff;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* Image placeholder */
+    .img-placeholder {
+      border: 2px dashed var(--border);
+      background: #f8f9fb;
+      border-radius: 4px;
+      padding: 32px 20px;
+      text-align: center;
+      color: #999;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      margin: 20px 0;
+    }
+
+    .img-placeholder span { display: block; font-size: 28px; margin-bottom: 6px; opacity: 0.4; }
+
+    /* Code / path */
+    code {
+      background: #eef2f8;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    pre {
+      background: #f4f6fb;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      line-height: 1.9;
+      margin: 12px 0 20px;
+    }
+
+    /* Checklist */
+    .checklist { list-style: none; margin-left: 0; }
+    .checklist li { padding-left: 28px; position: relative; margin-bottom: 6px; font-size: 14px; }
+    .checklist li::before { content: '☐'; position: absolute; left: 0; color: var(--brand-blue); font-size: 15px; }
+
+    /* Divider */
+    hr.section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 36px 0;
+    }
+
+    /* Footer */
+    #page-footer {
+      margin-left: var(--sidebar-w);
+      background: var(--brand-blue);
+      color: rgba(255,255,255,0.7);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      padding: 14px 64px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Approved badge */
+    .badge {
+      display: inline-block;
+      background: #1a7a40;
+      color: #fff;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Scroll-to-top */
+    #back-to-top {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: var(--brand-blue);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      width: 38px; height: 38px;
+      font-size: 18px;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+
+    #back-to-top.visible { display: flex; }
+
+    /* Responsive */
+    @media (max-width: 820px) {
+      #sidebar { display: none; }
+      #main, #page-footer { margin-left: 0; }
+      #content { padding: 24px 20px 60px; }
+      #cover { padding: 36px 20px; }
+      #doc-control { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SIDEBAR – TABLE OF CONTENTS
+══════════════════════════════════════════════════════════════ -->
+<nav id="sidebar" aria-label="Table of Contents">
+  <div class="sidebar-header">
+    <div class="manual-title">DTEAP Website<br>User Manual</div>
+    <div class="company-name">Larsen &amp; Toubro Limited</div>
+  </div>
+
+  <div id="toc-nav">
+
+    <div class="toc-group-label">Preamble</div>
+    <a href="#doc-control" class="toc-l1">Document Control</a>
+    <a href="#version-history-front" class="toc-l2">Version History</a>
+    <a href="#doc-approval" class="toc-l2">Document Approval</a>
+    <a href="#distribution-list" class="toc-l2">Distribution List</a>
+
+    <div class="toc-group-label">Chapters</div>
+
+    <a href="#ch1" class="toc-l1">1. Introduction</a>
+    <a href="#s1-1" class="toc-l2">1.1 Purpose of the Manual</a>
+    <a href="#s1-2" class="toc-l2">1.2 Intended Audience</a>
+    <a href="#s1-3" class="toc-l2">1.3 Scope of the Application</a>
+    <a href="#s1-4" class="toc-l2">1.4 Administrator Responsibilities</a>
+    <a href="#s1-5" class="toc-l2">1.5 DTEAP System Overview</a>
+    <a href="#s1-6" class="toc-l2">1.6 Security Architecture Overview</a>
+    <a href="#s1-7" class="toc-l2">1.7 Terminology and Definitions</a>
+
+    <a href="#ch2" class="toc-l1">2. Getting Started</a>
+    <a href="#s2-1" class="toc-l2">2.1 System Requirements</a>
+    <a href="#s2-2" class="toc-l2">2.2 Accessing the Application</a>
+    <a href="#s2-3" class="toc-l2">2.3 Login Procedure</a>
+    <a href="#s2-4" class="toc-l2">2.4 Dashboard Overview</a>
+    <a href="#s2-5" class="toc-l2">2.5 Navigation Structure</a>
+    <a href="#s2-6" class="toc-l2">2.6 User Interface Components</a>
+    <a href="#s2-7" class="toc-l2">2.7 Search, Sorting and Filtering</a>
+    <a href="#s2-8" class="toc-l2">2.8 Export Functionality</a>
+
+    <a href="#ch3" class="toc-l1">3. Quick Reference Guide</a>
+    <a href="#s3-2" class="toc-l2">3.2 Common Administrative Tasks</a>
+    <a href="#s3-3" class="toc-l2">3.3 Responsibilities Matrix</a>
+    <a href="#s3-4" class="toc-l2">3.4 Administrative Workflow Overview</a>
+    <a href="#s3-5" class="toc-l2">3.5 Create New User</a>
+    <a href="#s3-6" class="toc-l2">3.6 Create New Role</a>
+    <a href="#s3-7" class="toc-l2">3.7 Create New Permission</a>
+    <a href="#s3-8" class="toc-l2">3.8 Create New Group</a>
+    <a href="#s3-9" class="toc-l2">3.9 Create New Estimation</a>
+    <a href="#s3-10" class="toc-l2">3.10 Update Exchange Rates</a>
+    <a href="#s3-11" class="toc-l2">3.11 Calculate Material Weight</a>
+    <a href="#s3-12" class="toc-l2">3.12 Best Practices</a>
+
+    <a href="#ch4" class="toc-l1">4. Master Data Management</a>
+    <a href="#s4-1" class="toc-l2">4.1 Masters Overview</a>
+    <a href="#s4-2" class="toc-l2">4.2 Country Master</a>
+    <a href="#s4-3" class="toc-l2">4.3 Currency Master</a>
+    <a href="#s4-4" class="toc-l2">4.4 Units of Measure (UOM)</a>
+    <a href="#s4-5" class="toc-l2">4.5 UOM Conversions</a>
+    <a href="#s4-6" class="toc-l2">4.6 Financial Year Periods</a>
+    <a href="#s4-7" class="toc-l2">4.7 Exchange Rates</a>
+    <a href="#s4-8" class="toc-l2">4.8 Material Categories</a>
+    <a href="#s4-9" class="toc-l2">4.9 Materials</a>
+    <a href="#s4-10" class="toc-l2">4.10 Material Rates</a>
+    <a href="#s4-11" class="toc-l2">4.11 Plate Rates</a>
+    <a href="#s4-12" class="toc-l2">4.12 Tube Rates</a>
+    <a href="#s4-13" class="toc-l2">4.13 Fastener Rates</a>
+    <a href="#s4-14" class="toc-l2">4.14 Forging Rates</a>
+    <a href="#s4-15" class="toc-l2">4.15 Gasket Rates</a>
+    <a href="#s4-16" class="toc-l2">4.16 Special Components</a>
+    <a href="#s4-17" class="toc-l2">4.17 Special Component Rates</a>
+    <a href="#s4-18" class="toc-l2">4.18 Equipment Categories</a>
+    <a href="#s4-19" class="toc-l2">4.19 Labour Categories</a>
+    <a href="#s4-20" class="toc-l2">4.20 Manufacturing Locations</a>
+    <a href="#s4-21" class="toc-l2">4.21 Machines</a>
+    <a href="#s4-22" class="toc-l2">4.22 Jigs and Fixtures</a>
+    <a href="#s4-23" class="toc-l2">4.23 Formula Master</a>
+
+    <a href="#ch5" class="toc-l1">5. User Administration</a>
+    <a href="#s5-1" class="toc-l2">5.1 User Management</a>
+    <a href="#s5-2" class="toc-l2">5.2 Role Management</a>
+    <a href="#s5-3" class="toc-l2">5.3 Permission Management</a>
+    <a href="#s5-4" class="toc-l2">5.4 Module Management</a>
+    <a href="#s5-5" class="toc-l2">5.5 Role Permission Matrix</a>
+    <a href="#s5-6" class="toc-l2">5.6 Group Management</a>
+    <a href="#s5-7" class="toc-l2">5.7 Group Members Management</a>
+    <a href="#s5-8" class="toc-l2">5.8 User Access Model</a>
+
+    <a href="#ch6" class="toc-l1">6. Security and Access Control</a>
+    <a href="#s6-1" class="toc-l2">6.1 Overview</a>
+    <a href="#s6-2" class="toc-l2">6.2 Security Architecture</a>
+    <a href="#s6-3" class="toc-l2">6.3 Modules</a>
+    <a href="#s6-4" class="toc-l2">6.4 Permissions</a>
+    <a href="#s6-5" class="toc-l2">6.5 Roles</a>
+    <a href="#s6-6" class="toc-l2">6.6 Groups</a>
+    <a href="#s6-7" class="toc-l2">6.7 Users</a>
+    <a href="#s6-8" class="toc-l2">6.8 Access Inheritance</a>
+    <a href="#s6-9" class="toc-l2">6.9 Module Visibility Rules</a>
+    <a href="#s6-10" class="toc-l2">6.10 Permission Matrix</a>
+    <a href="#s6-11" class="toc-l2">6.11 Security Best Practices</a>
+    <a href="#s6-12" class="toc-l2">6.12 Impact on Estimation</a>
+    <a href="#s6-13" class="toc-l2">6.13 Audit and Accountability</a>
+
+    <a href="#ch7" class="toc-l1">7. Data Export and Search</a>
+    <a href="#s7-1" class="toc-l2">7.1 Overview</a>
+    <a href="#s7-2" class="toc-l2">7.2 Search Functionality</a>
+    <a href="#s7-3" class="toc-l2">7.3 Filtering Records</a>
+    <a href="#s7-4" class="toc-l2">7.4 Sorting Records</a>
+    <a href="#s7-5" class="toc-l2">7.5 Pagination Controls</a>
+    <a href="#s7-6" class="toc-l2">7.6 Export Functionality</a>
+    <a href="#s7-7" class="toc-l2">7.7 Supported Export Formats</a>
+    <a href="#s7-8" class="toc-l2">7.8 Modules Supporting Export</a>
+    <a href="#s7-9" class="toc-l2">7.9 Exporting Records</a>
+    <a href="#s7-10" class="toc-l2">7.10 Export Best Practices</a>
+    <a href="#s7-11" class="toc-l2">7.11 Search &amp; Export in Estimation</a>
+    <a href="#s7-12" class="toc-l2">7.12 Administrative Recommendations</a>
+
+    <a href="#ch8" class="toc-l1">8. Administrative Workflows</a>
+    <a href="#s8-1" class="toc-l2">8.1 Overview</a>
+    <a href="#s8-2" class="toc-l2">8.2 Creating a New User</a>
+    <a href="#s8-3" class="toc-l2">8.3 Creating a New Role</a>
+    <a href="#s8-4" class="toc-l2">8.4 Creating a New Permission</a>
+    <a href="#s8-5" class="toc-l2">8.5 Creating a New Group</a>
+    <a href="#s8-6" class="toc-l2">8.6 Adding Users to a Group</a>
+    <a href="#s8-7" class="toc-l2">8.7 Creating a New Estimation</a>
+    <a href="#s8-8" class="toc-l2">8.8 Managing Exchange Rates</a>
+    <a href="#s8-9" class="toc-l2">8.9 Managing Customs Duty</a>
+    <a href="#s8-10" class="toc-l2">8.10 Currency Conversion Config</a>
+    <a href="#s8-11" class="toc-l2">8.11 Material Cost Review</a>
+    <a href="#s8-12" class="toc-l2">8.12 Weight Calculation Workflow</a>
+    <a href="#s8-13" class="toc-l2">8.13 Workflow Best Practices</a>
+
+    <a href="#ch9" class="toc-l1">9. Troubleshooting</a>
+    <a href="#s9-1" class="toc-l2">9.1 Overview</a>
+    <a href="#s9-2" class="toc-l2">9.2 User Login Issues</a>
+    <a href="#s9-3" class="toc-l2">9.3 User Access Issues</a>
+    <a href="#s9-4" class="toc-l2">9.4 Role and Permission Issues</a>
+    <a href="#s9-5" class="toc-l2">9.5 Group Management Issues</a>
+    <a href="#s9-6" class="toc-l2">9.6 Master Data Issues</a>
+    <a href="#s9-7" class="toc-l2">9.7 Exchange Rate Issues</a>
+    <a href="#s9-8" class="toc-l2">9.8 Estimation Issues</a>
+    <a href="#s9-9" class="toc-l2">9.9 Material Costing Issues</a>
+    <a href="#s9-10" class="toc-l2">9.10 Weight Calculator Issues</a>
+    <a href="#s9-11" class="toc-l2">9.11 Export Issues</a>
+    <a href="#s9-12" class="toc-l2">9.12 Performance Issues</a>
+    <a href="#s9-13" class="toc-l2">9.13 When to Escalate</a>
+
+    <a href="#ch10" class="toc-l1">10. Appendix</a>
+    <a href="#s10-1" class="toc-l2">10.1 Purpose</a>
+    <a href="#s10-2" class="toc-l2">10.2 Common Icons and Actions</a>
+    <a href="#s10-3" class="toc-l2">10.3 Common Buttons and Controls</a>
+    <a href="#s10-4" class="toc-l2">10.4 Common Status Definitions</a>
+    <a href="#s10-5" class="toc-l2">10.5 Glossary of Terms</a>
+    <a href="#s10-6" class="toc-l2">10.6 Acronyms</a>
+    <a href="#s10-7" class="toc-l2">10.7 Reference Data Relationships</a>
+    <a href="#s10-8" class="toc-l2">10.8 Estimation Data Flow</a>
+    <a href="#s10-9" class="toc-l2">10.9 Weight Calculator Categories</a>
+    <a href="#s10-10" class="toc-l2">10.10 Best Practices Checklist</a>
+    <a href="#s10-11" class="toc-l2">10.11 Reference Documents</a>
+
+    <a href="#ch11" class="toc-l1">11. Version History</a>
+    <a href="#s11-1" class="toc-l2">11.1 Document Revision History</a>
+    <a href="#s11-2" class="toc-l2">11.2 Change Log</a>
+
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════════════════════ -->
+<div id="main">
+
+  <!-- Cover -->
+  <div id="cover">
+    <div class="cover-logo-placeholder">[ L&amp;T Logo ]</div>
+    <h1>DTEAP Administrator<br>User Manual</h1>
+    <div class="cover-sub">Digital Techno Economic Assessment Platform</div>
+    <div class="cover-meta">
+      <span><strong>Organisation</strong>Larsen &amp; Toubro Limited</span>
+      <span><strong>Version</strong>1.0</span>
+      <span><strong>Date</strong>June 2026</span>
+      <span><strong>Status</strong><span class="badge" style="background:#1a7a40;">Approved</span></span>
+    </div>
+  </div>
+
+  <!-- Document Control -->
+  <div id="doc-control">
+    <div id="content" style="padding-top: 0; padding-bottom: 0; max-width: 100%;">
+
+      <div class="section">
+        <h2 class="section-title">Document Control</h2>
+
+        <h3 id="version-history-front">Version History</h3>
+        <table>
+          <thead><tr><th>Version</th><th>Date</th><th>Author</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>1.0</td><td>June 2026</td><td>DTEAP Team</td><td>Initial Release of Administrator User Manual</td></tr>
+          </tbody>
+        </table>
+
+        <h3 id="doc-approval">Document Approval</h3>
+        <table>
+          <thead><tr><th>Role</th><th>Name</th><th>Signature</th><th>Date</th></tr></thead>
+          <tbody>
+            <tr><td>Prepared By</td><td>DTEAP Team</td><td>&nbsp;</td><td>June 2026</td></tr>
+            <tr><td>Reviewed By</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>Approved By</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <h3 id="distribution-list">Distribution List</h3>
+        <table>
+          <thead><tr><th>Name / Role</th><th>Department</th><th>Copy Type</th></tr></thead>
+          <tbody>
+            <tr><td>System Administrators</td><td>IT / Application</td><td>Controlled</td></tr>
+            <tr><td>Application Administrators</td><td>Operations</td><td>Controlled</td></tr>
+            <tr><td>IT Support Personnel</td><td>IT</td><td>Reference</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="content">
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 1 – INTRODUCTION
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch1">
+      <h2 class="section-title">1. Introduction</h2>
+
+      <h3 id="s1-1">1.1 Purpose of the Manual</h3>
+      <p>This Administrator User Manual has been developed to provide comprehensive guidance for administrators responsible for managing and maintaining the Digital Techno Economic Assessment Platform (DTEAP).</p>
+      <p>The manual serves as a reference document for all administrative functions available within the application and explains how administrators can effectively manage system data, users, permissions, security settings, and application configurations.</p>
+      <p>The objective of this document is to:</p>
+      <ul>
+        <li>Provide a detailed understanding of the DTEAP platform.</li>
+        <li>Explain administrative responsibilities and system governance.</li>
+        <li>Guide administrators through system configuration and maintenance activities.</li>
+        <li>Describe user access management procedures.</li>
+        <li>Explain security and permission management.</li>
+        <li>Provide instructions for managing master data used throughout the application.</li>
+        <li>Document system workflows and best practices.</li>
+        <li>Serve as a training and reference guide for new administrators.</li>
+      </ul>
+      <p>This manual should be used as the primary reference document when performing any administrative activity within the DTEAP application.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s1-2">1.2 Intended Audience</h3>
+      <p>This manual is intended exclusively for users who have been assigned administrative responsibilities within the DTEAP application.</p>
+      <p>The primary audience includes:</p>
+
+      <h4>System Administrators</h4>
+      <p>System Administrators are responsible for managing the overall application configuration and user access. Typical responsibilities include:</p>
+      <ul>
+        <li>Creating and maintaining user accounts.</li>
+        <li>Managing roles and permissions.</li>
+        <li>Configuring application modules.</li>
+        <li>Managing user groups.</li>
+        <li>Maintaining master data.</li>
+        <li>Monitoring access control policies.</li>
+        <li>Supporting business users.</li>
+      </ul>
+
+      <h4>Application Administrators</h4>
+      <p>Application Administrators are responsible for maintaining operational data and ensuring that business processes function correctly within the application. Typical responsibilities include:</p>
+      <ul>
+        <li>Maintaining reference data.</li>
+        <li>Managing exchange rates.</li>
+        <li>Managing material information.</li>
+        <li>Managing costing parameters.</li>
+        <li>Managing calculation formulas.</li>
+        <li>Supporting business operations.</li>
+      </ul>
+
+      <h4>IT Support Personnel</h4>
+      <p>Authorized support personnel may use this manual while performing:</p>
+      <ul>
+        <li>User support activities.</li>
+        <li>Access issue resolution.</li>
+        <li>Permission troubleshooting.</li>
+        <li>Administrative maintenance.</li>
+      </ul>
+      <p>This manual is not intended for general end users who only consume data or perform operational business activities.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s1-3">1.3 Scope of the Application</h3>
+      <p>The DTEAP application is an enterprise web-based platform designed to support technical, commercial, and administrative activities through centralized data management and role-based access control.</p>
+      <p>The application provides administrative functionality for:</p>
+
+      <h4>Master Data Management</h4>
+      <p>Management of organizational reference data including: Countries, Currencies, Exchange Rates, Units of Measure, Material Categories, Materials, Material Rates, Equipment Categories, Manufacturing Locations, Formula Definitions, and Labour Categories.</p>
+
+      <h4>User Administration</h4>
+      <p>Management of: User Accounts, User Roles, User Permissions, User Groups, and Group Membership.</p>
+
+      <h4>Security Administration</h4>
+      <p>Configuration and maintenance of: Roles, Permissions, Modules, Access Rights, and Authorization Controls.</p>
+
+      <h4>Application Governance</h4>
+      <p>Support for: Controlled data management, Standardized business rules, Access management, Security compliance, and Data integrity.</p>
+
+      <p>The application acts as a centralized repository for administrative and business configuration data used across estimation, costing, and operational processes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s1-4">1.4 Administrator Responsibilities</h3>
+      <p>Administrators play a critical role in maintaining the integrity, security, and operational effectiveness of the DTEAP application. The responsibilities of an administrator include:</p>
+
+      <h4>User Management</h4>
+      <ul>
+        <li>Creating new users.</li>
+        <li>Updating user information.</li>
+        <li>Assigning appropriate roles.</li>
+        <li>Activating or deactivating users.</li>
+        <li>Managing user access.</li>
+      </ul>
+
+      <h4>Role Management</h4>
+      <ul>
+        <li>Creating roles.</li>
+        <li>Modifying role definitions.</li>
+        <li>Assigning permissions to roles.</li>
+        <li>Reviewing role access periodically.</li>
+      </ul>
+
+      <h4>Permission Management</h4>
+      <ul>
+        <li>Ensuring permissions are accurately defined.</li>
+        <li>Ensuring users receive only the access necessary to perform their duties.</li>
+        <li>Preventing unauthorized access.</li>
+      </ul>
+
+      <h4>Master Data Maintenance</h4>
+      <p>Administrators are responsible for maintaining accurate reference data including: Currency information, Exchange rates, Material information, Equipment categories, and Formula configurations.</p>
+
+      <h4>Security Governance</h4>
+      <ul>
+        <li>Enforcing access control policies.</li>
+        <li>Monitoring security compliance.</li>
+        <li>Reviewing access assignments regularly.</li>
+        <li>Ensuring segregation of duties where required.</li>
+      </ul>
+
+      <h4>Data Integrity</h4>
+      <ul>
+        <li>Ensuring data entered into the system is accurate.</li>
+        <li>Avoiding duplicate records.</li>
+        <li>Properly deactivating obsolete records.</li>
+        <li>Maintaining consistent configuration data.</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3 id="s1-5">1.5 DTEAP System Overview</h3>
+      <p>The Digital Techno Economic Assessment Platform (DTEAP) is a centralized web-based application used to manage administrative, commercial, and technical reference data required by the organization. The application provides a structured environment for managing master data, controlling access, and supporting business operations through configurable modules and role-based security.</p>
+      <p>The system is organized into several major functional areas:</p>
+
+      <h4>Dashboard</h4>
+      <p>Provides a centralized overview of: Projects, Customers, Estimations, User activities, and Administrative functions.</p>
+
+      <h4>Masters</h4>
+      <p>Provides management of: Reference Data, Materials, Costing Data, Formula Configurations, and Exchange Rates.</p>
+
+      <h4>Administration</h4>
+      <p>Provides management of: Users, Roles, Permissions, Modules, Groups, and Group Members.</p>
+
+      <h4>Weight Calculator</h4>
+      <p>Provides engineering calculations for: Tubes, Pipes, Plates, Rods, Forgings, Shell Flanges, Studs, and Tubesheets. The Weight Calculator automatically calculates raw and finished weights using predefined engineering formulas maintained within the application.</p>
+
+      <h4>Estimation Module</h4>
+      <p>Supports creation and management of project estimations using: JEP Numbers, Material Data, Weight Calculations, Currency Conversion, and Duty Calculations. The application integrates with external project information sources to automatically populate project details based on the supplied project identifiers.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s1-6">1.6 Security Architecture Overview</h3>
+      <p>DTEAP uses a Role-Based Access Control (RBAC) security model to ensure that users can only access information and functionality relevant to their responsibilities. The security architecture consists of the following components:</p>
+
+      <h4>Modules</h4>
+      <p>Modules represent functional areas of the application. Examples include: Users, Roles, Permissions, Masters, and Estimation.</p>
+
+      <h4>Permissions</h4>
+      <p>Permissions define specific actions that can be performed. Examples include: View, Create, Edit, Delete, Approve, Export, and Import.</p>
+
+      <h4>Roles</h4>
+      <p>Roles are collections of permissions assigned to users. Examples: Administrator, Estimator, Manager.</p>
+
+      <h4>Groups</h4>
+      <p>Groups provide a mechanism for managing users collectively. A group may contain multiple users and may be associated with one or more roles.</p>
+
+      <h4>Users</h4>
+      <p>Users receive access through Direct Role Assignment or Group Membership. The relationship can be represented as:</p>
+      <pre>Permission
+    ↓
+Module
+    ↓
+Role
+    ↓
+Group (Optional)
+    ↓
+User</pre>
+      <p>This architecture provides flexibility, scalability, and enhanced security management.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s1-7">1.7 Terminology and Definitions</h3>
+      <p>The following terms are frequently used throughout this manual.</p>
+      <table>
+        <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>User</td><td>An individual with authorized access to the application</td></tr>
+          <tr><td>Role</td><td>A collection of permissions assigned to users</td></tr>
+          <tr><td>Permission</td><td>An action that can be performed within the application</td></tr>
+          <tr><td>Module</td><td>A functional area of the application</td></tr>
+          <tr><td>Group</td><td>A collection of users managed together</td></tr>
+          <tr><td>Master Data</td><td>Reference data used throughout the application</td></tr>
+          <tr><td>Active Record</td><td>A record available for operational use</td></tr>
+          <tr><td>Inactive Record</td><td>A record retained but unavailable for selection</td></tr>
+          <tr><td>Exchange Rate</td><td>Conversion factor between currencies</td></tr>
+          <tr><td>Weight Calculator</td><td>Module used for engineering weight calculations</td></tr>
+          <tr><td>JEP Number</td><td>Project identifier used for estimation creation</td></tr>
+          <tr><td>Estimation</td><td>Cost and material assessment generated within the application</td></tr>
+          <tr><td>Currency Master</td><td>Repository of supported currencies</td></tr>
+          <tr><td>Formula Master</td><td>Repository of engineering calculation formulas</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 2 – GETTING STARTED
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch2">
+      <h2 class="section-title">2. Getting Started</h2>
+
+      <h3 id="s2-1">2.1 System Requirements</h3>
+      <p>DTEAP is a web-based application that can be accessed through a supported web browser without requiring local software installation.</p>
+
+      <h4>Recommended Hardware Requirements</h4>
+      <table>
+        <thead><tr><th>Component</th><th>Recommended Specification</th></tr></thead>
+        <tbody>
+          <tr><td>Processor</td><td>Intel Core i5 or higher</td></tr>
+          <tr><td>RAM</td><td>8 GB or higher</td></tr>
+          <tr><td>Storage</td><td>10 GB Available Space</td></tr>
+          <tr><td>Display Resolution</td><td>1920 × 1080 or higher</td></tr>
+          <tr><td>Network</td><td>Stable Internet Connection</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Supported Browsers</h4>
+      <ul>
+        <li>Google Chrome (Recommended)</li>
+        <li>Microsoft Edge</li>
+        <li>Mozilla Firefox</li>
+      </ul>
+      <p>For optimal performance, administrators should use the latest browser version approved by the organization.</p>
+
+      <h4>Browser Settings</h4>
+      <p>Ensure the following settings are enabled: JavaScript, Cookies, and Pop-up Windows (for approved application URLs).</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-2">2.2 Accessing the Application</h3>
+      <p>The DTEAP application is accessible through the URL provided by the system administrator or IT department.</p>
+      <h4>Steps</h4>
+      <ol class="step-list">
+        <li>Open a supported web browser.</li>
+        <li>Enter the DTEAP application URL.</li>
+        <li>Press Enter.</li>
+        <li>The Login screen will be displayed.</li>
+      </ol>
+      <p>Users must have a valid account before accessing the application.</p>
+
+      <div class="img-placeholder"><span>🖼</span>Screenshot: Application Login Screen<br><em>[ Add screenshot here ]</em></div>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-3">2.3 Login Procedure</h3>
+      <p>Authorized users can access the application using their assigned credentials.</p>
+      <h4>Login Steps</h4>
+      <ol class="step-list">
+        <li>Open the DTEAP Login page.</li>
+        <li>Enter the Username.</li>
+        <li>Enter the Password.</li>
+        <li>Click the Login button.</li>
+      </ol>
+      <p>Upon successful authentication, the system redirects the user to the Dashboard.</p>
+
+      <h4>Login Validation</h4>
+      <p>The system verifies: Username, Password, User Status, Assigned Roles, and Associated Permissions. Users with inactive accounts will not be allowed to access the application.</p>
+
+      <h4>Logout Procedure</h4>
+      <ol class="step-list">
+        <li>Click the User Profile icon.</li>
+        <li>Select Logout.</li>
+        <li>The current session will be terminated.</li>
+      </ol>
+      <p>Users should always log out after completing their work.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-4">2.4 Dashboard Overview</h3>
+      <p>The Dashboard is the default landing page displayed after successful login. It provides administrators with a consolidated view of application activity and quick access to major modules.</p>
+      <p>Depending on assigned permissions, the Dashboard may display:</p>
+      <ul>
+        <li>Total Estimations</li>
+        <li>Total Projects</li>
+        <li>Total Customers</li>
+        <li>Recent Activities</li>
+        <li>Project Progress Information</li>
+        <li>User Notifications</li>
+      </ul>
+
+      <div class="img-placeholder"><span>🖼</span>Screenshot: Dashboard Overview<br><em>[ Add screenshot here ]</em></div>
+
+      <h4>Create New Estimation</h4>
+      <p>The Dashboard provides access to the Create New Estimation function. When selected:</p>
+      <ol class="step-list">
+        <li>The user is prompted to enter: JEP Number and Revision Code.</li>
+        <li>Upon submission, the system retrieves available project information from the integrated project data source.</li>
+        <li>Project-related information is automatically populated in the estimation record.</li>
+      </ol>
+      <p>The retrieved information may include: Customer Information, Project Details, Equipment Information, and Material Information.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-5">2.5 Navigation Structure</h3>
+      <p>The application is organized into multiple functional areas accessible through the main navigation menu.</p>
+
+      <h4>Dashboard</h4>
+      <p>Provides: System Overview, Activity Summary, and Quick Access Functions.</p>
+
+      <h4>Estimation</h4>
+      <p>Provides functionality for: Creating Estimations, Managing Estimations, Reviewing Estimation Data, Material Costing, Currency-Based Cost Calculations, and Duty Calculations.</p>
+
+      <h4>Weight Calculator</h4>
+      <p>Provides weight calculation utilities for: Tube, Pipe, Plate, Rod, Forging, Shell Flange, Studs, and Tubesheet. Calculated values may be used during estimation preparation.</p>
+
+      <h4>Masters</h4>
+      <p>Provides maintenance of reference and configuration data including: Countries, Currencies, Exchange Rates, Material Categories, Material Rates, and Formula Definitions.</p>
+
+      <h4>Administration</h4>
+      <p>Provides access to: User Management, Role Management, Permission Management, Module Management, Group Management, and Group Member Management.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-6">2.6 User Interface Components</h3>
+      <p>The application uses a consistent interface design across all modules.</p>
+
+      <h4>Action Buttons</h4>
+      <table>
+        <thead><tr><th>Button</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Add</td><td>Create a new record</td></tr>
+          <tr><td>Edit</td><td>Modify an existing record</td></tr>
+          <tr><td>Save</td><td>Save changes</td></tr>
+          <tr><td>Cancel</td><td>Discard changes</td></tr>
+          <tr><td>Export</td><td>Download records</td></tr>
+          <tr><td>Search</td><td>Locate records</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Status Indicators</h4>
+      <p>Records may display statuses such as: Active, Inactive, Draft, and Approved.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-7">2.7 Search, Sorting and Filtering</h3>
+      <p>Most modules support record management through search and filtering capabilities.</p>
+
+      <h4>Search</h4>
+      <p>Users can search records using: Names, Codes, Descriptions, and Keywords.</p>
+
+      <h4>Sorting</h4>
+      <p>Records can be sorted by: Name, Code, Date, and Status.</p>
+
+      <h4>Filtering</h4>
+      <p>Users can filter records using available criteria specific to each module. Examples include: Active Records, Inactive Records, Categories, and Record Types.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s2-8">2.8 Export Functionality</h3>
+      <p>Many administrative modules support exporting records for reporting and analysis purposes.</p>
+
+      <h4>Supported Formats</h4>
+      <ul>
+        <li>CSV</li>
+        <li>Microsoft Excel</li>
+      </ul>
+
+      <h4>Usage</h4>
+      <ol class="step-list">
+        <li>Open the desired module.</li>
+        <li>Apply any required search or filter criteria.</li>
+        <li>Click Export.</li>
+        <li>Select the desired format.</li>
+        <li>Download the generated file.</li>
+      </ol>
+      <p>Exported files should be handled according to organizational data security policies.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 3 – QUICK REFERENCE GUIDE
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch3">
+      <h2 class="section-title">3. Administrator Quick Reference Guide</h2>
+
+      <h3>3.1 Purpose of the Quick Reference Guide</h3>
+      <p>The Administrator Quick Reference Guide provides a summarized view of the most frequently performed administrative activities within the DTEAP application. This section is intended to help administrators quickly identify the module and navigation path required to perform common tasks without having to browse through the entire manual.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-2">3.2 Common Administrative Tasks</h3>
+      <table>
+        <thead><tr><th>Activity</th><th>Navigation Path</th></tr></thead>
+        <tbody>
+          <tr><td>Create New User</td><td>Administration → Users → Add User</td></tr>
+          <tr><td>Edit Existing User</td><td>Administration → Users → Edit</td></tr>
+          <tr><td>Deactivate User</td><td>Administration → Users → Edit → Active Status</td></tr>
+          <tr><td>Create New Role</td><td>Administration → Roles → Add Role</td></tr>
+          <tr><td>Edit Existing Role</td><td>Administration → Roles → Edit</td></tr>
+          <tr><td>Create New Permission</td><td>Administration → Permissions → Add Permission</td></tr>
+          <tr><td>Edit Permission</td><td>Administration → Permissions → Edit</td></tr>
+          <tr><td>Create New Module</td><td>Administration → Modules → Add Module</td></tr>
+          <tr><td>Edit Module</td><td>Administration → Modules → Edit</td></tr>
+          <tr><td>Create New Group</td><td>Administration → Groups → Add Group</td></tr>
+          <tr><td>Assign Role to Group</td><td>Administration → Groups → Edit</td></tr>
+          <tr><td>Add User to Group</td><td>Administration → Group Members</td></tr>
+          <tr><td>Remove User from Group</td><td>Administration → Group Members</td></tr>
+          <tr><td>View Role Permissions</td><td>Administration → Role Permissions</td></tr>
+          <tr><td>Add New Currency</td><td>Masters → Currency</td></tr>
+          <tr><td>Update Exchange Rate</td><td>Masters → Exchange Rates</td></tr>
+          <tr><td>Add New Material</td><td>Masters → Materials</td></tr>
+          <tr><td>Update Material Rate</td><td>Masters → Material Rates</td></tr>
+          <tr><td>Create New Estimation</td><td>Dashboard → Create New Estimation</td></tr>
+          <tr><td>Calculate Material Weight</td><td>Weight Calculator</td></tr>
+          <tr><td>Export Data</td><td>Export Button Available in Module</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-3">3.3 Administrator Responsibilities Matrix</h3>
+      <table>
+        <thead><tr><th>Area</th><th>Administrator Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td>User Management</td><td>Create, edit, activate and deactivate users</td></tr>
+          <tr><td>Role Management</td><td>Create and maintain system roles</td></tr>
+          <tr><td>Permission Management</td><td>Configure permission definitions</td></tr>
+          <tr><td>Module Management</td><td>Manage available application modules</td></tr>
+          <tr><td>Group Management</td><td>Create and maintain user groups</td></tr>
+          <tr><td>Master Data Management</td><td>Maintain reference and configuration data</td></tr>
+          <tr><td>Exchange Rate Management</td><td>Maintain currency conversion rates</td></tr>
+          <tr><td>Material Management</td><td>Maintain materials and material rates</td></tr>
+          <tr><td>Formula Management</td><td>Maintain calculation formulas</td></tr>
+          <tr><td>Estimation Governance</td><td>Ensure estimation-related master data is accurate</td></tr>
+          <tr><td>Access Control</td><td>Control system access and security</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-4">3.4 Administrative Workflow Overview</h3>
+
+      <h4>Step 1: Create Reference Data</h4>
+      <p>Before users begin working with the application, administrators must ensure that all required master data is available. Examples include: Countries, Currencies, Exchange Rates, Materials, Material Categories, and Formula Definitions.</p>
+
+      <h4>Step 2: Configure Security Structure</h4>
+      <p>The security structure should be configured before creating operational users. The recommended sequence is:</p>
+      <ol class="step-list">
+        <li>Create Modules</li>
+        <li>Create Permissions</li>
+        <li>Create Roles</li>
+        <li>Assign Permissions to Roles</li>
+        <li>Create Groups (Optional)</li>
+        <li>Assign Roles to Groups</li>
+      </ol>
+
+      <h4>Step 3: Create Users</h4>
+      <ol class="step-list">
+        <li>Create User Accounts.</li>
+        <li>Assign appropriate Roles.</li>
+        <li>Add Users to Groups if required.</li>
+        <li>Verify access.</li>
+      </ol>
+
+      <h4>Step 4: Validate Access</h4>
+      <p>Administrators should verify: Module Visibility, Permission Access, User Restrictions, and Group Assignments before users begin using the application.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-5">3.5 Quick Workflow – Create New User</h3>
+      <p><strong>Navigation:</strong> Administration → Users → Add User</p>
+      <ol class="step-list">
+        <li>Open Users Module.</li>
+        <li>Click Add User.</li>
+        <li>Enter user information.</li>
+        <li>Assign role(s).</li>
+        <li>Set Active Status.</li>
+        <li>Save the record.</li>
+      </ol>
+      <p><strong>Result:</strong> The user account becomes available for login according to the assigned permissions.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-6">3.6 Quick Workflow – Create New Role</h3>
+      <p><strong>Navigation:</strong> Administration → Roles → Add Role</p>
+      <ol class="step-list">
+        <li>Open Roles Module.</li>
+        <li>Click Add Role.</li>
+        <li>Enter Role Code.</li>
+        <li>Enter Role Name.</li>
+        <li>Configure role details.</li>
+        <li>Save the role.</li>
+      </ol>
+      <p><strong>Result:</strong> The role becomes available for permission assignment and user allocation.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-7">3.7 Quick Workflow – Create New Permission</h3>
+      <p><strong>Navigation:</strong> Administration → Permissions → Add Permission</p>
+      <ol class="step-list">
+        <li>Open Permissions Module.</li>
+        <li>Click Add Permission.</li>
+        <li>Enter Permission Code.</li>
+        <li>Enter Permission Name.</li>
+        <li>Save the permission.</li>
+      </ol>
+      <p><strong>Result:</strong> The permission becomes available for role configuration.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-8">3.8 Quick Workflow – Create New Group</h3>
+      <p><strong>Navigation:</strong> Administration → Groups → Add Group</p>
+      <ol class="step-list">
+        <li>Open Groups Module.</li>
+        <li>Click Add Group.</li>
+        <li>Enter Group Code.</li>
+        <li>Enter Group Name.</li>
+        <li>Assign roles.</li>
+        <li>Save.</li>
+      </ol>
+      <p><strong>Result:</strong> The group becomes available for user assignment.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-9">3.9 Quick Workflow – Create New Estimation</h3>
+      <p><strong>Navigation:</strong> Dashboard → Create New Estimation</p>
+      <ol class="step-list">
+        <li>Click Create New Estimation.</li>
+        <li>Enter JEP Number.</li>
+        <li>Enter Revision Code.</li>
+        <li>Click Continue.</li>
+        <li>Allow the system to retrieve project information.</li>
+        <li>Review automatically populated project data.</li>
+        <li>Verify customer details, equipment details, and material information.</li>
+        <li>Continue with estimation preparation.</li>
+      </ol>
+      <p>Depending on project availability, the system may automatically populate: Customer Information, Project Information, Equipment Information, Material Information, and Estimation Reference Information.</p>
+      <p>Administrators should ensure: Master data is correctly configured, Currency data is current, Exchange rates are updated, Material rates are maintained, and Formula configurations are valid.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-10">3.10 Quick Workflow – Update Exchange Rates</h3>
+      <p><strong>Navigation:</strong> Masters → Exchange Rates</p>
+      <ol class="step-list">
+        <li>Open Exchange Rates.</li>
+        <li>Locate the currency.</li>
+        <li>Click Edit.</li>
+        <li>Enter the updated exchange rate.</li>
+        <li>Save changes.</li>
+      </ol>
+      <p>Updated exchange rates are used in estimation and costing calculations where applicable.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-11">3.11 Quick Workflow – Calculate Material Weight</h3>
+      <p><strong>Navigation:</strong> Weight Calculator</p>
+      <ol class="step-list">
+        <li>Select Material Category.</li>
+        <li>Select Material Type.</li>
+        <li>Enter dimensional inputs.</li>
+        <li>Enter quantity information.</li>
+        <li>Review calculated results.</li>
+        <li>Save if required.</li>
+      </ol>
+      <p>Supported Categories: Tube, Pipe, Plate, Rod, Forging, Shell Flange, Studs, Tubesheet.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s3-12">3.12 Recommended Administrative Best Practices</h3>
+
+      <h4>Access Management</h4>
+      <ul>
+        <li>Assign only required permissions.</li>
+        <li>Periodically review user access.</li>
+        <li>Deactivate unused accounts.</li>
+      </ul>
+
+      <h4>Master Data Maintenance</h4>
+      <ul>
+        <li>Review exchange rates regularly.</li>
+        <li>Maintain current material rates.</li>
+        <li>Remove duplicate records.</li>
+        <li>Verify formula configurations.</li>
+      </ul>
+
+      <h4>Security</h4>
+      <ul>
+        <li>Avoid sharing administrator credentials.</li>
+        <li>Review role assignments periodically.</li>
+        <li>Validate permission structures after major updates.</li>
+      </ul>
+
+      <h4>Data Integrity</h4>
+      <ul>
+        <li>Validate imported information.</li>
+        <li>Verify master data changes.</li>
+        <li>Maintain consistent naming conventions.</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 4 – MASTER DATA MANAGEMENT
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch4">
+      <h2 class="section-title">4. Master Data Management</h2>
+
+      <h3 id="s4-1">4.1 Masters Overview</h3>
+      <h4>Purpose</h4>
+      <p>The Masters module serves as the central repository for all reference and configuration data used throughout the DTEAP application. Master data forms the foundation of the system and is utilized by multiple modules including: Estimation Management, Weight Calculator, Cost Calculations, Currency Conversion, User Administration, and Reporting.</p>
+      <p>Accurate master data is essential for ensuring consistency, calculation accuracy, and operational efficiency across the application. The Masters module allows administrators to create, maintain, update, and manage reference data without requiring system-level changes.</p>
+
+      <h4>Importance of Master Data</h4>
+      <p>Master data is used by the application to standardize information and eliminate inconsistencies. Examples include: Currency definitions, Country definitions, Material specifications, Exchange rates, Equipment categories, Manufacturing locations, and Formula definitions.</p>
+      <p>Any changes made within master records are automatically reflected in the modules that consume the corresponding data. Administrators should ensure that master records remain accurate and up-to-date to prevent operational or calculation errors.</p>
+
+      <h4>4.1.1 Master Data Categories</h4>
+      <p>The Masters module contains multiple categories of administrative data.</p>
+
+      <table>
+        <thead><tr><th>Category</th><th>Items</th></tr></thead>
+        <tbody>
+          <tr><td>Reference Data</td><td>Countries, Currencies, Units of Measure (UOM), UOM Conversions, Financial Year Periods, Exchange Rates</td></tr>
+          <tr><td>Material Management</td><td>Material Categories, Materials, Material Rates, Plate Rates, Tube Rates, Fastener Rates, Forging Rates, Gasket Rates, Special Components, Special Component Rates</td></tr>
+          <tr><td>Manufacturing Data</td><td>Manufacturing Locations, Equipment Categories, Labour Categories, Machines, Jigs &amp; Fixtures</td></tr>
+          <tr><td>Formula Management</td><td>Formula Master</td></tr>
+        </tbody>
+      </table>
+
+      <h4>4.1.2 Accessing the Masters Module</h4>
+      <p><strong>Navigation:</strong> Main Menu → Masters</p>
+      <p>Upon opening the Masters module, the system displays a categorized list of available master records. Depending on assigned permissions, administrators may: View records, Create records, Edit records, Activate records, Deactivate records, and Export records.</p>
+
+      <h4>4.1.3 Master Record Layout</h4>
+      <p>Most master screens follow a standardized layout including: a Master Listing Area displaying records in tabular format, a Search Panel, and Action Controls.</p>
+      <table>
+        <thead><tr><th>Action</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Add</td><td>Create new record</td></tr>
+          <tr><td>Edit</td><td>Modify existing record</td></tr>
+          <tr><td>View</td><td>View record details</td></tr>
+          <tr><td>Export</td><td>Export records</td></tr>
+          <tr><td>Search</td><td>Filter records</td></tr>
+          <tr><td>Reset</td><td>Clear search criteria</td></tr>
+        </tbody>
+      </table>
+
+      <h4>4.1.4 Creating Master Records</h4>
+      <ol class="step-list">
+        <li>Open the required master category.</li>
+        <li>Click Add.</li>
+        <li>Enter the required information.</li>
+        <li>Verify entered values.</li>
+        <li>Click Save.</li>
+      </ol>
+
+      <h4>4.1.5 Editing Master Records</h4>
+      <ol class="step-list">
+        <li>Open the desired master category.</li>
+        <li>Locate the required record.</li>
+        <li>Click Edit.</li>
+        <li>Modify the necessary information.</li>
+        <li>Save the changes.</li>
+      </ol>
+      <p>Administrators should exercise caution when modifying records already being used by operational processes.</p>
+
+      <h4>4.1.6 Active and Inactive Records</h4>
+      <p><strong>Active Records</strong> are available for selection, appear in dropdown lists, participate in calculations, and can be referenced by other modules.</p>
+      <p><strong>Inactive Records</strong> are retained in the system, cannot be selected in operational processes, and remain available for historical reference. Administrators are encouraged to deactivate obsolete records instead of deleting them.</p>
+
+      <h4>4.1.7 Export Functionality</h4>
+      <ol class="step-list">
+        <li>Open the desired master category.</li>
+        <li>Apply search criteria if required.</li>
+        <li>Click Export.</li>
+        <li>Select export format.</li>
+        <li>Download the generated file.</li>
+      </ol>
+
+      <h4>4.1.8 Impact of Master Data on System Operations</h4>
+      <table>
+        <thead><tr><th>Master Data</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr><td>Currency</td><td>Currency conversion calculations</td></tr>
+          <tr><td>Exchange Rates</td><td>Estimation cost calculations</td></tr>
+          <tr><td>Material Rates</td><td>Material costing</td></tr>
+          <tr><td>Formula Master</td><td>Weight calculations</td></tr>
+          <tr><td>UOM Conversion</td><td>Quantity conversions</td></tr>
+          <tr><td>Manufacturing Locations</td><td>Costing and planning</td></tr>
+          <tr><td>Material Categories</td><td>Material classification</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <!-- Sections 4.2 – 4.23: headings with standard sub-steps -->
+
+      <h3 id="s4-2">4.2 Country Master</h3>
+      <p>The Country Master maintains the list of countries used across the application for reference, sourcing, and currency management purposes.</p>
+      <h4>4.2.1 Viewing Countries</h4><p>Navigate to Masters → Country Master to view all configured country records in a tabular listing.</p>
+      <h4>4.2.2 Adding a Country</h4><ol class="step-list"><li>Open Country Master.</li><li>Click Add.</li><li>Enter Country Code and Country Name.</li><li>Set Active status.</li><li>Click Save.</li></ol>
+      <h4>4.2.3 Editing a Country</h4><ol class="step-list"><li>Locate the country record.</li><li>Click Edit.</li><li>Modify required fields.</li><li>Save changes.</li></ol>
+      <h4>4.2.4 Activating / Deactivating Countries</h4><p>Use the Active Status toggle when editing a country record to activate or deactivate it. Inactive countries will not appear in operational selection lists.</p>
+      <h4>4.2.5 Exporting Country Data</h4><p>Click Export within the Country Master to download records in CSV or Excel format.</p>
+      <div class="img-placeholder"><span>🖼</span>Screenshot: Country Master Screen<br><em>[ Add screenshot here ]</em></div>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-3">4.3 Currency Master</h3>
+      <p>The Currency Master maintains all supported currencies used in costing and estimation calculations.</p>
+      <h4>4.3.1 Viewing Currencies</h4><p>Navigate to Masters → Currency Master.</p>
+      <h4>4.3.2 Adding a Currency</h4><ol class="step-list"><li>Open Currency Master.</li><li>Click Add.</li><li>Enter Currency Code (e.g., INR, USD).</li><li>Enter Currency Name.</li><li>Set Active status.</li><li>Save.</li></ol>
+      <h4>4.3.3 Editing a Currency</h4><ol class="step-list"><li>Locate the currency record.</li><li>Click Edit.</li><li>Modify required fields.</li><li>Save.</li></ol>
+      <h4>4.3.4 Activating / Deactivating Currencies</h4><p>Inactive currencies will not be available for selection in estimation and costing forms.</p>
+      <h4>4.3.5 Exporting Currency Data</h4><p>Click Export to download currency records in the supported format.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-4">4.4 Units of Measure (UOM)</h3>
+      <p>The UOM Master defines measurement units used across materials, costing, and weight calculations.</p>
+      <h4>4.4.1 Viewing UOM Records</h4><p>Navigate to Masters → UOM.</p>
+      <h4>4.4.2 Creating UOM Records</h4><ol class="step-list"><li>Click Add.</li><li>Enter UOM Code and UOM Name.</li><li>Save.</li></ol>
+      <h4>4.4.3 Editing UOM Records</h4><ol class="step-list"><li>Locate the record.</li><li>Click Edit.</li><li>Modify fields.</li><li>Save.</li></ol>
+      <h4>4.4.4 Activating / Deactivating UOM Records</h4><p>Manage the Active Status flag to control availability.</p>
+      <h4>4.4.5 Exporting UOM Data</h4><p>Click Export to download UOM records.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-5">4.5 UOM Conversions</h3>
+      <p>UOM Conversions define conversion factors between different units of measure.</p>
+      <h4>4.5.1 Viewing Conversion Records</h4><p>Navigate to Masters → UOM Conversions.</p>
+      <h4>4.5.2 Creating Conversion Records</h4><ol class="step-list"><li>Click Add.</li><li>Select Source UOM.</li><li>Select Target UOM.</li><li>Enter Conversion Factor.</li><li>Save.</li></ol>
+      <h4>4.5.3 Editing Conversion Records</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update conversion factor.</li><li>Save.</li></ol>
+      <h4>4.5.4 Exporting Conversion Data</h4><p>Click Export to download conversion records.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-6">4.6 Financial Year Periods</h3>
+      <p>Financial Year Periods define the organizational financial calendar used for reporting and costing reference.</p>
+      <h4>4.6.1 Viewing Financial Periods</h4><p>Navigate to Masters → Financial Year Periods.</p>
+      <h4>4.6.2 Creating Financial Periods</h4><ol class="step-list"><li>Click Add.</li><li>Enter Period Name, Start Date, and End Date.</li><li>Save.</li></ol>
+      <h4>4.6.3 Editing Financial Periods</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+      <h4>4.6.4 Activating / Deactivating Financial Periods</h4><p>Manage the Active Status to control which periods are operationally available.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-7">4.7 Exchange Rates</h3>
+      <p>Exchange Rates define the conversion values between currencies used during estimation costing.</p>
+      <h4>4.7.1 Viewing Exchange Rates</h4><p>Navigate to Masters → Exchange Rates.</p>
+      <h4>4.7.2 Creating Exchange Rates</h4><ol class="step-list"><li>Click Add.</li><li>Select Source Currency.</li><li>Select Target Currency.</li><li>Enter Rate.</li><li>Save.</li></ol>
+      <h4>4.7.3 Updating Exchange Rates</h4><ol class="step-list"><li>Locate the currency pair.</li><li>Click Edit.</li><li>Update the exchange rate value.</li><li>Save.</li></ol>
+      <h4>4.7.4 Exporting Exchange Rate Data</h4><p>Click Export to download exchange rate records.</p>
+      <div class="note-box">Exchange rates should be reviewed and updated regularly to ensure accurate estimation costing calculations.</div>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-8">4.8 Material Categories</h3>
+      <p>Material Categories provide a classification structure for organizing materials within the application.</p>
+      <h4>4.8.1 Viewing Categories</h4><p>Navigate to Masters → Material Categories.</p>
+      <h4>4.8.2 Creating Categories</h4><ol class="step-list"><li>Click Add.</li><li>Enter Category Code and Category Name.</li><li>Save.</li></ol>
+      <h4>4.8.3 Editing Categories</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Modify fields.</li><li>Save.</li></ol>
+      <h4>4.8.4 Activating / Deactivating Categories</h4><p>Inactive categories will not appear in material selection forms.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-9">4.9 Materials</h3>
+      <p>The Materials master maintains the complete list of materials used in estimations and costing calculations.</p>
+      <h4>4.9.1 Viewing Materials</h4><p>Navigate to Masters → Materials.</p>
+      <h4>4.9.2 Creating Materials</h4><ol class="step-list"><li>Click Add.</li><li>Enter Material Code, Material Name, and Category.</li><li>Configure material properties.</li><li>Save.</li></ol>
+      <h4>4.9.3 Editing Materials</h4><ol class="step-list"><li>Locate material record.</li><li>Click Edit.</li><li>Modify required fields.</li><li>Save.</li></ol>
+      <h4>4.9.4 Material Search Features</h4><p>Users can search materials by: Material Name, Material Code, and Material Category.</p>
+      <h4>4.9.5 Exporting Materials</h4><p>Click Export to download material records.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-10">4.10 Material Rates</h3>
+      <p>Material Rates define the unit cost associated with each material, used during estimation cost calculations.</p>
+      <h4>4.10.1 Viewing Material Rates</h4><p>Navigate to Masters → Material Rates.</p>
+      <h4>4.10.2 Creating Material Rates</h4><ol class="step-list"><li>Click Add.</li><li>Select Material.</li><li>Enter Rate and Currency.</li><li>Save.</li></ol>
+      <h4>4.10.3 Editing Material Rates</h4><ol class="step-list"><li>Locate the rate record.</li><li>Click Edit.</li><li>Update the rate.</li><li>Save.</li></ol>
+      <h4>4.10.4 Historical Rate Management</h4><p>Previous rate records are retained for historical reference and audit purposes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-11">4.11 Plate Rates</h3>
+      <h4>4.11.1 Viewing Plate Rates</h4><p>Navigate to Masters → Plate Rates.</p>
+      <h4>4.11.2 Creating Plate Rates</h4><ol class="step-list"><li>Click Add.</li><li>Enter required fields.</li><li>Save.</li></ol>
+      <h4>4.11.3 Updating Plate Rates</h4><ol class="step-list"><li>Locate the record.</li><li>Click Edit.</li><li>Update values.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-12">4.12 Tube Rates</h3>
+      <h4>4.12.1 Viewing Tube Rates</h4><p>Navigate to Masters → Tube Rates.</p>
+      <h4>4.12.2 Creating Tube Rates</h4><ol class="step-list"><li>Click Add.</li><li>Enter required fields.</li><li>Save.</li></ol>
+      <h4>4.12.3 Updating Tube Rates</h4><ol class="step-list"><li>Locate the record.</li><li>Click Edit.</li><li>Update values.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-13">4.13 Fastener Rates</h3>
+      <h4>4.13.1 Viewing Fastener Rates</h4><p>Navigate to Masters → Fastener Rates.</p>
+      <h4>4.13.2 Creating Fastener Rates</h4><ol class="step-list"><li>Click Add.</li><li>Enter required fields.</li><li>Save.</li></ol>
+      <h4>4.13.3 Updating Fastener Rates</h4><ol class="step-list"><li>Locate the record.</li><li>Click Edit.</li><li>Update values.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-14">4.14 Forging Rates</h3>
+      <h4>4.14.1 Viewing Forging Rates</h4><p>Navigate to Masters → Forging Rates.</p>
+      <h4>4.14.2 Creating Forging Rates</h4><ol class="step-list"><li>Click Add.</li><li>Enter required fields.</li><li>Save.</li></ol>
+      <h4>4.14.3 Updating Forging Rates</h4><ol class="step-list"><li>Locate the record.</li><li>Click Edit.</li><li>Update values.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-15">4.15 Gasket Rates</h3>
+      <h4>4.15.1 Viewing Gasket Rates</h4><p>Navigate to Masters → Gasket Rates.</p>
+      <h4>4.15.2 Creating Gasket Rates</h4><ol class="step-list"><li>Click Add.</li><li>Enter required fields.</li><li>Save.</li></ol>
+      <h4>4.15.3 Updating Gasket Rates</h4><ol class="step-list"><li>Locate the record.</li><li>Click Edit.</li><li>Update values.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-16">4.16 Special Components</h3>
+      <h4>4.16.1 Viewing Components</h4><p>Navigate to Masters → Special Components.</p>
+      <h4>4.16.2 Creating Components</h4><ol class="step-list"><li>Click Add.</li><li>Enter Component Code and Name.</li><li>Save.</li></ol>
+      <h4>4.16.3 Editing Components</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-17">4.17 Special Component Rates</h3>
+      <h4>4.17.1 Viewing Rates</h4><p>Navigate to Masters → Special Component Rates.</p>
+      <h4>4.17.2 Creating Rates</h4><ol class="step-list"><li>Click Add.</li><li>Select Component.</li><li>Enter Rate and Currency.</li><li>Save.</li></ol>
+      <h4>4.17.3 Updating Rates</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update rate.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-18">4.18 Equipment Categories</h3>
+      <h4>4.18.1 Viewing Categories</h4><p>Navigate to Masters → Equipment Categories.</p>
+      <h4>4.18.2 Creating Categories</h4><ol class="step-list"><li>Click Add.</li><li>Enter Category Code and Name.</li><li>Save.</li></ol>
+      <h4>4.18.3 Editing Categories</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-19">4.19 Labour Categories</h3>
+      <h4>4.19.1 Viewing Categories</h4><p>Navigate to Masters → Labour Categories.</p>
+      <h4>4.19.2 Creating Categories</h4><ol class="step-list"><li>Click Add.</li><li>Enter Category Code and Name.</li><li>Save.</li></ol>
+      <h4>4.19.3 Editing Categories</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-20">4.20 Manufacturing Locations</h3>
+      <h4>4.20.1 Viewing Locations</h4><p>Navigate to Masters → Manufacturing Locations.</p>
+      <h4>4.20.2 Creating Locations</h4><ol class="step-list"><li>Click Add.</li><li>Enter Location Code and Name.</li><li>Save.</li></ol>
+      <h4>4.20.3 Editing Locations</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-21">4.21 Machines</h3>
+      <h4>4.21.1 Viewing Machines</h4><p>Navigate to Masters → Machines.</p>
+      <h4>4.21.2 Creating Machines</h4><ol class="step-list"><li>Click Add.</li><li>Enter Machine Code and Name.</li><li>Assign Manufacturing Location.</li><li>Save.</li></ol>
+      <h4>4.21.3 Editing Machines</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-22">4.22 Jigs and Fixtures</h3>
+      <h4>4.22.1 Viewing Records</h4><p>Navigate to Masters → Jigs and Fixtures.</p>
+      <h4>4.22.2 Creating Records</h4><ol class="step-list"><li>Click Add.</li><li>Enter Code and Name.</li><li>Save.</li></ol>
+      <h4>4.22.3 Editing Records</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update fields.</li><li>Save.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s4-23">4.23 Formula Master</h3>
+      <p>The Formula Master stores engineering calculation formulas used by the Weight Calculator and estimation modules.</p>
+      <h4>4.23.1 Viewing Formula Records</h4><p>Navigate to Masters → Formula Master.</p>
+      <h4>4.23.2 Creating Formula Records</h4><ol class="step-list"><li>Click Add.</li><li>Enter Formula Code and Name.</li><li>Define formula expression.</li><li>Save.</li></ol>
+      <h4>4.23.3 Editing Formula Records</h4><ol class="step-list"><li>Locate record.</li><li>Click Edit.</li><li>Update formula.</li><li>Save.</li></ol>
+      <h4>4.23.4 Formula Administration Best Practices</h4>
+      <ul>
+        <li>Verify formula expressions before saving.</li>
+        <li>Test calculations after formula updates.</li>
+        <li>Maintain documentation for complex formulas.</li>
+        <li>Restrict formula modifications to authorized administrators only.</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 5 – USER ADMINISTRATION
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch5">
+      <h2 class="section-title">5. User Administration</h2>
+
+      <h3>5.1 Overview</h3>
+      <p>The User Administration module provides administrators with the ability to manage application access, user accounts, security roles, permissions, modules, groups, and group memberships. This module ensures that users are granted access only to the features and functionality required to perform their responsibilities within the DTEAP application.</p>
+      <p>The administration framework follows a Role-Based Access Control (RBAC) model, ensuring secure and controlled access throughout the application.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-1">5.1 User Management</h3>
+      <h4>Purpose</h4>
+      <p>The Users module allows administrators to create, manage, and maintain application user accounts. Each user account represents an individual authorized to access the DTEAP application. User accounts determine: Login access, Assigned roles, Module visibility, Functional permissions, and Group membership.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Users</p>
+
+      <h4>Viewing Users</h4>
+      <p>The Users page provides a searchable list of all registered users. Typical information displayed includes: Username, Full Name, Employee Code, Email Address, Assigned Roles, Status, and Last Updated Date.</p>
+
+      <div class="img-placeholder"><span>🖼</span>Screenshot: User Management Screen<br><em>[ Add screenshot here ]</em></div>
+
+      <h4>Creating a New User</h4>
+      <ol class="step-list">
+        <li>Navigate to Administration → Users.</li>
+        <li>Click Add User.</li>
+        <li>Complete the required fields.</li>
+        <li>Assign one or more roles.</li>
+        <li>Select Active status.</li>
+        <li>Click Save.</li>
+      </ol>
+
+      <table>
+        <thead><tr><th>Field</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Company</td><td>Organization Name</td></tr>
+          <tr><td>Business Unit</td><td>Associated Business Unit</td></tr>
+          <tr><td>User Name</td><td>Login Username</td></tr>
+          <tr><td>Full Name</td><td>User's Name</td></tr>
+          <tr><td>Email Address</td><td>Official Email ID</td></tr>
+          <tr><td>Employee Code</td><td>Employee Identifier</td></tr>
+          <tr><td>Department</td><td>Department Name</td></tr>
+          <tr><td>Password</td><td>Login Password</td></tr>
+          <tr><td>Active Status</td><td>Account Status</td></tr>
+        </tbody>
+      </table>
+
+      <h4>5.1.3 Editing Existing Users</h4>
+      <ol class="step-list"><li>Open Users.</li><li>Locate the user.</li><li>Click Edit.</li><li>Modify required information.</li><li>Save changes.</li></ol>
+
+      <h4>5.1.4 Activating and Deactivating Users</h4>
+      <p>An <strong>active user</strong> can log in, access assigned modules, and perform permitted actions. An <strong>inactive user</strong> cannot log in or access the application but remains stored for audit purposes. Administrators should deactivate users who no longer require access.</p>
+
+      <h4>5.1.5 Assigning Roles to Users</h4>
+      <p>Roles are assigned during user creation or editing. A user may be assigned one or more roles depending on their responsibilities.</p>
+
+      <h4>5.1.6 User Search and Export</h4>
+      <p>User records can be exported in CSV or Excel format for user audits, access reviews, and compliance reporting.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-2">5.2 Role Management</h3>
+      <h4>Purpose</h4>
+      <p>Roles are used to group permissions together. Instead of assigning individual permissions directly to users, permissions are assigned to roles and roles are assigned to users. This simplifies administration and improves security management.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Roles</p>
+
+      <h4>5.2.2 Creating a Role</h4>
+      <ol class="step-list"><li>Navigate to Roles.</li><li>Click Add Role.</li><li>Enter Role Code, Role Name, and Description.</li><li>Save the role.</li></ol>
+      <p>The role can then be configured with permissions.</p>
+
+      <h4>5.2.3 Editing Roles</h4>
+      <p>Administrators can: Update descriptions, Modify role details, Activate roles, and Deactivate roles. Role modifications immediately impact users assigned to those roles.</p>
+
+      <h4>5.2.4 Role Status Management</h4>
+      <p>An <strong>Active</strong> role is available for assignment. An <strong>Inactive</strong> role is unavailable for assignment, though existing historical records remain unchanged.</p>
+
+      <h4>5.2.5 Exporting Roles</h4>
+      <p>Role information can be exported for security reviews, compliance audits, and access verification.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-3">5.3 Permission Management</h3>
+      <h4>Purpose</h4>
+      <p>Permissions define the actions users may perform within the system. Permissions represent the smallest unit of access control. Examples include: View, Create, Edit, Delete, Approve, Export, Import, Lock, Unlock, Override, and Reject.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Permissions</p>
+
+      <h4>5.3.2 Creating Permissions</h4>
+      <ol class="step-list"><li>Navigate to Permissions.</li><li>Click Add Permission.</li><li>Enter Permission Code, Permission Name, and Description.</li><li>Save.</li></ol>
+
+      <h4>5.3.3 Editing Permissions</h4>
+      <p>Administrators may: Update permission names, Update descriptions, Activate permissions, and Deactivate permissions.</p>
+
+      <h4>5.3.5 Permission Export</h4>
+      <p>Permission lists can be exported in CSV or Excel for documentation and audit purposes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-4">5.4 Module Management</h3>
+      <h4>Purpose</h4>
+      <p>Modules represent major functional areas within the DTEAP application. Examples: Dashboard, Estimation, Weight Calculator, Masters, Users, Roles, and Permissions. Permissions are assigned against modules.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Modules</p>
+
+      <h4>5.4.2 Creating Modules</h4>
+      <ol class="step-list"><li>Open Modules.</li><li>Click Add Module.</li><li>Enter Module Code, Module Name, and Display Order.</li><li>Save.</li></ol>
+
+      <h4>5.4.3 Editing Modules</h4>
+      <p>Administrators may update: Display Name, Display Order, Module Description, and Active Status.</p>
+
+      <h4>5.4.4 Display Order Management</h4>
+      <p>The Display Order field controls the sequence in which modules appear in the navigation menu.</p>
+
+      <h4>5.4.5 Exporting Module Data</h4>
+      <p>Module definitions may be exported for administrative review.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-5">5.5 Role Permission Matrix</h3>
+      <h4>Purpose</h4>
+      <p>The Role Permission Matrix provides a consolidated view of permissions assigned to each role. This feature allows administrators to verify access control configurations.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Role Permissions</p>
+
+      <table>
+        <thead><tr><th>Module</th><th>Create</th><th>View</th><th>Edit</th><th>Delete</th><th>Export</th><th>Approve</th></tr></thead>
+        <tbody>
+          <tr><td><em>Module Name</em></td><td>Yes / No</td><td>Yes / No</td><td>Yes / No</td><td>Yes / No</td><td>Yes / No</td><td>Yes / No</td></tr>
+        </tbody>
+      </table>
+
+      <p>Administrators should periodically review: Excessive permissions, Duplicate assignments, and Obsolete access rights to maintain security compliance.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-6">5.6 Group Management</h3>
+      <h4>Purpose</h4>
+      <p>Groups allow administrators to manage multiple users collectively. Groups simplify access administration by allowing roles to be assigned at group level.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Groups</p>
+
+      <h4>5.6.2 Creating Groups</h4>
+      <ol class="step-list"><li>Open Groups.</li><li>Click Add Group.</li><li>Enter Group Code, Group Name, and Description.</li><li>Assign roles.</li><li>Save.</li></ol>
+
+      <h4>5.6.3 Editing Groups</h4>
+      <p>Administrators may: Change group details, Modify assigned roles, Activate groups, and Deactivate groups.</p>
+
+      <h4>5.6.4 Assigning Roles to Groups</h4>
+      <p>Users belonging to a group automatically inherit roles assigned to that group. This reduces manual administration effort.</p>
+
+      <h4>5.6.5 Exporting Group Data</h4>
+      <p>Group information can be exported for administrative review and audit purposes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-7">5.7 Group Members Management</h3>
+      <h4>Purpose</h4>
+      <p>Group Members management controls which users belong to specific groups.</p>
+
+      <h4>Navigation</h4>
+      <p>Administration → Group Members</p>
+
+      <h4>5.7.2 Adding Members</h4>
+      <ol class="step-list"><li>Select a group.</li><li>Select users.</li><li>Add users to the group.</li><li>Save changes.</li></ol>
+
+      <h4>5.7.3 Removing Members</h4>
+      <ol class="step-list"><li>Select a group.</li><li>Locate the member.</li><li>Remove the user.</li><li>Save changes.</li></ol>
+
+      <h4>5.7.4 Saving Membership Changes</h4>
+      <p>Changes become effective immediately after saving. User access is updated according to the roles associated with the group.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s5-8">5.8 User Access Model</h3>
+      <p>The DTEAP application follows the following access hierarchy:</p>
+      <pre>Permission
+    ↓
+Module
+    ↓
+Role
+    ↓
+Group (Optional)
+    ↓
+User</pre>
+      <p>This hierarchy ensures: Controlled access, Reduced administrative effort, Centralized security management, and Consistent permission assignment.</p>
+
+      <h4>Best Practices</h4>
+      <ul>
+        <li>Grant minimum required access.</li>
+        <li>Periodically review permissions.</li>
+        <li>Deactivate unused accounts.</li>
+        <li>Maintain accurate group structures.</li>
+        <li>Review role assignments regularly.</li>
+        <li>Avoid assigning excessive privileges.</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 6 – SECURITY AND ACCESS CONTROL
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch6">
+      <h2 class="section-title">6. Security and Access Control</h2>
+
+      <h3 id="s6-1">6.1 Overview</h3>
+      <p>The DTEAP application implements a structured security model to ensure that users only have access to the information and functionality required to perform their assigned responsibilities. The security framework is designed to: Protect sensitive information, Prevent unauthorized access, Enforce role-based responsibilities, Maintain data integrity, Support audit and compliance requirements, and Simplify user administration.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-2">6.2 Security Architecture</h3>
+      <p>DTEAP follows a Role-Based Access Control (RBAC) model. Under this model, permissions are assigned to roles, roles are assigned to users or groups, and access is automatically inherited.</p>
+      <pre>Permission
+    ↓
+Module
+    ↓
+Role
+    ↓
+Group (Optional)
+    ↓
+User</pre>
+      <p>This layered structure simplifies administration and ensures consistency across the application.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-3">6.3 Modules</h3>
+      <p>Modules represent functional areas within the application. Examples include: Dashboard, Estimation, Weight Calculator, Masters, Users, Roles, Permissions, Groups, and Reports.</p>
+      <p>Each module acts as a container for permissions and controls what functionality is available to users. If a user does not have access to a module, the module may not appear in the navigation menu, and the user cannot access related pages.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-4">6.4 Permissions</h3>
+      <p>Permissions define specific actions that can be performed within a module.</p>
+      <table>
+        <thead><tr><th>Permission</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>View</td><td>View records</td></tr>
+          <tr><td>Create</td><td>Create new records</td></tr>
+          <tr><td>Edit</td><td>Modify records</td></tr>
+          <tr><td>Delete</td><td>Remove records</td></tr>
+          <tr><td>Approve</td><td>Approve transactions</td></tr>
+          <tr><td>Reject</td><td>Reject transactions</td></tr>
+          <tr><td>Export</td><td>Export records</td></tr>
+          <tr><td>Import</td><td>Import records</td></tr>
+          <tr><td>Lock</td><td>Lock records</td></tr>
+          <tr><td>Unlock</td><td>Unlock records</td></tr>
+          <tr><td>Override</td><td>Override system restrictions</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-5">6.5 Roles</h3>
+      <p>Roles are collections of permissions grouped together to represent a job function or business responsibility. Examples: System Administrator, Estimation Administrator, Business User, Reviewer, Approver.</p>
+      <p>Instead of assigning dozens of permissions individually, administrators can assign a single role containing the required permissions. This reduces administrative effort, standardizes access, improves security management, and simplifies onboarding.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-6">6.6 Groups</h3>
+      <p>Groups provide an additional layer of access management. A group is a collection of users who share similar responsibilities. Examples: Estimation Team, Finance Team, Procurement Team, Project Management Team.</p>
+      <p>When a role is assigned to a group, all members of that group inherit the assigned role. Groups allow administrators to: Assign roles collectively, Simplify user maintenance, Standardize permissions across teams, and Reduce manual role assignments.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-7">6.7 Users</h3>
+      <p>Users represent individual application accounts. Each user may receive access through:</p>
+      <h4>Direct Role Assignment</h4>
+      <pre>Estimator Role
+    ↓
+John Smith</pre>
+      <h4>Group-Based Assignment</h4>
+      <pre>Estimator Role
+    ↓
+Estimation Team Group
+    ↓
+John Smith</pre>
+      <p>Both approaches are supported depending on organizational requirements.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-8">6.8 Access Inheritance</h3>
+      <p>Access inheritance occurs when permissions are assigned indirectly through groups and roles.</p>
+      <pre>Step 1: Create Permission → Create Estimation
+Step 2: Assign Permission to Module → Estimation
+Step 3: Assign Permission to Role → Estimation Administrator
+Step 4: Assign Role to Group → Estimation Team
+Step 5: Add User to Group → John Smith
+
+Result: John Smith automatically receives permission to create estimations.</pre>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-9">6.9 Module Visibility Rules</h3>
+      <p><strong>Full Access:</strong> The user can view, create, edit, delete, and export records.</p>
+      <p><strong>Limited Access:</strong> The user can view records only or access specific functions.</p>
+      <p><strong>No Access:</strong> The module is hidden from the user.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-10">6.10 Permission Matrix</h3>
+      <table>
+        <thead><tr><th>Module</th><th>View</th><th>Create</th><th>Edit</th><th>Delete</th><th>Export</th><th>Approve</th></tr></thead>
+        <tbody>
+          <tr><td>Users</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td><td>N/A</td></tr>
+          <tr><td>Roles</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td><td>N/A</td></tr>
+          <tr><td>Estimation</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-11">6.11 Security Best Practices</h3>
+      <h4>Principle of Least Privilege</h4>
+      <p>Users should receive only the permissions necessary to perform their assigned tasks. Avoid granting: Unnecessary administrative rights, Excessive approval permissions, and Full access when limited access is sufficient.</p>
+
+      <h4>Periodic Access Reviews</h4>
+      <p>Administrators should periodically review: User accounts, Roles, Permissions, and Group memberships to ensure that access remains appropriate.</p>
+
+      <h4>User Deactivation</h4>
+      <p>When users no longer require access: Deactivate the user account, Remove unnecessary role assignments, and Update group memberships if required.</p>
+
+      <h4>Segregation of Duties</h4>
+      <p>Where possible: Creation and approval activities should be separated, Administrative privileges should be restricted, and High-risk functions should require appropriate authorization.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-12">6.12 Security Impact on Estimation Management</h3>
+      <p>The Estimation module relies heavily on the security framework. Administrators may configure roles that determine whether a user can: Create estimations, Edit estimations, View estimations, Approve estimations, Export estimation data, Access costing information, and Modify estimation-related master data.</p>
+      <p>Proper access control is essential because estimation records may contain: Commercial information, Material costs, Currency conversions, Costing calculations, and Project-specific data.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s6-13">6.13 Audit and Accountability</h3>
+      <p>Administrators are accountable for: User access assignments, Role configurations, Permission structures, and Group memberships. Incorrect security configurations may result in: Unauthorized access, Data modification, Operational disruption, and Reporting inaccuracies. Regular review and governance of security settings are therefore recommended.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 7 – DATA EXPORT AND SEARCH
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch7">
+      <h2 class="section-title">7. Data Export and Search Features</h2>
+
+      <h3 id="s7-1">7.1 Overview</h3>
+      <p>The DTEAP application provides standardized search, filtering, sorting, and export functionality across multiple modules. These features enable administrators to efficiently locate, analyze, and manage large volumes of application data.</p>
+      <p>The functionality described in this section is available across most administrative and master data screens including: Users, Roles, Permissions, Modules, Groups, Group Members, Currency Master, Country Master, Material Master, Exchange Rates, Estimations, and Weight Calculator Records (where applicable).</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-2">7.2 Search Functionality</h3>
+      <p>The Search functionality enables administrators to quickly locate specific records within large datasets. Instead of manually browsing records, users can perform targeted searches using available search criteria.</p>
+
+      <h4>Performing a Search</h4>
+      <ol class="step-list">
+        <li>Open the required module.</li>
+        <li>Locate the Search field or Search Panel.</li>
+        <li>Enter the search criteria.</li>
+        <li>Click Search or press Enter.</li>
+        <li>Review the results.</li>
+      </ol>
+
+      <h4>Common Search Criteria</h4>
+      <table>
+        <thead><tr><th>Module</th><th>Search Fields</th></tr></thead>
+        <tbody>
+          <tr><td>Users</td><td>User Name, Full Name, Employee Code, Email Address</td></tr>
+          <tr><td>Roles</td><td>Role Name, Role Code</td></tr>
+          <tr><td>Permissions</td><td>Permission Name, Permission Code</td></tr>
+          <tr><td>Groups</td><td>Group Name, Group Code</td></tr>
+          <tr><td>Materials</td><td>Material Name, Material Category</td></tr>
+          <tr><td>Estimations</td><td>Estimation Number, JEP Number, Customer Name, Project Name</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-3">7.3 Filtering Records</h3>
+      <p>Filtering allows administrators to narrow down record lists based on specific criteria. Filters are particularly useful when working with large datasets.</p>
+      <h4>Common Filters</h4>
+      <p>Status Filter: Active / Inactive. Date Filters: Created Date / Modified Date. Category Filters: Material Category, Module Type, Group Type. User-Based Filters: Department, Business Unit, Assigned Role.</p>
+      <h4>Applying Filters</h4>
+      <ol class="step-list"><li>Open the required module.</li><li>Select filter criteria.</li><li>Apply the filter.</li><li>Review filtered results.</li></ol>
+      <h4>Clearing Filters</h4>
+      <ol class="step-list"><li>Click Reset.</li><li>Clear selected criteria.</li><li>Refresh the record list.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-4">7.4 Sorting Records</h3>
+      <p>Sorting allows administrators to organize records based on selected fields. Records may be sorted by: Name, Code, Created Date, Modified Date, and Status.</p>
+      <h4>Ascending Order</h4><p>Displays records from lowest to highest (A → Z, Oldest → Newest).</p>
+      <h4>Descending Order</h4><p>Displays records from highest to lowest (Z → A, Newest → Oldest).</p>
+      <h4>Using Sorting</h4>
+      <ol class="step-list"><li>Open the required module.</li><li>Locate the column header.</li><li>Click the column header.</li><li>Select ascending or descending order.</li></ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-5">7.5 Pagination Controls</h3>
+      <p>Pagination improves performance when large numbers of records exist. Instead of loading all records at once, records are displayed in smaller pages. Typical controls include: First Page, Previous Page, Next Page, Last Page, and Page Number Selection.</p>
+      <p>Where supported, administrators may select records per page: 10, 25, 50, or 100.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-6">7.6 Export Functionality</h3>
+      <p>Export functionality allows administrators to download application data for external review, reporting, and analysis. Exported files may be used for: Audits, Compliance Reviews, Data Verification, Reporting, Offline Analysis, and Backup Purposes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-7">7.7 Supported Export Formats</h3>
+      <ul>
+        <li><strong>CSV (Comma-Separated Values):</strong> Suitable for data migration, spreadsheet analysis, and bulk review.</li>
+        <li><strong>Microsoft Excel:</strong> Suitable for reporting, data analysis, and presentation purposes.</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-8">7.8 Modules Supporting Export</h3>
+      <p><strong>Administration:</strong> Users, Roles, Permissions, Modules, Groups.</p>
+      <p><strong>Masters:</strong> Countries, Currencies, Exchange Rates, Materials, Material Rates.</p>
+      <p><strong>Estimation:</strong> Estimation Records, Costing Data, Material Details.</p>
+      <p>Availability depends on user permissions.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-9">7.9 Exporting Records</h3>
+      <ol class="step-list">
+        <li>Open the required module.</li>
+        <li>Apply search criteria if necessary.</li>
+        <li>Apply filters if required.</li>
+        <li>Click Export.</li>
+        <li>Select the export format.</li>
+        <li>Wait for file generation.</li>
+        <li>Download the file.</li>
+      </ol>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-10">7.10 Export Best Practices</h3>
+      <ul>
+        <li>Verify search criteria are correct before exporting.</li>
+        <li>Verify that the exported data contains only the intended records.</li>
+        <li>Exported files may contain sensitive information; handle according to organizational data security policies.</li>
+        <li>Store files securely, avoid sharing exported files unnecessarily, and delete outdated exports when no longer required.</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-11">7.11 Search and Export in Estimation Management</h3>
+      <p>Administrators may use search functionality to locate estimations using: JEP Number, Estimation Number, Customer Name, Project Name, and Revision Code.</p>
+      <p>Export functionality can be used to: Review estimation data, Perform costing analysis, Validate material calculations, and Support project reviews.</p>
+      <p>Administrators should ensure that estimation-related exports are shared only with authorized personnel due to the commercial and project-specific information they may contain.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s7-12">7.12 Administrative Recommendations</h3>
+      <p>To maximize efficiency, administrators should: Use search before creating records, Apply filters when working with large datasets, Sort records appropriately before review, Export data only when necessary, and Verify exported information before distribution.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 8 – ADMINISTRATIVE WORKFLOWS
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch8">
+      <h2 class="section-title">8. Administrative Workflows</h2>
+
+      <h3 id="s8-1">8.1 Overview</h3>
+      <p>The DTEAP application provides administrators with several operational workflows used for managing users, access control, master data, estimation activities, and system configuration. This section provides step-by-step guidance for performing common administrative activities. The workflows described in this chapter represent standard operating procedures and should be followed to ensure consistency, security, and data integrity throughout the application.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-2">8.2 Creating a New User</h3>
+      <p><strong>Navigation:</strong> Administration → Users</p>
+      <ol class="step-list">
+        <li>Open the Users module.</li>
+        <li>Click the <strong>Add User</strong> button.</li>
+        <li>Enter the required information: Company, Business Unit, User Name, Full Name, Email Address, Employee Code, and Department.</li>
+        <li>Assign one or more roles.</li>
+        <li>Set the account status to Active.</li>
+        <li>Click Save.</li>
+      </ol>
+      <p><strong>Result:</strong> The user account is created and becomes available for login according to the assigned roles and permissions.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-3">8.3 Creating a New Role</h3>
+      <p><strong>Navigation:</strong> Administration → Roles</p>
+      <ol class="step-list">
+        <li>Open the Roles module.</li>
+        <li>Click Add Role.</li>
+        <li>Enter Role Code, Role Name, and Description.</li>
+        <li>Save the role.</li>
+        <li>Assign required permissions through the Role Permission Matrix.</li>
+      </ol>
+      <p><strong>Result:</strong> The role becomes available for assignment to users and groups.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-4">8.4 Creating a New Permission</h3>
+      <p><strong>Navigation:</strong> Administration → Permissions</p>
+      <ol class="step-list">
+        <li>Open Permissions.</li>
+        <li>Click Add Permission.</li>
+        <li>Enter Permission Code, Permission Name, and Description.</li>
+        <li>Save the record.</li>
+      </ol>
+      <p><strong>Result:</strong> The permission becomes available for role assignment.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-5">8.5 Creating a New Group</h3>
+      <p><strong>Navigation:</strong> Administration → Groups</p>
+      <ol class="step-list">
+        <li>Open Groups.</li>
+        <li>Click Add Group.</li>
+        <li>Enter Group Code, Group Name, and Description.</li>
+        <li>Assign appropriate roles.</li>
+        <li>Save the group.</li>
+      </ol>
+      <p><strong>Result:</strong> The group becomes available for member assignment.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-6">8.6 Adding Users to a Group</h3>
+      <p><strong>Navigation:</strong> Administration → Group Members</p>
+      <ol class="step-list">
+        <li>Select the required group.</li>
+        <li>Select the users to be assigned.</li>
+        <li>Add the users to the group.</li>
+        <li>Save changes.</li>
+      </ol>
+      <p><strong>Result:</strong> Selected users inherit the permissions and roles associated with the group.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-7">8.7 Creating a New Estimation</h3>
+      <p><strong>Navigation:</strong> Dashboard → Create New Estimation</p>
+      <p>The Estimation module is used to prepare project-specific commercial and technical estimations. The workflow integrates project information, material information, weight calculations, currency conversion, and costing information into a single estimation record.</p>
+
+      <h4>Step 1 – Create Estimation</h4>
+      <p>Click <strong>Create New Estimation</strong> from the Dashboard. A dialog window is displayed.</p>
+      <table>
+        <thead><tr><th>Field</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>JEP Number</td><td>Project Reference Number</td></tr>
+          <tr><td>Revision Code</td><td>Revision Identifier</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Step 2 – Enter Project Reference</h4>
+      <p>Enter JEP Number and Revision Code, then click Continue.</p>
+
+      <h4>Step 3 – Automatic Project Data Retrieval</h4>
+      <p>Upon submission, the system communicates with the integrated L&amp;T project information source and automatically retrieves: Identification Information, Customer Information, Project Information, and Equipment Information.</p>
+
+      <h4>Step 4 – Review Project Information</h4>
+      <p>Administrators should verify: Customer information, Project information, Equipment details, and Revision information. Any discrepancies should be resolved before proceeding.</p>
+
+      <h4>Step 5 – Material Information Review</h4>
+      <p>The system automatically loads material-related information. The Material Costing section displays: Material Category, Material Description, Quantity, Weight, Unit Price, Currency, Country of Origin, and Landed Cost.</p>
+
+      <h4>Step 6 – Material Cost Review</h4>
+      <p>For each material, the system calculates: Weight, Unit Cost, Currency Conversion, Landed Rate, and Total Cost using configured master data and formula definitions.</p>
+
+      <div class="img-placeholder"><span>🖼</span>Screenshot: New Estimation Creation Screen<br><em>[ Add screenshot here ]</em></div>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-8">8.8 Managing Currency Exchange Rates</h3>
+      <p><strong>Navigation:</strong> Masters → Exchange Rates</p>
+      <ol class="step-list">
+        <li>Locate the required currency.</li>
+        <li>Click Edit.</li>
+        <li>Update the exchange rate.</li>
+        <li>Save the changes.</li>
+      </ol>
+      <p><strong>Result:</strong> Updated rates become available for subsequent costing calculations.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-9">8.9 Managing Customs Duty Configuration</h3>
+      <p><strong>Navigation:</strong> Estimation → Customs Duty Configuration</p>
+      <ol class="step-list">
+        <li>Open Customs Duty Configuration.</li>
+        <li>Review configured duty percentages.</li>
+        <li>Activate or deactivate duty entries as required.</li>
+        <li>Save changes.</li>
+      </ol>
+      <p><strong>Result:</strong> The updated duty configuration is applied during future landed cost calculations.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-10">8.10 Managing Currency Conversion Configuration</h3>
+      <p><strong>Navigation:</strong> Estimation → Currency Exchange Configuration</p>
+      <ol class="step-list">
+        <li>Review configured currencies.</li>
+        <li>Verify active currencies.</li>
+        <li>Update conversion values if required.</li>
+        <li>Save changes.</li>
+      </ol>
+      <p><strong>Result:</strong> Updated conversion rates are applied during estimation costing calculations.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-11">8.11 Material Cost Review Workflow</h3>
+      <ol class="step-list">
+        <li>Open the estimation.</li>
+        <li>Navigate to Material Costing.</li>
+        <li>Locate the required material.</li>
+        <li>Expand the material row.</li>
+      </ol>
+      <p>The expanded view displays: Material Specifications, Dimensions, Density, Quantity, Formula Information, Raw Weight, Finished Weight, Currency Information, Unit Rate, and Landed Rate.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-12">8.12 Weight Calculation Workflow</h3>
+      <p><strong>Navigation:</strong> Weight Calculator</p>
+      <p>Supported categories: Tube, Plate, Shell Plate (Rolled), Shell Plate (Annular), Pipe, Forging, Rod, Studs, Tubesheet, and Shell Flange.</p>
+      <ol class="step-list">
+        <li>Select Material Category.</li>
+        <li>Enter required dimensional parameters.</li>
+        <li>Enter quantity information.</li>
+        <li>Review calculated results.</li>
+        <li>Save if required.</li>
+      </ol>
+      <p>The system calculates Raw Weight and Finished Weight based on the selected formula and input parameters.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s8-13">8.13 Administrative Workflow Best Practices</h3>
+      <ul>
+        <li>Verify project information before estimation creation.</li>
+        <li>Review exchange rates periodically.</li>
+        <li>Maintain accurate material rates.</li>
+        <li>Validate master data before use.</li>
+        <li>Review role assignments regularly.</li>
+        <li>Restrict unnecessary permissions.</li>
+        <li>Verify costing configurations after major updates.</li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 9 – TROUBLESHOOTING
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch9">
+      <h2 class="section-title">9. Troubleshooting</h2>
+
+      <h3 id="s9-1">9.1 Overview</h3>
+      <p>This section provides guidance for diagnosing and resolving common issues encountered while administering the DTEAP application. Most issues can be resolved through verification of: User configuration, Role assignments, Permissions, Group memberships, Master data, Exchange rates, and System configuration. Administrators should review the troubleshooting steps provided in this section before escalating issues to technical support.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-2">9.2 User Login Issues</h3>
+      <h4>Issue: User Cannot Login</h4>
+      <p><strong>Symptoms:</strong> Login screen displays an authentication error, user remains on the login page, or access is denied after entering credentials.</p>
+      <p><strong>Possible Causes:</strong> Incorrect username, Incorrect password, User account is inactive, Role assignment missing, or User record is not configured correctly.</p>
+      <p><strong>Resolution:</strong></p>
+      <ol class="step-list">
+        <li>Open Administration → Users.</li>
+        <li>Search for the user.</li>
+        <li>Verify: Username, Email Address, Active Status, and Assigned Roles.</li>
+        <li>Confirm the user is using the correct credentials.</li>
+        <li>Reset the password if necessary.</li>
+      </ol>
+
+      <h4>Issue: User Account Locked</h4>
+      <p><strong>Symptoms:</strong> User receives account locked message or login attempts are rejected.</p>
+      <p><strong>Resolution:</strong> Open the user record, review account status, unlock or reactivate the account if permitted, and save changes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-3">9.3 User Access Issues</h3>
+      <h4>Issue: User Cannot See a Module</h4>
+      <p><strong>Symptoms:</strong> A user successfully logs in but cannot see a specific menu or module (e.g., Estimation module missing, Masters module missing, Administration module missing).</p>
+      <p><strong>Possible Causes:</strong> Module not assigned to the user's role, Required permission missing, User assigned incorrect role, or Group configuration issue.</p>
+      <p><strong>Resolution:</strong> Verify assigned role, verify role permissions, verify module permissions, confirm group membership, then log out and log back in.</p>
+
+      <h4>Issue: User Can View But Cannot Edit</h4>
+      <p><strong>Symptoms:</strong> User can open records but cannot create or modify them.</p>
+      <p><strong>Possible Causes:</strong> View permission assigned but Create/Edit permission missing.</p>
+      <p><strong>Resolution:</strong> Open Role Permission Matrix, verify Create permission and Edit permission, save changes, then re-test user access.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-4">9.4 Role and Permission Issues</h3>
+      <h4>Issue: Permission Changes Not Taking Effect</h4>
+      <p><strong>Resolution:</strong> Verify role assignment, verify permission assignment, verify group membership, ask user to log out, then log in again.</p>
+
+      <h4>Issue: Incorrect Access Granted</h4>
+      <p><strong>Resolution:</strong> Review assigned roles, review group memberships, review inherited permissions, remove unnecessary access, save changes, and re-test access.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-5">9.5 Group Management Issues</h3>
+      <h4>Issue: User Not Receiving Group Access</h4>
+      <p><strong>Possible Causes:</strong> Group role not configured, User not saved as group member, or Role permissions incomplete.</p>
+      <p><strong>Resolution:</strong> Open Groups, verify assigned roles, open Group Members, confirm user assignment, save changes, then ask user to log in again.</p>
+
+      <h4>Issue: User Removed from Group but Still Has Access</h4>
+      <p><strong>Possible Causes:</strong> Direct role assignment still exists or additional group memberships exist.</p>
+      <p><strong>Resolution:</strong> Review user roles, review all group memberships, remove redundant access, and save changes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-6">9.6 Master Data Issues</h3>
+      <h4>Issue: Record Not Appearing in Dropdown List</h4>
+      <p><strong>Possible Causes:</strong> Record inactive, Record configuration incomplete, or Master data not saved.</p>
+      <p><strong>Resolution:</strong> Open the relevant master, verify Active Status, verify record details, save changes, and refresh the page.</p>
+
+      <h4>Issue: Duplicate Master Records</h4>
+      <p><strong>Resolution:</strong> Review master data, identify duplicate records, deactivate obsolete entries, and retain only approved records.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-7">9.7 Exchange Rate Issues</h3>
+      <h4>Issue: Currency Conversion Not Updating</h4>
+      <p><strong>Possible Causes:</strong> Exchange rate not updated, Currency inactive, or Incorrect exchange value configured.</p>
+      <p><strong>Resolution:</strong> Open Masters → Exchange Rates, verify the exchange rate and currency status, update the rate if required, and save changes.</p>
+
+      <h4>Issue: Currency Missing from Currency Selection</h4>
+      <p><strong>Resolution:</strong> Open Currency Master, verify active status, reactivate if necessary, and save changes.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-8">9.8 Estimation Issues</h3>
+      <h4>Issue: Project Information Not Populating</h4>
+      <p><strong>Possible Causes:</strong> Invalid JEP Number, Invalid Revision Code, Project not available in source system, or API integration issue.</p>
+      <p><strong>Resolution:</strong> Verify JEP Number and Revision Code, confirm project availability, retry estimation creation, and contact technical support if the issue persists.</p>
+
+      <h4>Issue: Customer Information Missing</h4>
+      <p><strong>Resolution:</strong> Verify project information, re-open the estimation, retry data retrieval, and escalate if necessary.</p>
+
+      <h4>Issue: Material Information Not Loaded</h4>
+      <p><strong>Resolution:</strong> Verify project configuration and material records, retry estimation retrieval, and escalate if required.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-9">9.9 Material Costing Issues</h3>
+      <h4>Issue: Incorrect Material Cost</h4>
+      <p><strong>Possible Causes:</strong> Incorrect material rate, Incorrect currency conversion, or Incorrect duty configuration.</p>
+      <p><strong>Resolution:</strong> Verify Material Rate Master, Currency Configuration, and Duty Configuration, then recalculate the estimation.</p>
+
+      <h4>Issue: Landed Cost Not Updating</h4>
+      <p><strong>Resolution:</strong> Verify exchange rate configuration, customs duty configuration, and currency assignment, then refresh calculations.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-10">9.10 Weight Calculator Issues</h3>
+      <h4>Issue: Weight Not Calculated</h4>
+      <p><strong>Possible Causes:</strong> Missing dimensions, Invalid quantity, or Missing mandatory inputs.</p>
+      <p><strong>Resolution:</strong> Verify all dimensions, quantity, and selected material category, then recalculate.</p>
+
+      <h4>Issue: Unexpected Weight Value</h4>
+      <p><strong>Possible Causes:</strong> Incorrect dimensions, Incorrect material selection, or Incorrect formula configuration.</p>
+      <p><strong>Resolution:</strong> Review input values, verify formula master configuration, verify units of measurement, and recalculate.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-11">9.11 Export Issues</h3>
+      <h4>Issue: Export File Not Generated</h4>
+      <p><strong>Possible Causes:</strong> Browser restrictions, Pop-up blocker, or Network interruption.</p>
+      <p><strong>Resolution:</strong> Verify browser settings, allow downloads, retry export, and refresh the application.</p>
+
+      <h4>Issue: Missing Records in Export</h4>
+      <p><strong>Possible Causes:</strong> Search filters applied or export executed on filtered data.</p>
+      <p><strong>Resolution:</strong> Clear filters, refresh records, and export again.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-12">9.12 Performance Issues</h3>
+      <h4>Issue: Slow Page Loading</h4>
+      <p><strong>Possible Causes:</strong> Network latency, Large dataset, or Browser cache issues.</p>
+      <p><strong>Resolution:</strong> Refresh the page, clear browser cache, reduce active filters, and retry the operation.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s9-13">9.13 When to Escalate</h3>
+      <p>Administrators should escalate issues when:</p>
+      <ul>
+        <li>API integrations fail repeatedly.</li>
+        <li>Project information cannot be retrieved.</li>
+        <li>Data corruption is suspected.</li>
+        <li>System errors are displayed.</li>
+        <li>Export functionality consistently fails.</li>
+        <li>Estimation calculations produce inconsistent results.</li>
+        <li>User access issues cannot be resolved through configuration review.</li>
+      </ul>
+      <p>When escalating, provide: Screenshots, Error messages, User details, Steps performed, and Relevant estimation references (if applicable).</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 10 – APPENDIX
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch10">
+      <h2 class="section-title">10. Appendix</h2>
+
+      <h3 id="s10-1">10.1 Purpose</h3>
+      <p>This appendix provides supplementary information to assist administrators in understanding the DTEAP application. It includes common icons, frequently used actions, terminology, acronyms, and reference information used throughout the system. This section should be used as a quick-reference guide when performing administrative activities.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-2">10.2 Common Icons and Actions</h3>
+      <table>
+        <thead><tr><th>Icon / Action</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Add</td><td>Create a new record</td></tr>
+          <tr><td>Edit</td><td>Modify an existing record</td></tr>
+          <tr><td>View</td><td>Display record details</td></tr>
+          <tr><td>Save</td><td>Save current changes</td></tr>
+          <tr><td>Cancel</td><td>Discard changes</td></tr>
+          <tr><td>Delete</td><td>Remove a record (where permitted)</td></tr>
+          <tr><td>Search</td><td>Locate records</td></tr>
+          <tr><td>Filter</td><td>Narrow search results</td></tr>
+          <tr><td>Export</td><td>Download records</td></tr>
+          <tr><td>Refresh</td><td>Reload data</td></tr>
+          <tr><td>Active</td><td>Record is available for use</td></tr>
+          <tr><td>Inactive</td><td>Record is unavailable for use</td></tr>
+          <tr><td>Expand</td><td>Display detailed information</td></tr>
+          <tr><td>Collapse</td><td>Hide detailed information</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-3">10.3 Common Buttons and Controls</h3>
+      <h4>Add Button</h4>
+      <p>Used to create new records. Available in: Users, Roles, Permissions, Modules, Groups, and Master Data.</p>
+      <h4>Edit Button</h4>
+      <p>Used to modify existing records. Administrators should verify changes before saving.</p>
+      <h4>Save Button</h4>
+      <p>Commits changes to the database. Changes become immediately available throughout the application after successful save.</p>
+      <h4>Cancel Button</h4>
+      <p>Discards unsaved changes. Administrators should use caution when cancelling changes to avoid losing entered information.</p>
+      <h4>Export Button</h4>
+      <p>Exports records in supported formats such as CSV and Excel.</p>
+      <h4>Search Control</h4>
+      <p>Used to locate records based on: Name, Code, Description, and Keywords.</p>
+      <h4>Filter Control</h4>
+      <p>Used to restrict displayed records based on selected criteria. Examples: Active Status, Category, Date Range.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-4">10.4 Common Status Definitions</h3>
+      <h4>Active</h4>
+      <p>The record is available for operational use. Examples: User can log in, Currency can be selected, Material can be used in estimations.</p>
+      <h4>Inactive</h4>
+      <p>The record remains stored but is unavailable for operational selection. Inactive records are generally retained for historical purposes.</p>
+      <h4>Draft</h4>
+      <p>The record has been created but has not been finalized. Applicable to estimation-related workflows.</p>
+      <h4>Approved</h4>
+      <p>The record has been reviewed and accepted according to business requirements.</p>
+      <h4>Rejected</h4>
+      <p>The record has been reviewed and not approved.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-5">10.5 Glossary of Terms</h3>
+      <table>
+        <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>Administrator</td><td>User responsible for managing system configuration and access</td></tr>
+          <tr><td>User</td><td>Individual authorized to access the application</td></tr>
+          <tr><td>Role</td><td>Collection of permissions assigned to users</td></tr>
+          <tr><td>Permission</td><td>Specific action that can be performed within the application</td></tr>
+          <tr><td>Module</td><td>Functional area of the application</td></tr>
+          <tr><td>Group</td><td>Collection of users managed together</td></tr>
+          <tr><td>Master Data</td><td>Reference data used throughout the application</td></tr>
+          <tr><td>Currency</td><td>Monetary unit used in calculations</td></tr>
+          <tr><td>Exchange Rate</td><td>Conversion value between currencies</td></tr>
+          <tr><td>Material Rate</td><td>Cost associated with a material</td></tr>
+          <tr><td>Weight Calculator</td><td>Utility used for engineering weight calculations</td></tr>
+          <tr><td>Estimation</td><td>Commercial and technical cost assessment</td></tr>
+          <tr><td>JEP Number</td><td>Project reference identifier used to retrieve project information</td></tr>
+          <tr><td>Revision Code</td><td>Identifier representing project revision information</td></tr>
+          <tr><td>Landed Cost</td><td>Final cost after applying currency conversion and applicable charges</td></tr>
+          <tr><td>Formula Master</td><td>Repository of formulas used by calculation modules</td></tr>
+          <tr><td>UOM</td><td>Unit of Measure</td></tr>
+          <tr><td>Active Record</td><td>Record available for selection and use</td></tr>
+          <tr><td>Inactive Record</td><td>Record retained but unavailable for selection</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-6">10.6 Acronyms</h3>
+      <table>
+        <thead><tr><th>Acronym</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>DTEAP</td><td>Digital Techno Economic Assessment Platform</td></tr>
+          <tr><td>JEP</td><td>Job Execution Plan / Project Reference Number</td></tr>
+          <tr><td>UOM</td><td>Unit of Measure</td></tr>
+          <tr><td>CSV</td><td>Comma-Separated Values</td></tr>
+          <tr><td>API</td><td>Application Programming Interface</td></tr>
+          <tr><td>RBAC</td><td>Role-Based Access Control</td></tr>
+          <tr><td>INR</td><td>Indian Rupee</td></tr>
+          <tr><td>USD</td><td>United States Dollar</td></tr>
+          <tr><td>EUR</td><td>Euro</td></tr>
+          <tr><td>GBP</td><td>British Pound</td></tr>
+          <tr><td>MOQ</td><td>Minimum Order Quantity</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-7">10.7 Reference Data Relationships</h3>
+      <p>The following diagram illustrates how administrative components interact within the application.</p>
+      <pre>Permissions
+      ↓
+Modules
+      ↓
+Roles
+      ↓
+Groups (Optional)
+      ↓
+Users</pre>
+      <p>This hierarchy forms the basis of the application's access control model.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-8">10.8 Estimation Data Flow Reference</h3>
+      <p>The following sequence summarizes the estimation creation process.</p>
+      <pre>Create New Estimation
+            ↓
+Enter JEP Number
+            ↓
+Enter Revision Code
+            ↓
+Retrieve Project Information
+            ↓
+Load Customer Information
+            ↓
+Load Equipment Information
+            ↓
+Load Material Information
+            ↓
+Apply Weight Calculations
+            ↓
+Apply Currency Conversion
+            ↓
+Apply Duty Configuration
+            ↓
+Generate Material Costing
+            ↓
+Complete Estimation</pre>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-9">10.9 Weight Calculator Categories</h3>
+      <table>
+        <thead><tr><th>Category</th></tr></thead>
+        <tbody>
+          <tr><td>Tube</td></tr>
+          <tr><td>Plate</td></tr>
+          <tr><td>Shell Plate (Rolled)</td></tr>
+          <tr><td>Shell Plate (Annular)</td></tr>
+          <tr><td>Pipe</td></tr>
+          <tr><td>Forging</td></tr>
+          <tr><td>Rod</td></tr>
+          <tr><td>Studs</td></tr>
+          <tr><td>Tubesheet</td></tr>
+          <tr><td>Shell Flange</td></tr>
+        </tbody>
+      </table>
+      <p>Each category uses predefined engineering formulas configured within the application.</p>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-10">10.10 Administrative Best Practices Checklist</h3>
+
+      <h4>User Administration</h4>
+      <ul class="checklist">
+        <li>Review inactive users</li>
+        <li>Verify role assignments</li>
+        <li>Remove unnecessary access</li>
+        <li>Validate group memberships</li>
+      </ul>
+
+      <h4>Master Data</h4>
+      <ul class="checklist">
+        <li>Review currency master</li>
+        <li>Review exchange rates</li>
+        <li>Verify material rates</li>
+        <li>Review formula configurations</li>
+        <li>Deactivate obsolete records</li>
+      </ul>
+
+      <h4>Estimation Administration</h4>
+      <ul class="checklist">
+        <li>Verify estimation master data</li>
+        <li>Review currency conversion settings</li>
+        <li>Review customs duty configurations</li>
+        <li>Verify material costing data</li>
+        <li>Validate weight calculation formulas</li>
+      </ul>
+
+      <h4>Security</h4>
+      <ul class="checklist">
+        <li>Review permission assignments</li>
+        <li>Review role configurations</li>
+        <li>Verify access control policies</li>
+        <li>Review administrator accounts</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3 id="s10-11">10.11 Reference Documents</h3>
+      <p>The following documents may be referenced in conjunction with this manual.</p>
+      <ul>
+        <li>DTEAP Functional Specification Document</li>
+        <li>DTEAP Technical Design Document</li>
+        <li>DTEAP Security Guidelines</li>
+        <li>Master Data Governance Policy</li>
+        <li>User Access Management Policy</li>
+        <li>Estimation Process Documentation</li>
+        <li>Weight Calculation Reference Guide</li>
+      </ul>
+      <p>Administrators should consult the latest approved versions of these documents when performing system administration activities.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         CHAPTER 11 – VERSION HISTORY
+    ═══════════════════════════════════════════════════════ -->
+    <div class="section" id="ch11">
+      <h2 class="section-title">11. Version History</h2>
+
+      <h3 id="s11-1">11.1 Document Revision History</h3>
+      <p>This section maintains a record of all revisions made to the DTEAP Administrator User Manual.</p>
+      <table>
+        <thead><tr><th>Version</th><th>Date</th><th>Author</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>1.0</td><td>June 2026</td><td>DTEAP Team</td><td>Initial Release of Administrator User Manual</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3 id="s11-2">11.2 Change Log</h3>
+      <p>The Change Log provides a summary of updates made to the document over time.</p>
+      <table>
+        <thead><tr><th>Version</th><th>Change Summary</th></tr></thead>
+        <tbody>
+          <tr><td>1.0</td><td>Initial creation of the Administrator User Manual covering Dashboard, Estimation Management, Weight Calculator, Master Data Management, User Administration, Security, Reporting, Troubleshooting, and Appendix sections.</td></tr>
+        </tbody>
+      </table>
+
+      <hr class="section-divider">
+
+      <h3>Document Maintenance</h3>
+      <p>This manual should be reviewed periodically to ensure that it remains aligned with the latest DTEAP application features, workflows, and administrative procedures.</p>
+      <p>Updates should be made whenever:</p>
+      <ul>
+        <li>New modules are introduced.</li>
+        <li>Existing functionality is modified.</li>
+        <li>Security policies are updated.</li>
+        <li>Administrative workflows change.</li>
+        <li>Master data structures are enhanced.</li>
+      </ul>
+
+      <hr class="section-divider">
+
+      <h3>Approval</h3>
+      <p>This document is considered the official Administrator User Manual for the DTEAP application and should be used as the primary reference guide for system administration activities.</p>
+      <table>
+        <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Document Status</td><td><span class="badge">Approved</span></td></tr>
+          <tr><td>Current Version</td><td>1.0</td></tr>
+          <tr><td>Last Updated</td><td>June 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /#content -->
+
+  <!-- Footer -->
+  <div id="page-footer">
+    <span>DTEAP Administrator User Manual &nbsp;|&nbsp; Larsen &amp; Toubro Limited</span>
+    <span>Version 1.0 &nbsp;|&nbsp; June 2026 &nbsp;|&nbsp; Confidential</span>
+  </div>
+
+</div><!-- /#main -->
+
+<!-- Back to Top -->
+<button id="back-to-top" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  // Show/hide back-to-top button
+  window.addEventListener('scroll', function () {
+    var btn = document.getElementById('back-to-top');
+    if (window.scrollY > 400) {
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  });
+
+  // Highlight active TOC link on scroll
+  var tocLinks = document.querySelectorAll('#toc-nav a[href^="#"]');
+  var sections = [];
+  tocLinks.forEach(function(link) {
+    var id = link.getAttribute('href').substring(1);
+    var el = document.getElementById(id);
+    if (el) sections.push({ id: id, el: el, link: link });
+  });
+
+  function onScroll() {
+    var scrollY = window.scrollY + 80;
+    var current = null;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i].el.getBoundingClientRect().top + window.scrollY <= scrollY) {
+        current = sections[i];
+      }
+    }
+    tocLinks.forEach(function(l) { l.style.color = ''; l.style.borderLeftColor = 'transparent'; l.style.background = ''; });
+    if (current) {
+      current.link.style.color = '#003087';
+      current.link.style.borderLeftColor = '#003087';
+      current.link.style.background = '#eef2fa';
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+</body>
+</html>
