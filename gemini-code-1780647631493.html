@@ -4820,8 +4820,8 @@ Complete Estimation</pre>
     function performManualSearch() {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(function () {
-        var input = document.getElementById('manualSearchInput').value.toLowerCase();
-        var contentArea = document.getElementById('content');
+        var rawInput = document.getElementById('manualSearchInput').value;
+        var contentArea = document.getElementById('main');
         var counter = document.getElementById('searchCounter');
 
         // Clear previous marks
@@ -4836,26 +4836,46 @@ Complete Estimation</pre>
         currentSearchIndex = -1;
         counter.textContent = '';
 
-        if (!input.trim() || input.trim().length < 2) return;
+        if (!rawInput.trim() || rawInput.trim().length < 2) return;
 
         // Direct text-node search walkthrough strategy 
         var walk = document.createTreeWalker(contentArea, NodeFilter.SHOW_TEXT, null, false);
         var textNodes = [];
         while (walk.nextNode()) textNodes.push(walk.currentNode);
 
+        // Robust regex pattern: case-insensitive (gi) and handles newlines/whitespace
+        var searchPattern = escapeRegExp(rawInput.trim()).replace(/\s+/g, '\\s+');
+        var regex = new RegExp(searchPattern, "gi");
+
         textNodes.forEach(function (node) {
           var text = node.nodeValue;
-          var idx = text.toLowerCase().indexOf(input);
-          if (idx >= 0) {
-            var parent = node.parentNode;
-            if (parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE' || parent.tagName === 'MARK') return;
+          var parent = node.parentNode;
+          if (!parent || parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE' || parent.tagName === 'MARK') return;
 
-            var regex = new RegExp("(" + escapeRegExp(input) + ")", "gi");
-            var newHtml = text.replace(regex, '<mark class="manual-search-highlight">$1</mark>');
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = newHtml;
+          regex.lastIndex = 0;
+          if (regex.test(text)) {
+            regex.lastIndex = 0;
+            var fragment = document.createDocumentFragment();
+            var lastIndex = 0;
+            var match;
 
-            while (tempDiv.firstChild) { parent.insertBefore(tempDiv.firstChild, node); }
+            while ((match = regex.exec(text)) !== null) {
+              if (match.index > lastIndex) {
+                fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+              }
+              var mark = document.createElement('mark');
+              mark.className = 'manual-search-highlight';
+              mark.textContent = match[0];
+              fragment.appendChild(mark);
+              lastIndex = regex.lastIndex;
+
+              if (match[0].length === 0) regex.lastIndex++; // safety
+            }
+            if (lastIndex < text.length) {
+              fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+            }
+
+            parent.insertBefore(fragment, node);
             parent.removeChild(node);
           }
         });
