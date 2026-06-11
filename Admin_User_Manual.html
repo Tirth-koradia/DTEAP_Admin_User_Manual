@@ -424,6 +424,69 @@
 
     #back-to-top.visible { display: flex; }
 
+    /* Custom styles for search feature integration */
+    .sidebar-controls {
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #f8f9fb;
+    }
+
+    .manual-search-box {
+      width: 100%;
+      padding: 6px 65px 6px 10px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .search-container {
+      position: relative;
+    }
+
+    .search-actions {
+      position: absolute;
+      right: 4px;
+      top: 14px;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      font-family: var(--font-ui);
+      font-size: 10px;
+      color: #777;
+    }
+
+    .search-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 4px;
+      color: #555;
+      border-radius: 3px;
+    }
+
+    .search-actions button:hover {
+      background: #eef2fa;
+      color: var(--brand-blue);
+    }
+
+    mark.manual-search-highlight.active {
+      background: #ff9800;
+      color: #000;
+      padding: 0 2px;
+      border-radius: 2px;
+      font-weight: bold;
+    }
+
+    mark.manual-search-highlight {
+      background: #fff3cd;
+      color: #000;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+
     /* Responsive */
     @media (max-width: 820px) {
       #sidebar { display: none; }
@@ -441,8 +504,20 @@
 ══════════════════════════════════════════════════════════════ -->
 <nav id="sidebar" aria-label="Table of Contents">
   <div class="sidebar-header">
-    <div class="manual-title">DTEAP Website<br>User Manual</div>
+    <div class="manual-title">DTEAP Administrator<br>User Manual</div>
     <div class="company-name">Larsen &amp; Toubro Limited</div>
+  </div>
+
+  <div class="sidebar-controls">
+    <div class="search-container">
+      <input type="text" class="manual-search-box" id="manualSearchInput" placeholder="Search manual content..."
+        oninput="performManualSearch()" onkeydown="handleSearchKeydown(event)">
+      <div class="search-actions">
+        <span id="searchCounter"></span>
+        <button onclick="navigateSearch(-1)" title="Previous">&uarr;</button>
+        <button onclick="navigateSearch(1)" title="Next">&darr;</button>
+      </div>
+    </div>
   </div>
 
   <div id="toc-nav">
@@ -608,7 +683,8 @@
 
   <!-- Cover -->
   <div id="cover">
-    <div class="cover-logo-placeholder">[ L&amp;T Logo ]</div>
+    <img src="images/Logo.svg" alt="L&amp;T Logo"
+      style="width: 200px; height: auto; margin-bottom: 24px; display: block; object-fit: contain; object-position: left;">
     <h1>DTEAP Administrator<br>User Manual</h1>
     <div class="cover-sub">Digital Techno Economic Assessment Platform</div>
     <div class="cover-meta">
@@ -2683,6 +2759,115 @@ Complete Estimation</pre>
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Search functionality
+  let searchTimeout;
+  let searchMatches = [];
+  let currentSearchIndex = -1;
+
+  function performManualSearch() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(function () {
+      var rawInput = document.getElementById('manualSearchInput').value;
+      var contentArea = document.getElementById('main');
+      var counter = document.getElementById('searchCounter');
+
+      // Clear previous marks
+      var existingMarks = contentArea.querySelectorAll('mark.manual-search-highlight');
+      existingMarks.forEach(function (mark) {
+        mark.outerHTML = mark.innerHTML;
+      });
+
+      // Fix for text node fragmentation bug
+      contentArea.normalize();
+      searchMatches = [];
+      currentSearchIndex = -1;
+      counter.textContent = '';
+
+      if (!rawInput.trim() || rawInput.trim().length < 2) return;
+
+      // Direct text-node search walkthrough strategy 
+      var walk = document.createTreeWalker(contentArea, NodeFilter.SHOW_TEXT, null, false);
+      var textNodes = [];
+      while (walk.nextNode()) textNodes.push(walk.currentNode);
+
+      // Robust regex pattern: case-insensitive (gi) and handles newlines/whitespace
+      var searchPattern = escapeRegExp(rawInput.trim()).replace(/\s+/g, '\\s+');
+      var regex = new RegExp(searchPattern, "gi");
+
+      textNodes.forEach(function (node) {
+        var text = node.nodeValue;
+        var parent = node.parentNode;
+        if (!parent || parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE' || parent.tagName === 'MARK') return;
+
+        regex.lastIndex = 0;
+        if (regex.test(text)) {
+          regex.lastIndex = 0;
+          var fragment = document.createDocumentFragment();
+          var lastIndex = 0;
+          var match;
+
+          while ((match = regex.exec(text)) !== null) {
+            if (match.index > lastIndex) {
+              fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+            }
+            var mark = document.createElement('mark');
+            mark.className = 'manual-search-highlight';
+            mark.textContent = match[0];
+            fragment.appendChild(mark);
+            lastIndex = regex.lastIndex;
+
+            if (match[0].length === 0) regex.lastIndex++; // safety
+          }
+          if (lastIndex < text.length) {
+            fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+          }
+
+          parent.insertBefore(fragment, node);
+          parent.removeChild(node);
+        }
+      });
+
+      // Collect matches
+      searchMatches = Array.from(contentArea.querySelectorAll('mark.manual-search-highlight'));
+      if (searchMatches.length > 0) {
+        navigateSearch(1); // Jump to first match
+      } else {
+        counter.textContent = '0/0';
+      }
+    }, 300); // 300ms debounce
+  }
+
+  function navigateSearch(direction) {
+    if (searchMatches.length === 0) return;
+
+    if (currentSearchIndex >= 0) {
+      searchMatches[currentSearchIndex].classList.remove('active');
+    }
+
+    currentSearchIndex += direction;
+
+    // Wrap around
+    if (currentSearchIndex >= searchMatches.length) currentSearchIndex = 0;
+    if (currentSearchIndex < 0) currentSearchIndex = searchMatches.length - 1;
+
+    var match = searchMatches[currentSearchIndex];
+    match.classList.add('active');
+    match.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    document.getElementById('searchCounter').textContent = (currentSearchIndex + 1) + '/' + searchMatches.length;
+  }
+
+  function handleSearchKeydown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      navigateSearch(e.shiftKey ? -1 : 1);
+    }
+  }
+
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
 </script>
 
 </body>
