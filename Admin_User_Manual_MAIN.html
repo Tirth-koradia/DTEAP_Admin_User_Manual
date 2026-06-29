@@ -618,47 +618,6 @@
         padding: 28px 20px;
       }
     }
-
-    /* ── Role Selector ────────────────────────────────────────── */
-    .role-selector-container {
-      margin-bottom: 15px;
-      padding: 0 0 5px;
-      border-bottom: 1px dashed var(--border);
-    }
-    .role-selector-label {
-      display: block;
-      font-family: var(--font-ui);
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 5px;
-    }
-    .role-select {
-      width: 100%;
-      padding: 8px 10px;
-      font-family: var(--font-ui);
-      font-size: 13px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background-color: #fff;
-      color: var(--brand-blue);
-      cursor: pointer;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-    .role-select:focus {
-      border-color: var(--brand-blue);
-      box-shadow: 0 0 0 3px rgba(0, 48, 135, 0.15);
-    }
-    .role-select:hover {
-      background-color: #f8f9fb;
-    }
-    .hidden-by-role {
-      display: none !important;
-    }
   </style>
 </head>
 
@@ -668,20 +627,11 @@
 
   <nav id="sidebar" aria-label="Table of Contents">
     <div class="sidebar-header">
-      <div class="manual-title" id="sidebar-manual-title">DTEAP Administrator<br>User Manual</div>
+      <div class="manual-title">DTEAP Administrator<br>User Manual</div>
       <div class="company-name">Larsen &amp; Toubro Limited</div>
     </div>
 
     <div class="sidebar-controls">
-      <div class="role-selector-container">
-        <label for="roleSelect" class="role-selector-label">User Manual Mode</label>
-        <select id="roleSelect" onchange="switchUserRole(this.value)" class="role-select">
-          <option value="admin">Administrator Manual</option>
-          <option value="designer">Designer Manual</option>
-          <option value="estimator">Estimator Manual</option>
-        </select>
-      </div>
-
       <div class="search-container">
         <input type="text" class="manual-search-box" id="manualSearchInput" placeholder="Search manual content..."
           oninput="performManualSearch()" onkeydown="handleSearchKeydown(event)">
@@ -883,7 +833,7 @@
     <div id="cover">
       <img src="images/Logo.svg" alt="L&amp;T Logo"
         style="width: 200px; height: auto; margin-bottom: 24px; display: block; object-fit: contain; object-position: left;">
-      <h1 id="cover-manual-title">DTEAP Administrator<br>User Manual</h1>
+      <h1>DTEAP Administrator<br>User Manual</h1>
       <div class="cover-sub">DTEAP</div>
       <div class="cover-meta">
         <span><strong>Organisation</strong>Larsen &amp; Toubro Limited</span>
@@ -5392,305 +5342,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
   </div><button id="back-to-top" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
   <script>
-    // Cache original titles first thing
-    function cacheOriginalTitles() {
-      document.querySelectorAll('#toc-nav a').forEach(function (link) {
-        if (!link.dataset.originalText) {
-          link.dataset.originalText = link.textContent.trim();
-        }
-      });
-      document.querySelectorAll('#main h2, #main h3, #main h4').forEach(function (heading) {
-        if (!heading.dataset.originalText) {
-          heading.dataset.originalText = heading.textContent.trim();
-        }
-      });
-    }
-    cacheOriginalTitles();
-
-    // Wrap subchapters dynamically
-    function wrapSubsections() {
-      var h3s = document.querySelectorAll('.section h3[id]');
-      h3s.forEach(function (h3) {
-        var id = h3.id;
-        var wrapper = document.createElement('div');
-        wrapper.className = 'sub-section-wrapper';
-        wrapper.id = 'wrapper-' + id;
-        
-        h3.parentNode.insertBefore(wrapper, h3);
-        
-        var next = h3;
-        while (next) {
-          var temp = next.nextSibling;
-          wrapper.appendChild(next);
-          
-          if (!temp || 
-              (temp.nodeType === 1 && temp.tagName === 'H3' && temp.id) ||
-              (temp.nodeType === 1 && temp.tagName === 'HR' && temp.classList.contains('section-divider')) ||
-              (temp.nodeType === 1 && temp.classList.contains('section'))) {
-            break;
-          }
-          next = temp;
-        }
-      });
-    }
-    wrapSubsections();
-
-    // User Roles Exclusions Configuration
-    var ROLE_EXCLUSIONS = {
-      admin: [],
-      designer: [
-        '#ch4', '#toc-nav a[href="#ch4"]',
-        '#ch5', '#toc-nav a[href="#ch5"]',
-        '#ch6', '#toc-nav a[href="#ch6"]',
-        '#ch9', '#toc-nav a[href="#ch9"]',
-        '#wrapper-s1-4', '#toc-nav a[href="#s1-4"]',
-        '#wrapper-s3-2', '#toc-nav a[href="#s3-2"]',
-        '#wrapper-s3-3', '#toc-nav a[href="#s3-3"]',
-        '#wrapper-s3-4', '#toc-nav a[href="#s3-4"]',
-        '#wrapper-s3-5', '#toc-nav a[href="#s3-5"]',
-        '#wrapper-s3-6', '#toc-nav a[href="#s3-6"]',
-        '#wrapper-s3-7', '#toc-nav a[href="#s3-7"]',
-        '#wrapper-s3-8', '#toc-nav a[href="#s3-8"]',
-        '#wrapper-s3-10', '#toc-nav a[href="#s3-10"]',
-        '#wrapper-s7-12', '#toc-nav a[href="#s7-12"]',
-        '#wrapper-s8-4-est', '#toc-nav a[href="#s8-4-est"]',
-        '#wrapper-s8-5-est', '#toc-nav a[href="#s8-5-est"]',
-        '#wrapper-s8-5b-est', '#toc-nav a[href="#s8-5b-est"]',
-        '#wrapper-s8-6-est', '#toc-nav a[href="#s8-6-est"]',
-        '#wrapper-s8-6b-est', '#toc-nav a[href="#s8-6b-est"]',
-        '#wrapper-s8-6c-est', '#toc-nav a[href="#s8-6c-est"]',
-        '#wrapper-s8-7-est', '#toc-nav a[href="#s8-7-est"]',
-        '#wrapper-s8-8-est', '#toc-nav a[href="#s8-8-est"]',
-        '#wrapper-s8-10-est', '#toc-nav a[href="#s8-10-est"]',
-        '#wrapper-s8-11-est', '#toc-nav a[href="#s8-11-est"]',
-        '#wrapper-s8-12-est', '#toc-nav a[href="#s8-12-est"]',
-        '#wrapper-s10-2', '#toc-nav a[href="#s10-2"]',
-        '#wrapper-s10-3', '#toc-nav a[href="#s10-3"]',
-        '#wrapper-s10-4', '#toc-nav a[href="#s10-4"]',
-        '#wrapper-s10-5', '#toc-nav a[href="#s10-5"]',
-        '#wrapper-s10-6', '#toc-nav a[href="#s10-6"]',
-        '#wrapper-s10-7', '#toc-nav a[href="#s10-7"]',
-        '#wrapper-s10-9', '#toc-nav a[href="#s10-9"]',
-        '#quick-access-page .quick-access-card[href="#s8-6-est"]',
-        '#quick-access-page .quick-access-card[href="#s8-7-est"]',
-        '#quick-access-page .quick-access-card[href="#s8-8-est"]',
-        '#toc-nav a[href^="#s4-"]',
-        '#toc-nav a[href^="#s5-"]',
-        '#toc-nav a[href^="#s6-"]',
-        '#toc-nav a[href^="#s9-"]'
-      ],
-      estimator: [
-        '#ch4', '#toc-nav a[href="#ch4"]',
-        '#ch5', '#toc-nav a[href="#ch5"]',
-        '#ch6', '#toc-nav a[href="#ch6"]',
-        '#ch9', '#toc-nav a[href="#ch9"]',
-        '#wrapper-s1-4', '#toc-nav a[href="#s1-4"]',
-        '#wrapper-s3-2', '#toc-nav a[href="#s3-2"]',
-        '#wrapper-s3-3', '#toc-nav a[href="#s3-3"]',
-        '#wrapper-s3-4', '#toc-nav a[href="#s3-4"]',
-        '#wrapper-s3-5', '#toc-nav a[href="#s3-5"]',
-        '#wrapper-s3-6', '#toc-nav a[href="#s3-6"]',
-        '#wrapper-s3-7', '#toc-nav a[href="#s3-7"]',
-        '#wrapper-s3-8', '#toc-nav a[href="#s3-8"]',
-        '#wrapper-s3-10', '#toc-nav a[href="#s3-10"]',
-        '#wrapper-s10-2', '#toc-nav a[href="#s10-2"]',
-        '#wrapper-s10-3', '#toc-nav a[href="#s10-3"]',
-        '#wrapper-s10-4', '#toc-nav a[href="#s10-4"]',
-        '#wrapper-s10-5', '#toc-nav a[href="#s10-5"]',
-        '#wrapper-s10-6', '#toc-nav a[href="#s10-6"]',
-        '#wrapper-s10-7', '#toc-nav a[href="#s10-7"]',
-        '#toc-nav a[href^="#s4-"]',
-        '#toc-nav a[href^="#s5-"]',
-        '#toc-nav a[href^="#s6-"]',
-        '#toc-nav a[href^="#s9-"]'
-      ]
-    };
-
-    function stripNumberPrefix(text) {
-      return text.replace(/^\s*\d+(?:\.\d+)*[a-zA-Z]?(?:\.\d+)*\.?\s*/, '').trim();
-    }
-
-    function setLinkText(link, newText) {
-      var chevron = link.querySelector('.toc-chevron');
-      link.textContent = '';
-      link.appendChild(document.createTextNode(newText));
-      if (chevron) {
-        link.appendChild(chevron);
-      }
-    }
-
-    function isHiddenByRole(el) {
-      return el.classList.contains('hidden-by-role') || el.closest('.hidden-by-role') !== null;
-    }
-
-    function renumberContentAndTOC() {
-      var chapterCounter = 0;
-      
-      // Get all chapter elements
-      var chapters = document.querySelectorAll('#main .section, #main section.quick-access-page, #main #doc-control');
-      chapters.forEach(function (ch) {
-        // Skip hidden chapters
-        if (isHiddenByRole(ch)) return;
-        
-        // Document Control or Quick Access Page doesn't have numbers
-        if (ch.id === 'doc-control' || ch.classList.contains('quick-access-page') || ch.id === 'cover') {
-          return;
-        }
-        
-        var h2 = ch.querySelector('h2.section-title');
-        var originalH2 = h2 ? (h2.dataset.originalText || h2.textContent.trim()) : '';
-        var hasNumberH2 = /^\s*\d+/.test(originalH2);
-        
-        if (hasNumberH2) {
-          chapterCounter++;
-          h2.textContent = chapterCounter + '. ' + stripNumberPrefix(originalH2);
-        }
-        
-        // Now renumber all visible subchapters (h3 elements) inside this chapter
-        var subchapters = ch.querySelectorAll('h3');
-        var subchapterCounter = 0;
-        subchapters.forEach(function (h3) {
-          // If the h3 is hidden, skip it
-          if (isHiddenByRole(h3)) return;
-          
-          var originalH3 = h3.dataset.originalText || h3.textContent.trim();
-          var hasNumberH3 = /^\s*\d+/.test(originalH3);
-          
-          if (hasNumberH3) {
-            subchapterCounter++;
-            var newSubNumber = chapterCounter + '.' + subchapterCounter;
-            h3.textContent = newSubNumber + ' ' + stripNumberPrefix(originalH3);
-            
-            // Renumber visible h4 elements inside this h3's wrapper
-            var wrapper = h3.closest('.sub-section-wrapper');
-            if (wrapper) {
-              var h4s = wrapper.querySelectorAll('h4');
-              var h4Counter = 0;
-              h4s.forEach(function (h4) {
-                if (isHiddenByRole(h4)) return;
-                var originalH4 = h4.dataset.originalText || h4.textContent.trim();
-                var hasNumberH4 = /^\s*\d+/.test(originalH4);
-                if (hasNumberH4) {
-                  h4Counter++;
-                  h4.textContent = newSubNumber + '.' + h4Counter + ' ' + stripNumberPrefix(originalH4);
-                }
-              });
-            }
-          }
-        });
-      });
-      
-      // Now sync TOC link texts with the updated content headings
-      document.querySelectorAll('#toc-nav a').forEach(function (link) {
-        var id = link.getAttribute('href').substring(1);
-        var target = document.getElementById(id);
-        if (target) {
-          var headingText = '';
-          if (target.tagName === 'H2' || target.tagName === 'H3' || target.tagName === 'H4') {
-            headingText = target.textContent.trim();
-          } else {
-            var heading = target.querySelector('h2, h3, h4');
-            headingText = heading ? heading.textContent.trim() : target.textContent.trim();
-          }
-          setLinkText(link, headingText);
-        }
-      });
-    }
-
-    function updateTitles(role) {
-      var roleTitles = {
-        admin: "DTEAP Administrator User Manual",
-        designer: "DTEAP Designer User Manual",
-        estimator: "DTEAP Estimator User Manual"
-      };
-      document.title = roleTitles[role] + " – Larsen & Toubro Limited";
-      
-      var sidebarTitle = document.getElementById('sidebar-manual-title');
-      if (sidebarTitle) {
-        sidebarTitle.innerHTML = role === 'admin' ? 'DTEAP Administrator<br>User Manual' :
-                                 role === 'designer' ? 'DTEAP Designer<br>User Manual' :
-                                 'DTEAP Estimator<br>User Manual';
-      }
-      
-      var coverTitle = document.getElementById('cover-manual-title');
-      if (coverTitle) {
-        coverTitle.innerHTML = role === 'admin' ? 'DTEAP Administrator<br>User Manual' :
-                               role === 'designer' ? 'DTEAP Designer<br>User Manual' :
-                               'DTEAP Estimator<br>User Manual';
-      }
-      
-      var footer = document.getElementById('page-footer');
-      if (footer) {
-        footer.innerHTML = `<span>${roleTitles[role]} &nbsp;|&nbsp; Larsen &amp; Toubro Limited</span>
-                            <span>Version 1.0 &nbsp;|&nbsp; June 2026 &nbsp;|&nbsp; Confidential</span>`;
-      }
-      
-      var ch3 = document.getElementById('ch3');
-      if (ch3) {
-        var ch3Title = ch3.querySelector('h2.section-title');
-        if (ch3Title) {
-          ch3Title.textContent = role === 'admin' ? "3. Administrator Quick Reference Guide" :
-                                 role === 'designer' ? "3. Designer Quick Reference Guide" :
-                                 "3. Estimator Quick Reference Guide";
-        }
-      }
-    }
-
-    function switchUserRole(role) {
-      // Clear search highlights & input first
-      clearSearch();
-
-      // Show everything first
-      var previouslyHidden = document.querySelectorAll('.hidden-by-role');
-      previouslyHidden.forEach(function (el) {
-        el.classList.remove('hidden-by-role');
-      });
-
-      // Apply exclusions for selected role
-      var exclusions = ROLE_EXCLUSIONS[role] || [];
-      exclusions.forEach(function (selector) {
-        var elements = document.querySelectorAll(selector);
-        elements.forEach(function (el) {
-          el.classList.add('hidden-by-role');
-        });
-      });
-
-      // Renumber visible content and sync TOC
-      renumberContentAndTOC();
-
-      // Update manual header/title text
-      updateTitles(role);
-
-      // Save selection in localStorage
-      localStorage.setItem('dteap_user_role', role);
-
-      // Make sure dropdown selector value is updated
-      var select = document.getElementById('roleSelect');
-      if (select) select.value = role;
-
-      // Reset scroll-spy and TOC displays
-      onScroll();
-    }
-
-    function clearSearch() {
-      var searchInput = document.getElementById('manualSearchInput');
-      if (searchInput) searchInput.value = '';
-      
-      var contentArea = document.getElementById('main');
-      var counter = document.getElementById('searchCounter');
-      if (counter) counter.textContent = '';
-      
-      if (contentArea) {
-        var existingMarks = contentArea.querySelectorAll('mark.manual-search-highlight');
-        existingMarks.forEach(function (mark) {
-          mark.outerHTML = mark.innerHTML;
-        });
-        contentArea.normalize();
-      }
-      searchMatches = [];
-      currentSearchIndex = -1;
-    }
-
     // Show/hide back-to-top button
     window.addEventListener('scroll', function () {
       var btn = document.getElementById('back-to-top');
@@ -5747,12 +5398,7 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
     function expandChapter(l1) {
       l1.classList.remove('collapsed');
       if (l1.subItems) {
-        l1.subItems.forEach(function(sub) { 
-          // Do not display if hidden by role exclusions
-          if (!sub.classList.contains('hidden-by-role')) {
-            sub.style.display = 'block'; 
-          }
-        });
+        l1.subItems.forEach(function(sub) { sub.style.display = 'block'; });
       }
     }
 
@@ -5767,7 +5413,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
       var scrollY = window.scrollY + 80;
       var current = null;
       for (var i = 0; i < sections.length; i++) {
-        if (sections[i].el.offsetParent === null) continue;
         if (sections[i].el.getBoundingClientRect().top + window.scrollY <= scrollY) {
           current = sections[i];
         }
@@ -5836,7 +5481,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
           var text = node.nodeValue;
           var parent = node.parentNode;
           if (!parent || parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE' || parent.tagName === 'MARK') return;
-          if (parent.closest('.hidden-by-role')) return;
 
           regex.lastIndex = 0;
           if (regex.test(text)) {
@@ -5906,10 +5550,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
     function escapeRegExp(string) {
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
-
-    // Load persisted role or default to 'admin'
-    var savedRole = localStorage.getItem('dteap_user_role') || 'admin';
-    switchUserRole(savedRole);
   </script>
 
 </body>
