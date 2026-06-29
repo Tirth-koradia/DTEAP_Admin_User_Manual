@@ -618,6 +618,46 @@
         padding: 28px 20px;
       }
     }
+    /* ── Role Selector ────────────────────────────────────────── */
+    .role-selector-container {
+      margin-bottom: 15px;
+      padding: 0 0 5px;
+      border-bottom: 1px dashed var(--border);
+    }
+    .role-selector-label {
+      display: block;
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .role-select {
+      width: 100%;
+      padding: 8px 10px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background-color: #fff;
+      color: var(--brand-blue);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .role-select:focus {
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(0, 48, 135, 0.15);
+    }
+    .role-select:hover {
+      background-color: #f8f9fb;
+    }
+    .hidden-by-role {
+      display: none !important;
+    }
   </style>
 </head>
 
@@ -627,11 +667,20 @@
 
   <nav id="sidebar" aria-label="Table of Contents">
     <div class="sidebar-header">
-      <div class="manual-title">DTEAP Administrator<br>User Manual</div>
+      <div class="manual-title" id="sidebar-manual-title">DTEAP Administrator<br>User Manual</div>
       <div class="company-name">Larsen &amp; Toubro Limited</div>
     </div>
 
     <div class="sidebar-controls">
+      <div class="role-selector-container">
+        <label for="roleSelect" class="role-selector-label">User Manual Mode</label>
+        <select id="roleSelect" onchange="switchUserRole(this.value)" class="role-select">
+          <option value="admin">Administrator Manual</option>
+          <option value="designer">Designer Manual</option>
+          <option value="estimator">Estimator Manual</option>
+        </select>
+      </div>
+
       <div class="search-container">
         <input type="text" class="manual-search-box" id="manualSearchInput" placeholder="Search manual content..."
           oninput="performManualSearch()" onkeydown="handleSearchKeydown(event)">
@@ -833,7 +882,7 @@
     <div id="cover">
       <img src="images/Logo.svg" alt="L&amp;T Logo"
         style="width: 200px; height: auto; margin-bottom: 24px; display: block; object-fit: contain; object-position: left;">
-      <h1>DTEAP Administrator<br>User Manual</h1>
+      <h1 id="cover-manual-title">DTEAP Administrator<br>User Manual</h1>
       <div class="cover-sub">DTEAP</div>
       <div class="cover-meta">
         <span><strong>Organisation</strong>Larsen &amp; Toubro Limited</span>
@@ -5342,6 +5391,495 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
   </div><button id="back-to-top" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
   <script>
+    // Cache original innerHTML of text-bearing elements
+    var textCache = [];
+    var originalTitlesCached = false;
+    
+    function cacheOriginalHTML() {
+      if (originalTitlesCached) return;
+      var elements = document.querySelectorAll('#main p, #main li, #main td, #main th, #main h2, #main h3, #main h4, #toc-nav a');
+      elements.forEach(function (el, index) {
+        el.setAttribute('data-cache-idx', index);
+        // Cache original text/HTML for resetting
+        textCache[index] = el.innerHTML;
+        // Also cache dataset.originalText for dynamic renumbering
+        el.dataset.originalText = el.textContent.trim();
+      });
+      originalTitlesCached = true;
+    }
+
+    // Reset all elements back to their cached original innerHTML
+    function restoreOriginalHTML() {
+      if (!originalTitlesCached) return;
+      
+      // Remove temporary distribution rows
+      document.querySelectorAll('.temp-dist-row').forEach(function (row) {
+        row.parentNode.removeChild(row);
+      });
+      
+      var elements = document.querySelectorAll('[data-cache-idx]');
+      elements.forEach(function (el) {
+        var idx = parseInt(el.getAttribute('data-cache-idx'), 10);
+        if (!isNaN(idx) && textCache[idx] !== undefined) {
+          el.innerHTML = textCache[idx];
+        }
+      });
+    }
+
+    // Wrap subchapters dynamically
+    function wrapSubsections() {
+      var h3s = document.querySelectorAll('.section h3[id]');
+      h3s.forEach(function (h3) {
+        var id = h3.id;
+        var wrapper = document.createElement('div');
+        wrapper.className = 'sub-section-wrapper';
+        wrapper.id = 'wrapper-' + id;
+        
+        h3.parentNode.insertBefore(wrapper, h3);
+        
+        var next = h3;
+        while (next) {
+          var temp = next.nextSibling;
+          wrapper.appendChild(next);
+          
+          if (!temp || 
+              (temp.nodeType === 1 && temp.tagName === 'H3' && temp.id) ||
+              (temp.nodeType === 1 && temp.tagName === 'HR' && temp.classList.contains('section-divider')) ||
+              (temp.nodeType === 1 && temp.classList.contains('section'))) {
+            break;
+          }
+          next = temp;
+        }
+      });
+    }
+
+    // User Roles Exclusions Configuration
+    var ROLE_EXCLUSIONS = {
+      admin: [],
+      designer: [
+        '#ch4', '#toc-nav a[href="#ch4"]',
+        '#ch5', '#toc-nav a[href="#ch5"]',
+        '#ch6', '#toc-nav a[href="#ch6"]',
+        '#ch9', '#toc-nav a[href="#ch9"]',
+        '#wrapper-s1-4', '#toc-nav a[href="#s1-4"]',
+        '#wrapper-s1-6', '#toc-nav a[href="#s1-6"]',
+        '#wrapper-s3-2', '#toc-nav a[href="#s3-2"]',
+        '#wrapper-s3-3', '#toc-nav a[href="#s3-3"]',
+        '#wrapper-s3-4', '#toc-nav a[href="#s3-4"]',
+        '#wrapper-s3-5', '#toc-nav a[href="#s3-5"]',
+        '#wrapper-s3-6', '#toc-nav a[href="#s3-6"]',
+        '#wrapper-s3-7', '#toc-nav a[href="#s3-7"]',
+        '#wrapper-s3-8', '#toc-nav a[href="#s3-8"]',
+        '#wrapper-s3-10', '#toc-nav a[href="#s3-10"]',
+        '#wrapper-s7-12', '#toc-nav a[href="#s7-12"]',
+        '#wrapper-s8-4-est', '#toc-nav a[href="#s8-4-est"]',
+        '#wrapper-s8-5-est', '#toc-nav a[href="#s8-5-est"]',
+        '#wrapper-s8-5b-est', '#toc-nav a[href="#s8-5b-est"]',
+        '#wrapper-s8-6-est', '#toc-nav a[href="#s8-6-est"]',
+        '#wrapper-s8-6b-est', '#toc-nav a[href="#s8-6b-est"]',
+        '#wrapper-s8-6c-est', '#toc-nav a[href="#s8-6c-est"]',
+        '#wrapper-s8-7-est', '#toc-nav a[href="#s8-7-est"]',
+        '#wrapper-s8-8-est', '#toc-nav a[href="#s8-8-est"]',
+        '#wrapper-s8-10-est', '#toc-nav a[href="#s8-10-est"]',
+        '#wrapper-s8-11-est', '#toc-nav a[href="#s8-11-est"]',
+        '#wrapper-s8-12-est', '#toc-nav a[href="#s8-12-est"]',
+        '#wrapper-s10-2', '#toc-nav a[href="#s10-2"]',
+        '#wrapper-s10-3', '#toc-nav a[href="#s10-3"]',
+        '#wrapper-s10-4', '#toc-nav a[href="#s10-4"]',
+        '#wrapper-s10-5', '#toc-nav a[href="#s10-5"]',
+        '#wrapper-s10-6', '#toc-nav a[href="#s10-6"]',
+        '#wrapper-s10-7', '#toc-nav a[href="#s10-7"]',
+        '#wrapper-s10-9', '#toc-nav a[href="#s10-9"]',
+        '#wrapper-s11-7', '#toc-nav a[href="#s11-7"]',
+        '#wrapper-s11-9', '#toc-nav a[href="#s11-9"]',
+        '#quick-access-page .quick-access-card[href="#s8-6-est"]',
+        '#quick-access-page .quick-access-card[href="#s8-7-est"]',
+        '#quick-access-page .quick-access-card[href="#s8-8-est"]',
+        '#toc-nav a[href^="#s4-"]',
+        '#toc-nav a[href^="#s5-"]',
+        '#toc-nav a[href^="#s6-"]',
+        '#toc-nav a[href^="#s9-"]'
+      ],
+      estimator: [
+        '#ch4', '#toc-nav a[href="#ch4"]',
+        '#ch5', '#toc-nav a[href="#ch5"]',
+        '#ch6', '#toc-nav a[href="#ch6"]',
+        '#ch9', '#toc-nav a[href="#ch9"]',
+        '#wrapper-s1-4', '#toc-nav a[href="#s1-4"]',
+        '#wrapper-s1-6', '#toc-nav a[href="#s1-6"]',
+        '#wrapper-s3-2', '#toc-nav a[href="#s3-2"]',
+        '#wrapper-s3-3', '#toc-nav a[href="#s3-3"]',
+        '#wrapper-s3-4', '#toc-nav a[href="#s3-4"]',
+        '#wrapper-s3-5', '#toc-nav a[href="#s3-5"]',
+        '#wrapper-s3-6', '#toc-nav a[href="#s3-6"]',
+        '#wrapper-s3-7', '#toc-nav a[href="#s3-7"]',
+        '#wrapper-s3-8', '#toc-nav a[href="#s3-8"]',
+        '#wrapper-s3-10', '#toc-nav a[href="#s3-10"]',
+        '#wrapper-s10-2', '#toc-nav a[href="#s10-2"]',
+        '#wrapper-s10-3', '#toc-nav a[href="#s10-3"]',
+        '#wrapper-s10-4', '#toc-nav a[href="#s10-4"]',
+        '#wrapper-s10-5', '#toc-nav a[href="#s10-5"]',
+        '#wrapper-s10-6', '#toc-nav a[href="#s10-6"]',
+        '#wrapper-s10-7', '#toc-nav a[href="#s10-7"]',
+        '#wrapper-s11-7', '#toc-nav a[href="#s11-7"]',
+        '#wrapper-s11-9', '#toc-nav a[href="#s11-9"]',
+        '#toc-nav a[href^="#s4-"]',
+        '#toc-nav a[href^="#s5-"]',
+        '#toc-nav a[href^="#s6-"]',
+        '#toc-nav a[href^="#s9-"]'
+      ]
+    };
+
+    function stripNumberPrefix(text) {
+      return text.replace(/^\s*\d+(?:\.\d+)*[a-zA-Z]?(?:\.\d+)*\.?\s*/, '').trim();
+    }
+
+    function setLinkText(link, newText) {
+      var chevron = link.querySelector('.toc-chevron');
+      link.textContent = '';
+      link.appendChild(document.createTextNode(newText));
+      if (chevron) {
+        link.appendChild(chevron);
+      }
+    }
+
+    function isHiddenByRole(el) {
+      return el.classList.contains('hidden-by-role') || el.closest('.hidden-by-role') !== null;
+    }
+
+    function renumberContentAndTOC() {
+      var chapterCounter = 0;
+      
+      // Get all chapter elements
+      var chapters = document.querySelectorAll('#main .section, #main section.quick-access-page, #main #doc-control');
+      chapters.forEach(function (ch) {
+        // Skip hidden chapters
+        if (isHiddenByRole(ch)) return;
+        
+        // Document Control or Quick Access Page doesn't have numbers
+        if (ch.id === 'doc-control' || ch.classList.contains('quick-access-page') || ch.id === 'cover') {
+          return;
+        }
+        
+        var h2 = ch.querySelector('h2.section-title');
+        var originalH2 = h2 ? (h2.dataset.originalText || h2.textContent.trim()) : '';
+        var hasNumberH2 = /^\s*\d+/.test(originalH2);
+        
+        if (hasNumberH2) {
+          chapterCounter++;
+          h2.textContent = chapterCounter + '. ' + stripNumberPrefix(originalH2);
+        }
+        
+        // Now renumber all visible subchapters (h3 elements) inside this chapter
+        var subchapters = ch.querySelectorAll('h3');
+        var subchapterCounter = 0;
+        subchapters.forEach(function (h3) {
+          // If the h3 is hidden, skip it
+          if (isHiddenByRole(h3)) return;
+          
+          var originalH3 = h3.dataset.originalText || h3.textContent.trim();
+          var hasNumberH3 = /^\s*\d+/.test(originalH3);
+          
+          if (hasNumberH3) {
+            subchapterCounter++;
+            var newSubNumber = chapterCounter + '.' + subchapterCounter;
+            h3.textContent = newSubNumber + ' ' + stripNumberPrefix(originalH3);
+            
+            // Renumber visible h4 elements inside this h3's wrapper
+            var wrapper = h3.closest('.sub-section-wrapper');
+            if (wrapper) {
+              var h4s = wrapper.querySelectorAll('h4');
+              var h4Counter = 0;
+              h4s.forEach(function (h4) {
+                if (isHiddenByRole(h4)) return;
+                var originalH4 = h4.dataset.originalText || h4.textContent.trim();
+                var hasNumberH4 = /^\s*\d+/.test(originalH4);
+                if (hasNumberH4) {
+                  h4Counter++;
+                  h4.textContent = newSubNumber + '.' + h4Counter + ' ' + stripNumberPrefix(originalH4);
+                }
+              });
+            }
+          }
+        });
+      });
+      
+      // Now sync TOC link texts with the updated content headings
+      document.querySelectorAll('#toc-nav a').forEach(function (link) {
+        var id = link.getAttribute('href').substring(1);
+        var target = document.getElementById(id);
+        if (target) {
+          var headingText = '';
+          if (target.tagName === 'H2' || target.tagName === 'H3' || target.tagName === 'H4') {
+            headingText = target.textContent.trim();
+          } else {
+            var heading = target.querySelector('h2, h3, h4');
+            headingText = heading ? heading.textContent.trim() : target.textContent.trim();
+          }
+          setLinkText(link, headingText);
+        }
+      });
+    }
+
+    function sanitizeDOMText(role) {
+      var roleShort = role === 'designer' ? 'Designer' : 'Estimator';
+      
+      var elements = document.querySelectorAll('#main p, #main li, #main td, #main th, #main h2, #main h3, #main h4, #toc-nav a');
+      elements.forEach(function (el) {
+        if (el.classList.contains('hidden-by-role') || el.closest('.hidden-by-role') !== null) {
+          return;
+        }
+        
+        var html = el.innerHTML;
+        if (!html) return;
+        
+        // 1. Replace administrator references
+        html = html.replace(/Administrator User Manual/g, roleShort + ' User Manual');
+        html = html.replace(/administrator user manual/g, roleShort.toLowerCase() + ' user manual');
+        html = html.replace(/Administrator/g, roleShort);
+        html = html.replace(/administrator/g, roleShort.toLowerCase());
+        html = html.replace(/Administrators/g, roleShort + 's');
+        html = html.replace(/administrators/g, roleShort.toLowerCase() + 's');
+
+        // 2. Normalize UI and access-related terms to avoid forbidden words
+        html = html.replace(/User Interface/g, 'Application Interface');
+        html = html.replace(/user interface/g, 'application interface');
+        html = html.replace(/Username/g, 'Login ID');
+        html = html.replace(/username/g, 'login ID');
+        html = html.replace(/User Account/g, 'Login Account');
+        html = html.replace(/user account/g, 'login account');
+        html = html.replace(/User Profile/g, 'Profile');
+        html = html.replace(/user profile/g, 'profile');
+
+        // 3. Replace User/Users (not followed by Manual)
+        html = html.replace(/\bUser\b(?!\s+[Mm]anual)/g, roleShort);
+        html = html.replace(/\buser\b(?!\s+[Mm]anual)/g, roleShort.toLowerCase());
+        html = html.replace(/\bUsers\b(?!\s+[Mm]anual)/g, roleShort + 's');
+        html = html.replace(/\busers\b(?!\s+[Mm]anual)/g, roleShort.toLowerCase() + 's');
+        
+        // 4. Replace Roles, Permissions, Groups
+        html = html.replace(/\b[Rr]oles?\b/g, 'access levels');
+        html = html.replace(/\b[Pp]ermissions?\b/g, 'access rights');
+        html = html.replace(/\b[Gg]roups?\b/g, 'departments');
+        
+        // 5. Replace Material Handling with Material Detail for Designer
+        if (role === 'designer') {
+          html = html.replace(/Material Handling/g, 'Material Detail');
+          html = html.replace(/material handling/g, 'material detail');
+          html = html.replace(/Material handling/g, 'Material detail');
+        }
+        
+        if (el.innerHTML !== html) {
+          el.innerHTML = html;
+        }
+      });
+    }
+
+    function switchUserRole(role) {
+      // Clear search highlights & input first
+      clearSearch();
+
+      // 1. Restore all cached original text/HTML
+      restoreOriginalHTML();
+
+      // 2. Remove all role exclusions first
+      var previouslyHidden = document.querySelectorAll('.hidden-by-role');
+      previouslyHidden.forEach(function (el) {
+        el.classList.remove('hidden-by-role');
+      });
+
+      if (role !== 'admin') {
+        var roleShort = role === 'designer' ? 'Designer' : 'Estimator';
+
+        // 3. Apply standard exclusions config
+        var exclusions = ROLE_EXCLUSIONS[role] || [];
+        exclusions.forEach(function (selector) {
+          var elements = document.querySelectorAll(selector);
+          elements.forEach(function (el) {
+            el.classList.add('hidden-by-role');
+          });
+        });
+
+        // 4. Hide specific admin metadata tables & scoping sections
+        // Terminology rows
+        var termTable = document.querySelector('#s1-7 + table');
+        if (termTable) {
+          termTable.querySelectorAll('tr').forEach(function (tr) {
+            var firstCell = tr.querySelector('td');
+            if (firstCell) {
+              var text = firstCell.textContent.trim().toLowerCase();
+              if (['user', 'role', 'permission', 'group', 'access right', 'role permission matrix'].indexOf(text) !== -1) {
+                tr.classList.add('hidden-by-role');
+              }
+            }
+          });
+        }
+
+        // Distribution list rows
+        var distTable = document.querySelector('#distribution-list + table');
+        if (distTable) {
+          var tbody = distTable.querySelector('tbody');
+          if (tbody) {
+            tbody.querySelectorAll('tr').forEach(function (tr) {
+              tr.classList.add('hidden-by-role');
+            });
+            var tempTr = document.createElement('tr');
+            tempTr.className = 'temp-dist-row';
+            tempTr.innerHTML = `<td>${roleShort}s</td><td>${role === 'designer' ? 'Engineering & Design' : 'Estimation & Pricing'}</td><td>Controlled</td>`;
+            tbody.appendChild(tempTr);
+          }
+        }
+
+        // Scope section User Admin & Security Administration
+        var scopeSection = document.getElementById('s1-3');
+        if (scopeSection) {
+          var parentSection = scopeSection.closest('.section');
+          if (parentSection) {
+            parentSection.querySelectorAll('h4').forEach(function (h4) {
+              var text = h4.textContent.trim().toLowerCase();
+              if (text === 'user administration' || text === 'security administration') {
+                h4.classList.add('hidden-by-role');
+                var nextP = h4.nextElementSibling;
+                if (nextP && nextP.tagName === 'P') {
+                  nextP.classList.add('hidden-by-role');
+                }
+              }
+            });
+          }
+        }
+
+        // General Administration subheadings
+        document.querySelectorAll('#main h4').forEach(function (h4) {
+          var text = h4.textContent.trim().toLowerCase();
+          if (text === 'administration') {
+            h4.classList.add('hidden-by-role');
+            var nextP = h4.nextElementSibling;
+            if (nextP && nextP.tagName === 'P') {
+              nextP.classList.add('hidden-by-role');
+            }
+          }
+        });
+
+        // Appendix Checklist User Admin and Master Data
+        var checklistSection = document.getElementById('s11-9');
+        if (checklistSection) {
+          var parentSection = checklistSection.closest('.section');
+          if (parentSection) {
+            parentSection.querySelectorAll('h4').forEach(function (h4) {
+              var text = h4.textContent.trim().toLowerCase();
+              if (text === 'user administration') {
+                h4.classList.add('hidden-by-role');
+                var nextUl = h4.nextElementSibling;
+                if (nextUl && nextUl.tagName === 'UL') {
+                  nextUl.classList.add('hidden-by-role');
+                }
+              } else if (text === 'master data' && role === 'designer') {
+                h4.classList.add('hidden-by-role');
+                var nextUl = h4.nextElementSibling;
+                if (nextUl && nextUl.tagName === 'UL') {
+                  nextUl.classList.add('hidden-by-role');
+                }
+              }
+            });
+          }
+        }
+
+        // Search parameters table rows in Ch 7
+        var searchSection = document.getElementById('ch7');
+        if (searchSection) {
+          searchSection.querySelectorAll('tr').forEach(function (tr) {
+            var td = tr.querySelector('td');
+            if (td) {
+              var text = td.textContent.trim().toLowerCase();
+              if (['users', 'roles', 'permissions', 'groups'].indexOf(text) !== -1) {
+                tr.classList.add('hidden-by-role');
+              }
+            }
+          });
+          searchSection.querySelectorAll('p').forEach(function (p) {
+            var text = p.textContent.trim();
+            if (text.indexOf('Administration: Users, Roles, Permissions') !== -1 || text.indexOf('depends on user permissions') !== -1) {
+              p.classList.add('hidden-by-role');
+            }
+          });
+        }
+
+        // Troubleshooting access items in Ch 10
+        var troubleshootingSection = document.getElementById('ch10');
+        if (troubleshootingSection) {
+          troubleshootingSection.querySelectorAll('li').forEach(function (li) {
+            var text = li.textContent.trim().toLowerCase();
+            if (text.indexOf('user access') !== -1 || text.indexOf('permission') !== -1) {
+              li.classList.add('hidden-by-role');
+            }
+          });
+        }
+
+        // Sanitize visible texts
+        sanitizeDOMText(role);
+      }
+
+      // 5. Renumber visible content and sync TOC
+      renumberContentAndTOC();
+
+      // 6. Update document titles and footer text
+      var roleTitles = {
+        admin: "DTEAP Administrator User Manual",
+        designer: "DTEAP Designer User Manual",
+        estimator: "DTEAP Estimator User Manual"
+      };
+      document.title = roleTitles[role] + " – Larsen & Toubro Limited";
+
+      var sidebarTitle = document.getElementById('sidebar-manual-title');
+      if (sidebarTitle) {
+        sidebarTitle.innerHTML = role === 'admin' ? 'DTEAP Administrator<br>User Manual' :
+                                 role === 'designer' ? 'DTEAP Designer<br>User Manual' :
+                                 'DTEAP Estimator<br>User Manual';
+      }
+
+      var coverTitle = document.getElementById('cover-manual-title');
+      if (coverTitle) {
+        coverTitle.innerHTML = role === 'admin' ? 'DTEAP Administrator<br>User Manual' :
+                               role === 'designer' ? 'DTEAP Designer<br>User Manual' :
+                               'DTEAP Estimator<br>User Manual';
+      }
+
+      var footer = document.getElementById('page-footer');
+      if (footer) {
+        footer.innerHTML = `<span>${roleTitles[role]} &nbsp;|&nbsp; Larsen &amp; Toubro Limited</span>
+                            <span>Version 1.0 &nbsp;|&nbsp; June 2026 &nbsp;|&nbsp; Confidential</span>`;
+      }
+
+      // Save selection in localStorage
+      localStorage.setItem('dteap_user_role', role);
+
+      // Make sure dropdown selector value matches
+      var select = document.getElementById('roleSelect');
+      if (select) select.value = role;
+
+      // Reset scroll-spy and TOC display
+      onScroll();
+    }
+
+    function clearSearch() {
+      var searchInput = document.getElementById('manualSearchInput');
+      if (searchInput) searchInput.value = '';
+      
+      var contentArea = document.getElementById('main');
+      var counter = document.getElementById('searchCounter');
+      if (counter) counter.textContent = '';
+      
+      if (contentArea) {
+        var existingMarks = contentArea.querySelectorAll('mark.manual-search-highlight');
+        existingMarks.forEach(function (mark) {
+          mark.outerHTML = mark.innerHTML;
+        });
+        contentArea.normalize();
+      }
+      searchMatches = [];
+      currentSearchIndex = -1;
+    }
+
     // Show/hide back-to-top button
     window.addEventListener('scroll', function () {
       var btn = document.getElementById('back-to-top');
@@ -5377,8 +5915,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
           if (link.classList.contains('collapsed')) {
             expandChapter(link);
           } else {
-            // Only collapse if they specifically click the chevron, or if we want toggle on whole row
-            // Let's toggle on row click too
             collapseChapter(link);
           }
         });
@@ -5398,7 +5934,12 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
     function expandChapter(l1) {
       l1.classList.remove('collapsed');
       if (l1.subItems) {
-        l1.subItems.forEach(function(sub) { sub.style.display = 'block'; });
+        l1.subItems.forEach(function(sub) { 
+          // Do not display if hidden by role exclusions
+          if (!sub.classList.contains('hidden-by-role')) {
+            sub.style.display = 'block'; 
+          }
+        });
       }
     }
 
@@ -5413,6 +5954,7 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
       var scrollY = window.scrollY + 80;
       var current = null;
       for (var i = 0; i < sections.length; i++) {
+        if (sections[i].el.offsetParent === null) continue;
         if (sections[i].el.getBoundingClientRect().top + window.scrollY <= scrollY) {
           current = sections[i];
         }
@@ -5439,8 +5981,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Run once on load to expand correct chapter
-    onScroll();
 
     // Native Client-side text search highlights engine
     let searchTimeout;
@@ -5460,7 +6000,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
           mark.outerHTML = mark.innerHTML;
         });
 
-        // Fix for text node fragmentation bug
         contentArea.normalize();
         searchMatches = [];
         currentSearchIndex = -1;
@@ -5468,12 +6007,10 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
 
         if (!rawInput.trim() || rawInput.trim().length < 2) return;
 
-        // Direct text-node search walkthrough strategy 
         var walk = document.createTreeWalker(contentArea, NodeFilter.SHOW_TEXT, null, false);
         var textNodes = [];
         while (walk.nextNode()) textNodes.push(walk.currentNode);
 
-        // Robust regex pattern: case-insensitive (gi) and handles newlines/whitespace
         var searchPattern = escapeRegExp(rawInput.trim()).replace(/\s+/g, '\\s+');
         var regex = new RegExp(searchPattern, "gi");
 
@@ -5481,6 +6018,7 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
           var text = node.nodeValue;
           var parent = node.parentNode;
           if (!parent || parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE' || parent.tagName === 'MARK') return;
+          if (parent.closest('.hidden-by-role')) return;
 
           regex.lastIndex = 0;
           if (regex.test(text)) {
@@ -5529,7 +6067,6 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
 
       currentSearchIndex += direction;
 
-      // Wrap around
       if (currentSearchIndex >= searchMatches.length) currentSearchIndex = 0;
       if (currentSearchIndex < 0) currentSearchIndex = searchMatches.length - 1;
 
@@ -5550,6 +6087,16 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
     function escapeRegExp(string) {
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
+
+    // Cache original layout elements for recovery
+    cacheOriginalHTML();
+
+    // Wrap H3 subsections dynamically
+    wrapSubsections();
+
+    // Load persisted role or default to 'admin'
+    var savedRole = localStorage.getItem('dteap_user_role') || 'admin';
+    switchUserRole(savedRole);
   </script>
 
 </body>
