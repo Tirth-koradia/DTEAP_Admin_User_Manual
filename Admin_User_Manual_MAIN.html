@@ -778,7 +778,7 @@
       <a href="#s9-8" class="toc-l2">9.8 Managing Exchange Rates</a>
       <a href="#s9-9" class="toc-l2">9.9 Managing Customs Duty</a>
       <a href="#s9-10" class="toc-l2">9.10 Currency Conversion Config</a>
-      <a href="#s9-11" class="toc-l2">9.11 Material Cost Review</a>
+      <a href="#s9-11" class="toc-l2">9.11 Material Details Review</a>
       <a href="#s9-12" class="toc-l2">9.12 Workflow Best Practices</a>
 
       <a href="#ch10" class="toc-l1">10. Troubleshooting</a>
@@ -4161,8 +4161,10 @@ Result: John Smith automatically receives permission to create estimations.</pre
         
         <div style="margin: 20px 0; text-align: center;">
           <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
-            <img src="new images 3/PHOTO-2026-06-29-13-53-23.jpg" alt="Exported Excel Sheet - Proposal Overview" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <img src="new images 3/PHOTO-2026-06-29-13-53-23 2.jpg" alt="Exported Excel Sheet - Item Costing Breakdown" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            
+            <img src="new images 3/PHOTO-2026-06-29-13-53-23.jpg" alt="Exported Excel Sheet - Proposal Overview" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            
             <img src="new images 3/WhatsApp Image 2026-06-29 at 13.53.23.jpeg" alt="Exported Excel Sheet - Calculation Details" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           </div>
           <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshots: Exported Excel Spreadsheet Workbook Sheets &amp; Formats</em></p>
@@ -4197,7 +4199,7 @@ Result: John Smith automatically receives permission to create estimations.</pre
               <li><strong>Department:</strong> The functional department of the user.</li>
             </ul>
           </li>
-          <li>Assign one or more roles.</li>
+          <li>Assign role via direct role assignment or via a group</li>
           <li>Set the account status to Active.</li>
           <li>Click Save.</li>
         </ol>
@@ -4294,9 +4296,9 @@ Result: John Smith automatically receives permission to create estimations.</pre
         <h4>Step 4 – Review Project Information</h4>
         <p>Administrators should verify the detailed fields populated in the estimation form. This includes Header Fields (DTE No, Revision, Validity, Date Prepared), Customer & Project Section Fields (Customer, Project, Prepared By, Design By), and Equipment Section Fields (Tag No, Equipment Weight, Surface Area, Shell Per Unit, Major Component Size, Major Component MOC, Support Type). Any discrepancies should be resolved before proceeding. Documentation & Notes (MDR Doc No, MDR Revision, Notes) should also be reviewed. Refer to Chapter 5 for exact field definitions.</p>
 
-        <h4>Step 5 – Material Information Review</h4>
-        <p>The system automatically loads material-related information. The Material Costing section displays: Material
-          Category, Material Description, Quantity, Weight, Unit Price, Currency, Country of Origin, and Landed Cost.
+        <h4>Step 5 – Material Details Review</h4>
+        <p>The system automatically loads material-related information. The Material Details section displays: Material
+          Category, Unique ID for Worksheet, Material, Material Description, Quantity, Density, Dimension, Finished Weight(Kg), Raw Weight(Kg).
         </p>
 
         <h4>Step 6 – Material Cost Review</h4>
@@ -4375,15 +4377,16 @@ Result: John Smith automatically receives permission to create estimations.</pre
 
         <hr class="section-divider">
 
-        <h3 id="s9-11">9.11 Material Cost Review Workflow</h3>
+        <h3 id="s9-11">9.11 Material Details Review Workflow</h3>
+        <p><strong>Navigation:</strong> Estimation → Material Details</p>
         <ol class="step-list">
           <li>Open the estimation.</li>
-          <li>Navigate to Material Costing.</li>
-          <li>Locate the required material.</li>
-          <li>Expand the material row.</li>
+          <li>Navigate to Material Details.</li>
+          <li>Select the material category and material.</li>
+          <li>Enter the dimension according to the material</li>
+          
         </ol>
-        <p>The expanded view displays: Material Specifications, Dimensions, Density, Quantity, Formula Information, Raw
-          Weight, Finished Weight, Currency Information, Unit Rate, and Landed Rate.</p>
+        <p>The created material will be used in material cost section.</p>
 
         <hr class="section-divider">
 
