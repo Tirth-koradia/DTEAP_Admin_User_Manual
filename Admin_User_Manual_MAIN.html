@@ -746,20 +746,25 @@
       <a href="#s7-8" class="toc-l2">7.8 Modules Supporting Export</a>
       <a href="#s7-9" class="toc-l2">7.9 Exporting Records</a>
       <a href="#s7-10" class="toc-l2">7.10 Export Best Practices</a>
-      <a href="#s7-11" class="toc-l2">7.12 Search &amp; Export in Estimation</a>
+      <a href="#s7-11" class="toc-l2">7.11 Search &amp; Export in Estimation</a>
       <a href="#s7-12" class="toc-l2">7.12 Administrative Recommendations</a>
 
       <a href="#ch8-estimation" class="toc-l1">8. Estimation Management</a>
       <a href="#s8-1-est" class="toc-l2">8.1 Overview</a>
       <a href="#s8-2-est" class="toc-l2">8.2 Creating a New Estimation</a>
-      <a href="#s8-3-est" class="toc-l2">8.3 Estimation Header</a>
+      <a href="#s8-3-est" class="toc-l2">8.3 Estimation Header &amp; Proposal</a>
       <a href="#s8-4-est" class="toc-l2">8.4 Customs Duty Configuration</a>
       <a href="#s8-5-est" class="toc-l2">8.5 Country &amp; Exchange Rate Config</a>
-      <a href="#s8-6-est" class="toc-l2">8.6 Section A – Material Cost</a>
-      <a href="#s8-7-est" class="toc-l2">8.7 Section B – Labour &amp; Machine Cost</a>
-      <a href="#s8-8-est" class="toc-l2">8.8 Section C – Other Expenses</a>
-      <a href="#s8-9-est" class="toc-l2">8.9 Section D – Material Handling</a>
+      <a href="#s8-5b-est" class="toc-l2">8.5b Material Details Tab</a>
+      <a href="#s8-6-est" class="toc-l2">8.6 Material Cost</a>
+      <a href="#s8-6b-est" class="toc-l2">8.6b Weld Calculations Tab</a>
+      <a href="#s8-6c-est" class="toc-l2">8.6c RCCP (Capacity Planning) Tab</a>
+      <a href="#s8-7-est" class="toc-l2">8.7 Labour &amp; Machine Cost</a>
+      <a href="#s8-8-est" class="toc-l2">8.8 Other Expenses</a>
+      <a href="#s8-9-est" class="toc-l2">8.9 Material Handling</a>
       <a href="#s8-10-est" class="toc-l2">8.10 Grand Total Calculation</a>
+      <a href="#s8-11-est" class="toc-l2">8.11 BOXPLOT Visualizations</a>
+      <a href="#s8-12-est" class="toc-l2">8.12 Exporting the Estimation</a>
 
 
 
@@ -1413,20 +1418,20 @@ User</pre>
           consolidated view of application activity and quick access to major modules.</p>
         <p>Depending on assigned permissions, the Dashboard may display the following metrics and widgets:</p>
         <ul>
-          <li><strong>Total Estimations:</strong> Aggregate count of all estimations.</li>
-          <li><strong>Total Projects:</strong> Aggregate count of all registered projects.</li>
-          <li><strong>Total Customers:</strong> Aggregate count of all customers in the system.</li>
-          <li><strong>Top Customers:</strong> A ranking of customers by volume or value of estimations.</li>
-          <li><strong>Recent Estimations:</strong> A quick-access list of the most recently created or modified estimation records.</li>
-          <li><strong>Comments:</strong> A feed of recent comments and annotations made on active estimations.</li>
-          <li><strong>Recent Activities:</strong> A log of recent administrative actions.</li>
-          <li><strong>Project Progress Information:</strong> Visual indicators of ongoing project statuses.</li>
-          <li><strong>User Notifications:</strong> Important system alerts and messages.</li>
+          <li><strong>Total Estimations:</strong> Aggregate count of all estimations, with new estimations added this month highlighted below.</li>
+          <li><strong>Total Projects:</strong> Aggregate count of all registered projects, showing how many are currently active.</li>
+          <li><strong>Total Customers:</strong> Aggregate count of all customers in the system, with newly added customers highlighted.</li>
+          <li><strong>Comments:</strong> Count of unread comments and responded comments on active estimations.</li>
+          <li><strong>Create New Estimation:</strong> A prominent card with a "+" button allowing quick access to start a new estimation for a customer or project.</li>
+          <li><strong>Recent Estimations:</strong> A list of the most recently created or modified estimation records, displaying the estimation name, JEP number, value in Lakhs (₹), status badge (Draft/Submitted), and timestamp.</li>
+          <li><strong>Recent Activity:</strong> A chronological feed of recent administrative actions showing user activity updates with timestamps.</li>
+          <li><strong>Project Progress:</strong> Visual progress bars for active projects showing completion percentage (e.g., Refinery Expansion Phase II – 72%, Metro Rail Signalling Upgrade – 45%).</li>
+          <li><strong>Top Customers:</strong> A ranked list of top customers by estimation value, showing customer name, number of estimations, and total value in Crores (₹ Cr).</li>
         </ul>
 
         <div style="margin: 20px 0; text-align: center;">
-          <img src="images/recent_estimation_history.png" alt="Recent Estimation Activity Dashboard Widget" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Recent Estimation Activity Widget</em></p>
+          <img src="new images 2/dashboard_module.png" alt="DTEAP Dashboard Overview" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: DTEAP Dashboard Overview</em></p>
         </div>
 
         <h4>Create New Estimation</h4>
@@ -1454,7 +1459,10 @@ User</pre>
 
         <h4>Weight Calculator</h4>
         <p>Provides weight calculation utilities for: Tube, Pipe, Plate, Rod, Forging, Shell Flange, Studs, and
-          Tubesheet. Calculated values may be used during estimation preparation.</p>
+          Tubesheet. Material-driven weight calculation: density auto-loads from the selected material; input dimensions in mm, output weight in kg. The active formula is chosen from the material category. Calculated values may be used during estimation preparation.</p>
+
+        <h4>Weld Calculator</h4>
+        <p>Provides weld material estimation per joint category, thickness, and process split. Supports weld categories including L/S, C/S, Shell # Nozzle, and Nozzle # D'End. Calculates total overlay consumable requirements for CS-SAW, CS-SAW Flux, CS-SMAW, and CS-GTAW with configurable factor multipliers.</p>
 
         <h4>Masters</h4>
         <p>Provides maintenance of reference and configuration data including: Countries, Currencies, Exchange Rates,
@@ -1463,6 +1471,9 @@ User</pre>
         <h4>Administration</h4>
         <p>Provides access to: User Management, Role Management, Permission Management, Module Management, Group
           Management, and Group Member Management.</p>
+
+        <h4>Help</h4>
+        <p>Provides access to the User Manual for on-screen reference documentation.</p>
 
         <hr class="section-divider">
 
@@ -1836,14 +1847,35 @@ User</pre>
         <h3 id="s3-11">3.11 Quick Workflow – Calculate Material Weight</h3>
         <p><strong>Navigation:</strong> Weight Calculator</p>
         <ol class="step-list">
-          <li>Select Material Category.</li>
-          <li>Select Material Type.</li>
-          <li>Enter dimensional inputs.</li>
-          <li>Enter quantity information.</li>
-          <li>Review calculated results.</li>
-          <li>Save if required.</li>
+          <li>Select <strong>Material Category</strong> from the dropdown (e.g., Forging, Tube, Pipe, Plate, Rod, Shell Flange, Studs, Tubesheet).</li>
+          <li>Select a <strong>Material</strong> from the material dropdown. Grade, Density, Specification, and Description auto-populate from the material master.</li>
+          <li>Enter dimensional inputs: <strong>Outer Diameter (mm)</strong>, <strong>Thickness (mm)</strong>.</li>
+          <li>Enter <strong>Quantity</strong> (no. of forgings/pieces).</li>
+          <li>Select <strong>Weight Type</strong> (Raw Weight or Finished Weight).</li>
+          <li>The system displays the <strong>Result</strong> with the calculated weight in kg, along with the formula used for calculation (e.g., Forging: (π/4) × 300² × 300 × 7.85 × 10 × 10⁻⁶).</li>
+          <li>Click <strong>Save to Database</strong> to persist the calculation if required.</li>
         </ol>
-        <p>Supported Categories: Tube, Pipe, Plate, Rod, Forging, Shell Flange, Studs, Tubesheet.</p>
+
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/weight_calculator.png" alt="Weight Calculator Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Weight Calculator – Forging Mode</em></p>
+        </div>
+
+        <h3 id="s3-11b">3.11b Quick Workflow – Weld Material Estimation</h3>
+        <p><strong>Navigation:</strong> Weld Calculator</p>
+        <ol class="step-list">
+          <li>Select <strong>Category of weld</strong> from the dropdown (e.g., Shell # Nozzle).</li>
+          <li>Enter <strong>Thickness (mm)</strong> and <strong>ID (mm)</strong>.</li>
+          <li>Enter <strong>No. of weld</strong> and select <strong>Weld details</strong> (e.g., N5/N6/N9).</li>
+          <li>The system calculates and displays: Effective ID, Total Length, Suggested WM (kg/m), and Weld Material (kg/m).</li>
+          <li>Review the process split rows for <strong>SAW</strong>, <strong>SMAW</strong>, and <strong>GTAW</strong>, each showing WM (kg/m) and percentage.</li>
+          <li>Review the <strong>Total Overlay Consumable</strong> table showing calculated consumables (CS-SAW, CS-SAW Flux, CS-SMAW, CS-GTAW) with factors and round-off values.</li>
+        </ol>
+
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/weld_calculator.png" alt="Weld Calculator Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Weld Calculator – Shell # Nozzle Mode</em></p>
+        </div>
 
         <hr class="section-divider">
 
@@ -1937,9 +1969,19 @@ User</pre>
 
         <h4>4.1.2 Accessing the Masters Module</h4>
         <p><strong>Navigation:</strong> Main Menu → Masters</p>
-        <p>Upon opening the Masters module, the system displays a categorized list of available master records.
-          Depending on assigned permissions, administrators may: View records, Create records, Edit records, Activate
-          records, Deactivate records, and Export records.</p>
+        <p>Upon opening the Masters module, the system displays a categorized tile-based layout of available master records organized into the following sections:</p>
+        <ul>
+          <li><strong>Reference Data:</strong> Countries, Currencies, Units of Measure, UOM Conversions, Statuses, Financial Year Periods, Exchange Rates.</li>
+          <li><strong>Materials &amp; Components:</strong> Material Categories, Materials, Material Rates, Material Handlings, Pipe Schedules, Plate Rates, Tube Rates, Fastener Rates, Forging Rates, Gasket Rates, Special Components, Special Component Rates.</li>
+          <li><strong>Equipment &amp; Production:</strong> Equipment Categories, Component Types, Machines, Jigs/Fixtures, Labour Categories, Labour &amp; Machine Activities, Labour &amp; Machine Sub-Sections, Manufacturing Locations, Other Expenses.</li>
+          <li><strong>Calculation:</strong> Formula Master.</li>
+        </ul>
+        <p>Each tile shows the master name and a brief description. Click any tile to navigate to the corresponding master data management screen. A <strong>Filter masters...</strong> search box at the top-right allows quick filtering of tiles by name. Depending on assigned permissions, administrators may: View records, Create records, Edit records, Activate records, Deactivate records, and Export records.</p>
+
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/masters_module.png" alt="Masters Module Overview" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Masters Module – Tile-Based Overview Layout</em></p>
+        </div>
 
         <h4>4.1.3 Master Record Layout</h4>
         <p>Most master screens follow a standardized layout including: a Master Listing Area displaying records in
@@ -2234,24 +2276,39 @@ User</pre>
         <hr class="section-divider">
 
         <h3 id="s4-9">4.9 Materials</h3>
-        <p>The Materials master maintains the complete list of materials used in estimations and costing calculations.
+        <p>The Materials master maintains the complete list of materials used in estimations, weight calculators, weld calculators, and costing calculations.
         </p>
         <h4>4.9.1 Viewing Materials</h4>
         <p>Navigate to Masters → Materials.</p>
-        <h4>4.9.2 Creating Materials</h4>
+        
+        <h4>4.9.2 Creating and Adding Future Materials</h4>
+        <p>To support future inventory and engineering updates, administrators can add new materials at any time. Adding a material configures its core engineering parameters and calculation logic:</p>
         <ol class="step-list">
-          <li>Click Add.</li>
-          <li>Enter Material Code, Material Name, and Category.</li>
-          <li>Configure material properties.</li>
-          <li>Save.</li>
+          <li>Navigate to Masters → Materials and click the <strong>+ Add</strong> button.</li>
+          <li>Enter the required material metadata:
+            <ul>
+              <li><strong>Material Code:</strong> Unique code identifier for the material.</li>
+              <li><strong>Material Name:</strong> Descriptive name (e.g. Duplex Tube).</li>
+              <li><strong>Category:</strong> Assign a category (e.g. Tube, Pipe, Plate, Forging).</li>
+              <li><strong>Grade &amp; Specification:</strong> Technical material grade (e.g. SA-789) and specification references.</li>
+              <li><strong>Density (g/cc):</strong> The physical density of the material, which is critical for weight calculations (e.g. 7.85 for steel).</li>
+            </ul>
+          </li>
+          <li><strong>Configure Calculation Formulas:</strong> Users can associate or input specific engineering formulas (weight and weld formulas) to be used when this material is processed. This ensures the calculation engine applies the correct mathematical model for raw and finished weight.</li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
-        <h4>4.9.3 Editing Materials</h4>
+        <p><strong>Result &amp; Global Availability:</strong> Once saved, the new material immediately propagates across the platform. It becomes dynamically selectable in the Weight Calculator, Weld Calculator, and all dropdowns inside the Estimation details tables without requiring any code modifications.</p>
+
+        <h4>4.9.3 Editing Materials and Formula Customization</h4>
+        <p>Existing materials can be modified to update pricing adjustments, density corrections, or change calculation formulas:</p>
         <ol class="step-list">
-          <li>Locate material record.</li>
-          <li>Click Edit.</li>
-          <li>Modify required fields.</li>
-          <li>Save.</li>
+          <li>Locate the material record in the Materials master listing.</li>
+          <li>Click the <strong>Edit</strong> (pencil) icon next to the record.</li>
+          <li>Modify required fields (e.g. updating Density, Grade details, or modifying the default formula string).</li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
+        <p><strong>Result:</strong> Updated details and formulas are applied dynamically to all subsequent calculations and new estimations across the platform.</p>
+
         <h4>4.9.4 Material Search Features</h4>
         <p>Users can search materials by: Material Name, Material Code, and Material Category.</p>
         <h4>4.9.5 Exporting Materials</h4>
@@ -2568,23 +2625,29 @@ User</pre>
           Username, Full Name, Employee Code, Email Address, Assigned Roles, Status, and Last Updated Date.</p>
 
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/User_creating_1.png" alt="New User Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New User Creation Screen</em></p>
+          <img src="new images 2/Creating_user_screenshot.png" alt="New User Creation Screen – Direct Role Assignment" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New User Creation – Direct Role Assignment</em></p>
         </div>
 
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/User_creating_2.png" alt="New User Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New User Creation Screen</em></p>
+          <img src="new images 2/Creating_user_screenshot-2.png" alt="New User Creation Screen – Via Group Assignment" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New User Creation – Via Group Assignment</em></p>
         </div>
 
         <h4>Creating a New User</h4>
+        <p>The New User dialog presents a form with the following fields and a Role Assignment section at the bottom:</p>
         <ol class="step-list">
           <li>Navigate to Administration → Users.</li>
-          <li>Click Add User.</li>
-          <li>Complete the required fields.</li>
-          <li>Assign one or more roles.</li>
-          <li>Select Active status.</li>
-          <li>Click Save.</li>
+          <li>Click <strong>+ Add User</strong> button at the top-right.</li>
+          <li>Complete the required fields in the New User dialog.</li>
+          <li>Under <strong>Role assignment</strong>, choose the assignment method:
+            <ul>
+              <li><strong>Direct role:</strong> Select a specific role from the Role dropdown. The user will have exactly the permissions defined in that role.</li>
+              <li><strong>Via group:</strong> Select a group from the Group dropdown. The user will inherit the role assigned to that group (e.g., "The user will inherit role Role_9 from this group").</li>
+            </ul>
+          </li>
+          <li>Ensure the <strong>Active</strong> checkbox is selected.</li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
 
         <table>
@@ -2650,51 +2713,73 @@ User</pre>
         </p>
 
         <h4>5.1.5 Assigning Roles to Users</h4>
-        <p>Roles are assigned during user creation or editing. A user may be assigned one or more roles depending on
-          their responsibilities.</p>
+        <p>Roles are assigned during user creation or editing. A user may be assigned a role using one of two methods:
+          <strong>Direct role</strong> (selecting a specific role) or <strong>Via group</strong> (inheriting a role from a group assignment).</p>
 
-        <h4>5.1.6 User Search and Export</h4>
-        <p>User records can be exported in CSV or Excel format for user audits, access reviews, and compliance
+        <h4>5.1.6 Editing Existing Users</h4>
+        <p>When editing a user, the Edit User dialog presents two tabs:</p>
+        <ul>
+          <li><strong>Details:</strong> Allows modification of all user fields (Company, Business Unit, User Name, Name, Email, Employee Code, Department, Password, Active status) and role assignment.</li>
+          <li><strong>Effective Permissions:</strong> A read-only view showing "What this user can do today — resolved from all assigned roles plus group → role chains." This tab displays a consolidated list of all permissions organized by module (e.g., Estimations, Users, Groups), showing each permission with its inheritance path (e.g., "via group Group_2 → role Role_9"). It also shows <strong>Per-Section Edit Access</strong> for estimation sections (Show Material Cost, Show RCCP, Show Other Expense, Show Material Handling).</li>
+        </ul>
+ 
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/edit_user.png" alt="Edit User – Details Tab" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Edit User – Details Tab</em></p>
+        </div>
+ 
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/Effictive_permission_tab.png" alt="Edit User – Effective Permissions Tab" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Edit User – Effective Permissions Tab</em></p>
+        </div>
+ 
+        <h4>5.1.7 User Search and Export</h4>
+        <p>The Users listing page provides a search box at the top-right ("Search user, name, email...") and CSV/Excel export buttons. User records can be exported for user audits, access reviews, and compliance
           reporting.</p>
-
+ 
         <hr class="section-divider">
-
+ 
         <h3 id="s5-2">5.2 Role Management</h3>
         <h4>Purpose</h4>
         <p>Roles are used to group permissions together. Instead of assigning individual permissions directly to users,
           permissions are assigned to roles and roles are assigned to users. This simplifies administration and improves
           security management.</p>
-
+ 
         <h4>Navigation</h4>
         <p>Administration → Roles</p>
-
+ 
         <h4>5.2.2 Creating a Role</h4>
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/Role_creating_1.png" alt="New Role Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Role Creation Screen</em></p>
+          <img src="new images 2/create_role_screenshot.png" alt="New Role Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Role Creation – Permission Configuration</em></p>
         </div>
-
+ 
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/Role_creating_2.png" alt="New Role Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Role Creation Screen</em></p>
+          <img src="new images 2/create_role_screenshot-2.png" alt="New Role Creation with Template Applied" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Role Creation – Estimator Template Applied</em></p>
         </div>
         <ol class="step-list">
-          <li>Navigate to Roles.</li>
-          <li>Click Add Role.</li>
-          <li>Enter Role Code, Role Name, and Description.</li>
-          <li>Save the role.</li>
+          <li>Navigate to Administration → Roles.</li>
+          <li>Click <strong>+ Add Role</strong>.</li>
+          <li>Enter <strong>Role Code</strong> and <strong>Role Name</strong> (both required).</li>
+          <li>Optionally enter a Description.</li>
+          <li>Set the <strong>Active</strong> status.</li>
+          <li>Under the <strong>Permissions</strong> section, configure access rights:
+            <ul>
+              <li><strong>Apply template:</strong> Select a pre-defined template (e.g., Estimator, Admin) from the dropdown and click <strong>Apply</strong> to auto-fill permissions. The template description is displayed (e.g., "Create + edit estimations across all four sections, plus read-only access to masters and calculators"). Templates pre-fill a starting set you can tweak before saving.</li>
+              <li><strong>Clear all:</strong> Reset all permission checkboxes.</li>
+              <li>Permissions are organized by module (e.g., Estimations, Users, Groups). Each module shows <strong>All</strong> and <strong>None</strong> quick-select buttons.</li>
+              <li>Individual permission checkboxes include: View, Create, Edit, Delete, Approve, Reject, Export to Excel, Submit/lock revisions, Revise locked estimations, Design/Material Fields, Costing Related Fields.</li>
+              <li><strong>Per-Section Access:</strong> Controls which estimation steps are visible — Show Material Cost, Show RCCP, Show Other Expense, Show Material Handling.</li>
+            </ul>
+          </li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
-        <p>The role can then be configured with permissions.</p>
+        <p>The role can then be assigned to users or groups.</p>
 
         <h4>5.2.3 Editing Roles</h4>
-        <p>Administrators can: Update descriptions, Modify role details, Activate roles, and Deactivate roles. Role
+        <p>Administrators can: Update descriptions, Modify role details, Activate roles, Deactivate roles, and adjust permission checkboxes. Role
           modifications immediately impact users assigned to those roles.</p>
-        <p><strong>Role Permissions Assignment Screen:</strong> When editing a role, administrators use this screen to assign access. It features:</p>
-        <ul>
-          <li><strong>Role Dropdown:</strong> To easily switch between different roles being configured.</li>
-          <li><strong>Permission Assignment Matrix:</strong> A grid layout displaying all available modules as rows.</li>
-          <li><strong>Permission Checkboxes:</strong> Individual checkboxes for each permission type (e.g., View, Edit, Search, Export) directly inside the matrix, allowing administrators to rapidly toggle specific rights on or off for the selected role.</li>
-        </ul>
 
         <h4>5.2.4 Role Status Management</h4>
         <p>An <strong>Active</strong> role is available for assignment. An <strong>Inactive</strong> role is unavailable
@@ -2716,19 +2801,24 @@ User</pre>
 
         <h4>5.3.2 Creating Permissions</h4>
         <div style="margin: 20px 0; text-align: center;">
-          <img src="images/new_permission_create.png" alt="New Permission Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <img src="new images 2/create_permission.png" alt="New Permission Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Permission Creation Screen</em></p>
         </div>
         <ol class="step-list">
-          <li>Navigate to Permissions.</li>
-          <li>Click Add Permission.</li>
-          <li>Enter Permission Code, Permission Name, and Description.</li>
-          <li>Save.</li>
+          <li>Navigate to Administration → Permissions.</li>
+          <li>Click <strong>+ Add</strong>.</li>
+          <li>Enter <strong>Permission Code</strong> (required), <strong>Permission Name</strong> (required), and optionally a Description.</li>
+          <li>Ensure the <strong>Active</strong> checkbox is selected.</li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
+        <p>The Permissions listing page displays columns: Code, Name, Description, Active status, and Actions (Edit / Delete).</p>
 
         <h4>5.3.3 Editing Permissions</h4>
-        <p>Administrators may: Update permission names, Update descriptions, Activate permissions, and Deactivate
-          permissions.</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/edit_permission.png" alt="Edit Permission Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Edit Permission Screen</em></p>
+        </div>
+        <p>Administrators may: Update permission code, Update permission name, Update descriptions, toggle the Active status, and Save changes.</p>
 
         <h4>5.3.5 Permission Export</h4>
         <p>Permission lists can be exported in CSV or Excel for documentation and audit purposes.</p>
@@ -2745,15 +2835,24 @@ User</pre>
 
         <h4>5.4.2 Creating Modules</h4>
         <div style="margin: 20px 0; text-align: center;">
-          <img src="images/new_modules_create.png" alt="New Module Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <img src="new images 2/create_module.png" alt="New Module Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Module Creation Screen</em></p>
         </div>
         <ol class="step-list">
           <li>Open Modules.</li>
-          <li>Click Add Module.</li>
-          <li>Enter Module Code, Module Name, and Display Order.</li>
-          <li>Save.</li>
+          <li>Click <strong>+ Add</strong>.</li>
+          <li>Enter <strong>Module Code</strong> (required), <strong>Module Name</strong> (required), and <strong>Display Order</strong> (required numeric value).</li>
+          <li>Ensure the <strong>Active</strong> checkbox is selected.</li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
+        <p>The Modules listing page displays columns: Code, Name, Order, Active status, and Actions (Edit / Delete).</p>
+
+        <h4>5.4.3 Editing Modules</h4>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/edit_module.png" alt="Edit Module Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Edit Module Screen</em></p>
+        </div>
+        <p>Administrators may update: Module Code, Module Name, Display Order, and Active Status.</p>
 
         <h4>5.4.3 Editing Modules</h4>
         <p>Administrators may update: Display Name, Display Order, Module Description, and Active Status.</p>
@@ -2818,25 +2917,31 @@ User</pre>
 
         <h4>5.6.2 Creating Groups</h4>
         <div style="margin: 20px 0; text-align: center;">
-          <img src="images/new_group_create.png" alt="New Group Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <img src="new images 2/create_group_screenshot.png" alt="New Group Creation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
           <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: New Group Creation Screen</em></p>
         </div>
         <ol class="step-list">
           <li>Open Groups.</li>
-          <li>Click Add Group.</li>
-          <li>Enter Group Code, Group Name, and Description.</li>
-          <li>Assign roles.</li>
-          <li>Save.</li>
+          <li>Click <strong>+ Add Group</strong>.</li>
+          <li>Enter <strong>Group Code</strong> (required), <strong>Group Name</strong> (required), and optionally a Description.</li>
+          <li>Ensure the <strong>Active</strong> checkbox is selected.</li>
+          <li>Assign a <strong>Role</strong> from the dropdown (e.g., Designer).</li>
+          <li>Click <strong>Save</strong>.</li>
         </ol>
+        <p>The Groups listing page displays columns: Code, Name, Description, Role (shown as a badge), Active status, and Actions (Members icon, Edit, Delete).</p>
 
         <h4>5.6.3 Editing Groups</h4>
-        <p>Administrators may: Change group details, Modify assigned roles, Activate groups, and Deactivate groups.</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/edit_group.png" alt="Edit Group Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Edit Group Screen</em></p>
+        </div>
+        <p>Administrators may: Change group code and name, Modify the description, Change the assigned role, Toggle the Active status, and Save changes.</p>
         
         <h4>5.6.4 Group Members Action</h4>
-        <p>Inside the Groups data table, administrators can click the dedicated <strong>Members</strong> action button for a specific group. This directly opens the Group Members Management screen pre-filtered for the selected group, streamlining the member assignment workflow.</p>
+        <p>Inside the Groups data table, administrators can click the dedicated <strong>Members</strong> action button (group icon) for a specific group. This opens a "Members of [Group Name]" dialog showing a list of all users with checkboxes, allowing administrators to select or deselect users for that group.</p>
         <div style="margin: 20px 0; text-align: center;">
-          <img src="images/Group_member_view_edit.png" alt="Group Members Management Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Group Members Management Screen</em></p>
+          <img src="new images 2/group_members_tab.png" alt="Members of Group Dialog" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Members of Group Dialog</em></p>
         </div>
 
         <h4>5.6.5 Assigning Roles to Groups</h4>
@@ -2856,19 +2961,21 @@ User</pre>
         <p>Administration → Group Members</p>
 
         <h4>5.7.2 Adding Members</h4>
+        <p>The Members dialog displays all available users as a checklist with the format "Name (Username)". A search box at the top allows filtering users. A "select all" checkbox allows bulk selection.</p>
         <ol class="step-list">
-          <li>Select a group.</li>
-          <li>Select users.</li>
-          <li>Add users to the group.</li>
-          <li>Save changes.</li>
+          <li>Navigate to Administration → Groups and click the Members icon for the desired group.</li>
+          <li>The "Members of [Group Name]" dialog opens, listing all available users.</li>
+          <li>Use the search box to find specific users, or browse the list.</li>
+          <li>Select the checkbox next to each user to add to the group.</li>
+          <li>Click <strong>Save</strong> to confirm the member assignments.</li>
         </ol>
 
         <h4>5.7.3 Removing Members</h4>
         <ol class="step-list">
-          <li>Select a group.</li>
-          <li>Locate the member.</li>
-          <li>Remove the user.</li>
-          <li>Save changes.</li>
+          <li>Open the Members dialog for the group.</li>
+          <li>Uncheck the checkbox next to the user to be removed.</li>
+          <li>Click <strong>Save</strong> to apply changes.</li>
+          <li>Alternatively, click <strong>Reset</strong> to restore the original selections before saving.</li>
         </ol>
 
         <h4>5.7.4 Saving Membership Changes</h4>
@@ -3321,12 +3428,12 @@ Result: John Smith automatically receives permission to create estimations.</pre
           maintain detailed project cost estimations. The module provides a structured estimation workflow consisting of
           four major cost categories:</p>
         <ul>
-          <li>Material Cost (Section A)</li>
-          <li>Labour &amp; Machine Cost (Section B)</li>
-          <li>Other Expenses (Section C)</li>
-          <li>Material Handling Cost (Section D)</li>
+          <li>Material Cost</li>
+          <li>Labour &amp; Machine Cost</li>
+          <li>Other Expenses</li>
+          <li>Material Handling Cost</li>
         </ul>
-        <p>The system automatically calculates subtotals for each section and generates a consolidated Grand Total for
+        <p>The system automatically calculates subtotals for each category and generates a consolidated Grand Total for
           the complete estimation.</p>
 
         <h4>8.1.5 Estimation Listing Table Structure</h4>
@@ -3388,44 +3495,58 @@ Result: John Smith automatically receives permission to create estimations.</pre
 
         <hr class="section-divider">
 
-        <h3 id="s8-3-est">8.3 Estimation Header</h3>
-        <p>The Estimation Header captures high-level project information required throughout the estimation lifecycle.
-        </p>
+        <h3 id="s8-3-est">8.3 Estimation Header &amp; Proposal Tab</h3>
+        <p>The **Proposal** tab captures high-level project information and technical design parameters required throughout the estimation lifecycle. It includes general headers, project data, a comprehensive design data grid, and checked/approved details.</p>
 
-        <h4>8.3.1 Identification Section</h4>
-        <p><strong>Estimation Number:</strong> Unique identifier assigned to the estimation.</p>
-        <p><strong>JEP Number:</strong> Project reference number provided during estimation creation.</p>
-        <p><strong>DTE Number:</strong> Internal DTEAP estimation reference number.</p>
-        <p><strong>Revision:</strong> Version number of the estimation.</p>
-        <p><strong>Date Prepared:</strong> Date on which the estimation is created.</p>
-        <p><strong>Validity:</strong> Validity period of the estimation.</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <img src="new images 2/estimations_proposal_section.png" alt="Estimation Proposal Tab Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Edit Estimation – Proposal Tab</em></p>
+        </div>
 
-        <h4>8.3.2 Customer &amp; Project Information</h4>
-        <p><strong>Customer:</strong> Name of the client organization. <em>Example: Reliance Industries</em></p>
-        <p><strong>Project:</strong> Project title or project description. <em>Example: Refinery Expansion Phase II</em>
-        </p>
-        <p><strong>Prepared By:</strong> Name of the estimator or engineer preparing the estimate.</p>
-        <p><strong>Design By:</strong> Name of the design engineer responsible for technical inputs.</p>
+        <h4>8.3.1 General Headers &amp; Identification Section</h4>
+        <p><strong>JEP NO. / REV.:</strong> Unique project reference number and its revision code.</p>
+        <p><strong>DTE NO. / REV.:</strong> Internal DTEAP estimation reference number and revision.</p>
+        <p><strong>CUSTOMER:</strong> Name of the client organization. <em>Example: Reliance Industries</em></p>
+        <p><strong>ERER No / PROJECT NO.:</strong> The engineering or project identification number.</p>
+        <p><strong>EQUIPMENT / TAG NO.:</strong> The equipment name and its tag number.</p>
+        <p><strong>MDR No / MECHANICAL DATA SHEET NO &amp; REV:</strong> Reference to mechanical data sheet details.</p>
+        <p><strong>TEMA CLASS:</strong> TEMA class classification for heat exchangers.</p>
+        <p><strong>THERMAL LAYOUT NO. &amp; REV:</strong> Thermal layout references.</p>
+        <p><strong>NO. OF UNITS:</strong> Quantity of units being estimated.</p>
+        <p><strong>STD PACKAGE / EQUIPMENT CATEGORY:</strong> Category classifications.</p>
 
-        <h4>8.3.3 Equipment Information</h4>
-        <p><strong>Equipment Name:</strong> Name of equipment being estimated. <em>Example: Heat Exchanger, Pressure
-            Vessel, Column, Reactor</em></p>
-        <p><strong>Tag Number:</strong> Equipment tag assigned by customer.</p>
-        <p><strong>Equipment Description:</strong> Detailed description of equipment.</p>
-        <p><strong>Quantity (Nos):</strong> Number of units being estimated.</p>
-        <p><strong>Equipment Weight (MT):</strong> Estimated equipment weight in Metric Tons.</p>
-        <p><strong>Surface Area (m²):</strong> External surface area of equipment.</p>
-        <p><strong>Shell Per Unit:</strong> Number of shells per equipment unit.</p>
-        <p><strong>Duty Type:</strong> Type of equipment duty. <em>Example: Merit, Critical, Standard</em></p>
-        <p><strong>Major Component Size:</strong> Primary equipment size information.</p>
-        <p><strong>Major Component MOC:</strong> Material of Construction of major component.</p>
-        <p><strong>Manufacturing Location:</strong> Plant or workshop location.</p>
-        <p><strong>Support Type:</strong> Type of equipment support structure.</p>
+        <h4>8.3.2 Design Data Grid (Parameters &amp; Symbols)</h4>
+        <p>The main Proposal grid captures key engineering inputs used across cost calculators:</p>
+        <ul>
+          <li><strong>Internal Design Pressure (Pi):</strong> Design pressure inside the shell/tubes in kg/mm².</li>
+          <li><strong>External Design Pressure (Pe):</strong> Design external pressure in kg/mm².</li>
+          <li><strong>Design Temperature:</strong> Operating temperature limit in °C.</li>
+          <li><strong>Hydrotest Pressure (Ph):</strong> Pressure used for hydrostatic testing in kg/mm².</li>
+          <li><strong>External Design Temperature (Te):</strong> External temperature limit in °C.</li>
+          <li><strong>Fluid Circulated:</strong> Type of fluid passing through the equipment.</li>
+          <li><strong>IBR Applicability:</strong> Indicates whether Indian Boiler Regulations apply.</li>
+          <li><strong>Number of Passes:</strong> The pass count for fluid flow.</li>
+          <li><strong>Operating Pressure:</strong> Normal operating pressure in kg/mm².</li>
+          <li><strong>Inlet Operating Temperature (Tin):</strong> Inlet fluid temperature in °C.</li>
+          <li><strong>Outlet Operating Temperature (Tout):</strong> Outlet fluid temperature in °C.</li>
+          <li><strong>Internal/External Corrosion Allowance:</strong> Allowance for corrosion (CA (Int.) / CA (Ext.)) in mm.</li>
+          <li><strong>PWHT:</strong> Post-Weld Heat Treatment requirement (Yes/No).</li>
+          <li><strong>Radiography:</strong> Radiography testing requirements.</li>
+          <li><strong>Weld Joint Efficiency:</strong> Coefficient of joint efficiency.</li>
+          <li><strong>Mean Metal Temperature (MMT):</strong> Mean metal temperature in °C.</li>
+          <li><strong>Tube To Tubesheet Joint:</strong> Type of tubesheet connection.</li>
+        </ul>
 
-        <h4>8.3.4 Documentation &amp; Notes</h4>
-        <p><strong>MDR Document Number:</strong> Manufacturing Data Report document number.</p>
-        <p><strong>MDR Revision:</strong> Current revision number of MDR.</p>
-        <p><strong>Notes:</strong> Additional comments and assumptions related to estimation.</p>
+        <h4>8.3.3 Additional Design Attributes &amp; Signatures</h4>
+        <ul>
+          <li><strong>Equipment Weight:</strong> Equipment weight in kg.</li>
+          <li><strong>Weight of Equipment Full of Water:</strong> Total weight when filled with water in kg.</li>
+          <li><strong>Number of Shells:</strong> Number of shells per equipment unit.</li>
+          <li><strong>ASME Code Stamped:</strong> Indicates whether the equipment requires ASME code stamping.</li>
+          <li><strong>Surface Area:</strong> Total external surface area in m².</li>
+          <li><strong>Special Notes:</strong> Administrators can input special project notes in three numbered rows.</li>
+          <li><strong>Prepared By / Checked By / Approved By:</strong> Names of the team members responsible for each step.</li>
+        </ul>
 
         <hr class="section-divider">
 
@@ -3531,13 +3652,17 @@ Result: John Smith automatically receives permission to create estimations.</pre
 
         <hr class="section-divider">
 
-        <h3 id="s8-6-est">8.6 Section A – Material Cost</h3>
-        <p>The Material section captures all raw material, purchased component, and fabrication material costs. The
-          subtotal generated in this section contributes directly to the final project estimate.</p>
+        <h3 id="s8-5b-est">8.5b Material Details Tab</h3>
+        <p>The <strong>Material Details</strong> tab provides a consolidated summary view of all materials configured for the estimation. It allows estimators to review the complete list of material categories, specifications, and total weights in a simplified dashboard format before drilling down into individual line-item calculations. Since this is a summary layout, detailed modifications are typically performed inside the <strong>Material</strong> tab.</p>
+
+        <hr class="section-divider">
+
+        <h3 id="s8-6-est">8.6 Material Cost</h3>
+        <p>The Material Cost tab captures all raw material, purchased component, and fabrication material costs. The
+          subtotal generated here contributes directly to the final project estimate.</p>
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/Estimation Section A.png" alt="Material Cost Estimation - Top Section" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 10px;">
-          <img src="new images/Estimation Section A weld.png" alt="Material Cost Estimation - Bottom Section" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Material Cost Estimation Demo</em></p>
+          <img src="new images 2/estimation_material_section-1.png" alt="Material Cost Estimation" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 10px;">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Material Cost Estimation with Expanded Row Detail and Weight Calculator</em></p>
         </div>
 
         <h4>8.6.1 Material Table Fields</h4>
@@ -3693,29 +3818,173 @@ Result: John Smith automatically receives permission to create estimations.</pre
 
         <hr class="section-divider">
 
-        <h3 id="s8-7-est">8.7 Section B – Labour &amp; Machine Cost</h3>
-        <p>The Labour &amp; Machine section calculates fabrication effort, manpower utilization, robotic operations, and
-          machine usage costs.</p>
+        <h3 id="s8-6b-est">8.6b Weld Calculations Tab</h3>
+        <p>The <strong>Weld Calculations</strong> tab enables administrators and estimators to define weld geometry parameters and calculate required welding consumables for the project. Weld parameters are defined line-item by line-item and categorized into specific joint types.</p>
+
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/Estimation Section B.png" alt="Labour and Machine Cost Estimation - Top Section" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 10px;">
-          <img src="new images/Estimation Section B 2.png" alt="Labour and Machine Cost Estimation - Bottom Section" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Labour &amp; Machine Cost Estimation Grid</em></p>
+          <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+            <img src="new images 2/estimation_weld_calculation_section-3.png" alt="Weld Calculations Material list" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <img src="new images 2/estimation_weld_calculation_section-1.png" alt="Weld Calculations L/S details" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <img src="new images 2/estimation_weld_calculation_section-2.png" alt="Weld Calculations C/S details" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          </div>
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshots: Weld Calculations Tab – Material List, Weld Categories, &amp; Consumables Breakdown</em></p>
         </div>
 
-        <h4>8.7.1 Labour Summary Metrics</h4>
-        <p>The system automatically displays: Welder %, Fitter %, Grinder %, Helper %, Total Mandays, MD/MT, Robotic
-          Hours, and Automation %.</p>
+        <h4>8.6b.1 Material Description and Weld Categories</h4>
+        <p>In the top grid, each material row loaded from the Material tab is configured with the following fields:</p>
+        <ul>
+          <li><strong>Description of Material:</strong> Auto-populated material name and grade (e.g. CS TUBE, SS304 TUBE).</li>
+          <li><strong>Category of Weld:</strong> Dropdown to classify the joint type:
+            <ul>
+              <li><strong>L/S (Longitudinal Seam):</strong> Longitudinal welding joints.</li>
+              <li><strong>C/S (Circumferential Seam):</strong> Circumferential welding joints.</li>
+              <li><strong>Shell # Nozzle:</strong> Joint connecting a shell to a nozzle.</li>
+              <li><strong>Nozzle # D'End:</strong> Joint connecting a nozzle to a dished end.</li>
+            </ul>
+          </li>
+          <li><strong>Thickness (mm):</strong> Thickness of the material.</li>
+          <li><strong>ID (mm):</strong> Internal diameter of the component.</li>
+          <li><strong>L (mm):</strong> Total length of the joint.</li>
+        </ul>
 
-        <h4>8.7.2 Activity Category</h4>
-        <p>Each row represents a fabrication activity category. <em>Examples: External/Internal Pre-Fabrication, Shell
-            Fabrication, Tube Bundle Assembly, Welding Activities, Inspection Activities.</em></p>
+        <h4>8.6b.2 Joint-Specific Configurations</h4>
+        <p>Depending on the category of weld selected above, details populate under the respective category panels:</p>
+        <ul>
+          <li><strong>L/S Panel:</strong> Captures thickness, length, no of weld, total length, face side welding, chipback side welding, welding details (e.g. W101), suggested vs total weld material (kg), and welding process split (SAW %, SAW WM, SMAW %, SMAW WM, GTAW %, GTAW WM).</li>
+          <li><strong>C/S / Shell # Nozzle / Nozzle # D'End Panels:</strong> Capture material pairings (selecting the two components to be joined), thickness, ID, effective ID, number of welds, total length, face/chipback welding, welding details, and process split percentages.</li>
+        </ul>
 
-        <h4>8.7.3 Expanded Activity Details</h4>
-        <p>When a row is expanded, the administrator can enter: ID, Shell, TL-TL, L/S, Lg, and Thickness.</p>
+        <h4>8.6b.3 Total Overlay Consumable Summary</h4>
+        <p>At the bottom of the Weld Calculations screen, a summary table aggregates all consumables required across the active weld categories:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Calculated Consumable</th>
+              <th>Weld Materials (kg)</th>
+              <th>Factor Multiplier</th>
+              <th>With Factor (kg)</th>
+              <th>Round Off (kg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CS-SAW</td>
+              <td>Total raw Submerged Arc Welding weight calculated.</td>
+              <td>Configurable multiplier factor (e.g., 1.1).</td>
+              <td>Weld Materials &times; Factor.</td>
+              <td>Rounded consumable quantity.</td>
+            </tr>
+            <tr>
+              <td>CS-SAW Flux</td>
+              <td>Total SAW Flux weight calculated.</td>
+              <td>Configurable multiplier factor (e.g., 1.4).</td>
+              <td>Weld Materials &times; Factor.</td>
+              <td>Rounded flux quantity.</td>
+            </tr>
+            <tr>
+              <td>CS-SMAW</td>
+              <td>Shielded Metal Arc Welding electrode weight.</td>
+              <td>Configurable multiplier factor (e.g., 2.0).</td>
+              <td>Weld Materials &times; Factor.</td>
+              <td>Rounded electrode quantity.</td>
+            </tr>
+            <tr>
+              <td>CS-GTAW</td>
+              <td>Gas Tungsten Arc Welding filler weight.</td>
+              <td>Configurable multiplier factor (e.g., 1.2).</td>
+              <td>Weld Materials &times; Factor.</td>
+              <td>Rounded filler quantity.</td>
+            </tr>
+          </tbody>
+        </table>
 
-        <h4>8.7.4 Sub-Activity Section</h4>
-        <p>Each activity contains multiple fabrication sub-activities. <em>Examples: Unloading and WEP Preparation,
-            Setup and Inspection, SAW Arrangement, Welding, Visual Inspection, NDT, Clad Restoration.</em></p>
+        <hr class="section-divider">
+
+        <h3 id="s8-6c-est">8.6c RCCP (Capacity Planning) Tab</h3>
+        <p>The <strong>RCCP (Rough Cut Capacity Planning)</strong> tab handles capacity and workload planning for manufacturing activities. It allows estimators to break down mandays, skill mix ratios, robotic welding usage, and calculate the overall fabrication cost based on recovery factors.</p>
+
+        <div style="margin: 20px 0; text-align: center;">
+          <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+            <img src="new images 2/estimation_rccp_section_screenshot-2.png" alt="RCCP Tab Main View" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <img src="new images 2/estimation_rccp_section_screenshot-1.png" alt="RCCP Tab Summary Details" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          </div>
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshots: Rough Cut Capacity Planning (RCCP) Tab Views</em></p>
+        </div>
+
+        <h4>8.6c.1 RCCP Capacity Metrics Cards</h4>
+        <p>The top of the RCCP screen displays critical capacity planning indicators:</p>
+        <ul>
+          <li><strong>Welder % / Fitter % / Grinder % / Helper %:</strong> Percentage mix of welder, fitter, grinder, and helper effort relative to the total mandays.</li>
+          <li><strong>Total Mandays:</strong> Accumulated workload in mandays.</li>
+          <li><strong>MD/MT (With Tube / Without Tube):</strong> Mandays per metric ton indices, calculated both with and without tube weight.</li>
+          <li><strong>Robotic Hours:</strong> Planned robotic-assisted welding hours.</li>
+          <li><strong>Automation %:</strong> Percentage of robotic/automation workload relative to manual work.</li>
+        </ul>
+
+        <h4>8.6c.2 Activity Category Workload Grid</h4>
+        <p>Estimators add category rows to define manufacturing workloads with columns including:</p>
+        <ul>
+          <li><strong>Category:</strong> Selection dropdown representing a fabrication category (e.g. Shell Fabrication, Assembly).</li>
+          <li><strong>Weld KG:</strong> Planned weld deposit in kg.</li>
+          <li><strong>Duration (MD):</strong> Duration of the category workload in mandays.</li>
+          <li><strong>Parallel Duration:</strong> Duration running concurrently with other activities.</li>
+          <li><strong>Robot:</strong> Planned robot usage duration.</li>
+          <li><strong>W / F / G / H:</strong> Input fields to define Welder, Fitter, Grinder, and Helper manday requirements.</li>
+          <li><strong>Total:</strong> Calculated sum of skill requirements (W + F + G + H).</li>
+          <li><strong>Manpower / Robots (Mandays):</strong> Consolidated manday values.</li>
+        </ul>
+
+        <h4>8.6c.3 Summary Totals (Skill &amp; Process Breakdowns)</h4>
+        <p>A consolidated grid displays breakdowns for:</p>
+        <ul>
+          <li><strong>Skill Vise:</strong> Consolidated welder, fitter, grinder, and helper mandays and their overall sum (Total MD).</li>
+          <li><strong>Process Vise Mandays:</strong> Mandays categorized by process type: SMAW, Robotics, IIOT, SAW/ESW, and Total MD.</li>
+          <li><strong>Process Vise Weld KG:</strong> Weld weight in kg categorized by SMAW, GMAW (Robotics), SAW (IIOT), SAW/ESW, and Total Weld KG.</li>
+        </ul>
+
+        <h4>8.6c.4 RCCP Cost Roll-Up and Recovery Calculations</h4>
+        <p>The final summary card calculates the direct fabrication cost based on capacity plan parameters:</p>
+        <ul>
+          <li><strong>Additional Workmen:</strong> Buffer factor entered as a percentage (e.g. 10%).</li>
+          <li><strong>Gas Cutter &amp; Rigger Factor:</strong> Resource factor entered as a percentage (e.g. 15%).</li>
+          <li><strong>Repair &amp; Rework / Factor of Safety:</strong> Safety/contingency factors entered as percentages (e.g. 1%).</li>
+          <li><strong>Final Mandays / Total Robotic Mandays:</strong> Adjusted final workload values.</li>
+          <li><strong>Utilization Hrs/Shift:</strong> Shift hours limit (e.g. 10).</li>
+          <li><strong>Final Robotic Hrs:</strong> Adjusted robotic hours.</li>
+          <li><strong>Manmonth Rate / Rs/Kg:</strong> Financial rates for resources and material deposits.</li>
+          <li><strong>Fabrication Cost (Lakhs):</strong> Calculated raw fabrication cost in Lakhs.</li>
+          <li><strong>Recovery Factor:</strong> Multiplier factor for overhead recovery (e.g. 1.72).</li>
+          <li><strong>Fabrication Cost (Lakhs) with recovery:</strong> Final fabrication cost contribution (Fabrication Cost &times; Recovery Factor).</li>
+        </ul>
+
+        <hr class="section-divider">
+
+        <h3 id="s8-7-est">8.7 Labour &amp; Machine Cost</h3>
+        <p>The Labour &amp; Machine Cost tab captures direct fabrication/labour contractor payouts, machining charges, and machine recovery costs associated with project execution. Subtotals calculated here contribute to the Grand Total.</p>
+        <div style="margin: 20px 0; text-align: center;">
+          <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+            <img src="new images 2/estimation_labour_and_machine-1.png" alt="Labour and Machine Cost Estimation – Table View" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <img src="new images 2/estimation_labour_and_machine-2.png" alt="Labour and Machine Cost Estimation – Table Details" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          </div>
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshots: Labour &amp; Machine Cost Estimation – Fabrication &amp; Machining Tables</em></p>
+        </div>
+
+        <h4>8.7.1 Labour &amp; Machine Metrics Cards</h4>
+        <p>The top section displays:</p>
+        <ul>
+          <li><strong>Total Value (₹ Lacs):</strong> Sum of all direct fabrication and machining costs in Lakhs.</li>
+          <li><strong>% of Total Sub-Cost:</strong> Contribution percentage of direct labour and machining relative to total project sub-cost.</li>
+        </ul>
+
+        <h4>8.7.2 Cost Categorization Tables</h4>
+        <p>The tab is divided into two distinct tables:</p>
+        <ol>
+          <li><strong>Fabrication / Labour Charges:</strong> For entering contractor payouts and fabrication labour activities. Typical activities include <em>LEMF - SHELL ROLLING, LEMF - FABRICATION (CONTRACTOR PAYOUT), L&amp;T SHOP - FAB. - Shell Plate Identification, Cutting, WEP, Rolling (EAST)</em>.</li>
+          <li><strong>Machining Charges / Machine Recovery:</strong> For entering machining time and recovery costs. An example activity is <em>DHD (East) (Thk)</em>.</li>
+        </ol>
+
+        <h4>8.7.3 Grid Input and Output Fields</h4>
+        <p>Both tables support the following columns (accessed by horizontal scrolling):</p>
         <table>
           <thead>
             <tr>
@@ -3725,133 +3994,222 @@ Result: John Smith automatically receives permission to create estimations.</pre
           </thead>
           <tbody>
             <tr>
-              <td>Weld Kg</td>
-              <td>Weld quantity</td>
+              <td>Activity</td>
+              <td>Selection dropdown of pre-defined activities.</td>
             </tr>
             <tr>
-              <td>Process</td>
-              <td>Welding process used</td>
+              <td>Location / M/C</td>
+              <td>Text input for shop floor location or machine code.</td>
             </tr>
             <tr>
-              <td>Duration (MD)</td>
-              <td>Total duration in mandays</td>
+              <td>Note</td>
+              <td>Operational notes.</td>
             </tr>
             <tr>
-              <td>Parallel Duration</td>
-              <td>Concurrent execution duration</td>
+              <td>No. of Unit</td>
+              <td>Quantity of units required.</td>
             </tr>
             <tr>
-              <td>Robot</td>
-              <td>Robot-assisted effort</td>
+              <td>Unit</td>
+              <td>Resource unit dropdown (e.g. hr, MD, Mt).</td>
             </tr>
             <tr>
-              <td>W</td>
-              <td>Welder Mandays</td>
+              <td>Rate</td>
+              <td>Rate per unit value in ₹.</td>
             </tr>
             <tr>
-              <td>F</td>
-              <td>Fitter Mandays</td>
+              <td>Rate Unit</td>
+              <td>Unit basis for the rate (e.g. Rs/hr, Rs/MD, Rs/MT).</td>
             </tr>
             <tr>
-              <td>G</td>
-              <td>Grinder Mandays</td>
+              <td>Total Value</td>
+              <td>Read-only calculated value (No. of Unit &times; Rate) shown in ₹.</td>
             </tr>
             <tr>
-              <td>H</td>
-              <td>Helper Mandays</td>
+              <td>% of Total Sub-Cost</td>
+              <td>Read-only percentage showing item contribution to the sub-cost.</td>
             </tr>
             <tr>
-              <td>Total</td>
-              <td>Total manpower</td>
-            </tr>
-            <tr>
-              <td>Manpower</td>
-              <td>Resource count</td>
-            </tr>
-            <tr>
-              <td>Manpower (MD)</td>
-              <td>Mandays consumed</td>
-            </tr>
-            <tr>
-              <td>Robot (MD)</td>
-              <td>Robot mandays</td>
+              <td>% of Total Cost</td>
+              <td>Read-only percentage showing item contribution to the project Grand Total.</td>
             </tr>
             <tr>
               <td>Remarks</td>
-              <td>Additional notes</td>
+              <td>Additional remarks.</td>
             </tr>
           </tbody>
         </table>
-        <p>Administrators can click <strong>Add Sub-Activity</strong> to create additional workflow steps.</p>
+        <p>Click <strong>+ Add row</strong> to insert new items under either table, or click <strong>Load Sample Data</strong> to pre-fill activities.</p>
 
         <hr class="section-divider">
 
-        <h3 id="s8-8-est">8.8 Section C – Other Expenses</h3>
-        <p>This section captures expenses that are not directly classified as material or labour. <em>Examples: PWHT,
-            NDE, Painting, Pickling, Subcontracting, Bought-Out Items, Engineering, FEA Studies.</em></p>
+        <h3 id="s8-8-est">8.8 Other Expenses</h3>
+        <p>The Other Expenses tab captures indirect expenses that are not directly classified as raw material or labor. Typical categories include heat treatments, non-destructive testing, painting, subcontracted tasks, and design studies. Subtotals calculated here contribute to the Grand Total.</p>
+        
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/Estimation Section C.png" alt="Other Expenses Estimation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Other Expenses Estimation</em></p>
+          <img src="new images 2/estimation_other_expenses_section-3.png" alt="Other Expenses Estimation Layout" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Other Expenses Estimation Categorized Layout</em></p>
         </div>
-        <p><strong>Fields:</strong> Description, Category, Number of Units, Units, Rate, Rate Unit, Total, and Remarks.
-        </p>
-        <p>Administrators can click <strong>Add Row</strong> to include multiple expense entries.</p>
+
+        <h4>8.8.1 Other Expenses Metrics Cards</h4>
+        <p>The top of the Other Expenses screen displays subtotal summaries for each category:</p>
+        <ul>
+          <li><strong>PWHT / NDE / PAINTING:</strong> Total cost for heat treatment, testing, and painting in Lakhs.</li>
+          <li><strong>SUBCONTRACTING (L&amp;T):</strong> Total cost of subcontracted operations in Lakhs.</li>
+          <li><strong>BOUGHT OUT (VENDOR):</strong> Total cost of vendor-purchased items in Lakhs.</li>
+          <li><strong>MISC / HYDRO / TORQUING:</strong> Total cost of miscellaneous operations in Lakhs.</li>
+          <li><strong>ENGINEERING (DPM):</strong> Total cost of design engineering in Lakhs.</li>
+          <li><strong>[C] TOTAL:</strong> Consolidated sum of all other expenses (sum of the five categories above) in Lakhs.</li>
+        </ul>
+
+        <h4>8.8.2 Categorized Expense Tables</h4>
+        <p>Expenses are organized into five tables matching the metrics card categories. Each table contains the following columns:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Type</td>
+              <td>Dropdown to select the specific expense type (e.g. Subcontracting, Bought-out). Only visible on rows where classification is dynamic.</td>
+            </tr>
+            <tr>
+              <td>Activity</td>
+              <td>Dropdown to select a pre-configured activity from the Other Expenses master.</td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td>Text description of the expense.</td>
+            </tr>
+            <tr>
+              <td>No. of Unit</td>
+              <td>Numeric quantity.</td>
+            </tr>
+            <tr>
+              <td>Unit</td>
+              <td>Unit dropdown (e.g., m, lsp, kg).</td>
+            </tr>
+            <tr>
+              <td>Rate</td>
+              <td>Unit rate value.</td>
+            </tr>
+            <tr>
+              <td>Rate Unit</td>
+              <td>Unit basis for the rate (e.g., Rs/kg, Rs/lsp).</td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td>Read-only calculated value (No. of Unit &times; Rate) shown in Lakhs.</td>
+            </tr>
+            <tr>
+              <td>% Sub</td>
+              <td>Read-only percentage showing item contribution to the category subtotal.</td>
+            </tr>
+            <tr>
+              <td>% Total</td>
+              <td>Read-only percentage showing item contribution to the project Grand Total.</td>
+            </tr>
+            <tr>
+              <td>Remarks</td>
+              <td>Additional remarks.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Estimators can click <strong>+ Add</strong> to create new rows under any category table, or click <strong>Load Sample Data</strong> to pre-fill active categories.</p>
 
         <hr class="section-divider">
 
-        <h3 id="s8-9-est">8.9 Section D – Material Handling</h3>
-        <p>Material Handling captures logistics and handling-related expenses associated with project execution.
-          <em>Examples: Internal Transportation, Packing, Forwarding, Loading, Unloading, Material Shifting.</em>
-        </p>
+        <h3 id="s8-9-est">8.9 Material Handling</h3>
+        <p>The Material Handling tab captures logistics, storage, internal movement, loading, unloading, packing, and shifting expenses associated with project execution. Subtotals calculated here contribute to the Grand Total.</p>
+        
         <div style="margin: 20px 0; text-align: center;">
-          <img src="new images/Estimation Section D.png" alt="Material Handling Estimation Screen" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Material Handling Estimation</em></p>
+          <img src="new images 2/estimation_material_handling.png" alt="Material Handling Cost Estimation" style="max-width: 100%; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <p style="font-size: 0.9em; color: #666; margin-top: 8px;"><em>Screenshot: Material Handling Cost Estimation Card-Based Entries</em></p>
         </div>
-        <p><strong>Fields:</strong> Description, Basis (Lump Sum, Per MT, Per Unit), Quantity, Rate, Currency, Total,
-          and Remarks.</p>
-        <p>Administrators may add multiple handling entries using the <strong>Add Row</strong> button.</p>
+
+        <h4>8.9.1 Material Handling Layout</h4>
+        <p>Unlike other tables, Material Handling displays entries inside individual **Cards** for each item (e.g. #1 Test). The page features:</p>
+        <ul>
+          <li><strong>SUBTOTAL:</strong> Metric card displaying the sum of all material handling charges in Lakhs.</li>
+          <li><strong>Card Input Fields:</strong>
+            <ul>
+              <li><strong>Description:</strong> Text description of the handling activity.</li>
+              <li><strong>Basis:</strong> Dropdown to select the calculation basis (e.g. Lump-sum, Per MT, Per Unit).</li>
+              <li><strong>Quantity:</strong> Numeric quantity.</li>
+              <li><strong>Rate:</strong> Cost per unit.</li>
+              <li><strong>Currency:</strong> Selection dropdown for active currencies.</li>
+              <li><strong>Total (₹ L):</strong> Read-only calculated handling cost in Lakhs.</li>
+              <li><strong>Remarks:</strong> Additional remarks.</li>
+            </ul>
+          </li>
+          <li><strong>+ Add row:</strong> Inserts a new blank card.</li>
+          <li><strong>Delete Icon:</strong> Removes the corresponding card from the estimation.</li>
+        </ul>
 
         <hr class="section-divider">
 
         <h3 id="s8-10-est">8.10 Grand Total Calculation</h3>
-        <p>At the bottom of the estimation screen, the system continuously calculates the consolidated project estimate
-          using the algebraic logic breakdown:</p>
+        <p>At the bottom of the estimation screen, the system continuously calculates the consolidated project estimate using the algebraic logic breakdown:</p>
         <div class="note-box" style="font-size:14px; font-weight:bold; text-align:center;">
-          Grand Total = Material Cost (A) + Labour &amp; Machine Cost (B) + Other Expenses (C) + Material Handling Cost
-          (D)
+          Grand Total = Material Cost + Labour &amp; Machine Cost + Other Expenses + Material Handling Cost
         </div>
         <p>The value is automatically updated whenever any cost component is modified.</p>
         <table>
           <thead>
             <tr>
-              <th>Section</th>
-              <th>Contribution</th>
+              <th>Cost Category</th>
+              <th>Description</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>A</td>
               <td>Material Cost</td>
+              <td>Raw material, purchased component, and weight calculator costs.</td>
             </tr>
             <tr>
-              <td>B</td>
               <td>Labour &amp; Machine Cost</td>
+              <td>Direct contractor payouts and machine recovery costs.</td>
             </tr>
             <tr>
-              <td>C</td>
               <td>Other Expenses</td>
+              <td>Indirect costs (heat treatment, painting, subcontracting, engineering).</td>
             </tr>
             <tr>
-              <td>D</td>
               <td>Material Handling</td>
+              <td>Logistics, packing, shifting, and loading charges.</td>
             </tr>
           </tbody>
         </table>
-        <p>The Grand Total represents the final estimated project cost and serves as the primary commercial value used
-          for project evaluation, quotation preparation, and management review.</p>
+        <p>The Grand Total represents the final estimated project cost and serves as the primary commercial value used for project evaluation, quotation preparation, and management review.</p>
+
+        <hr class="section-divider">
+
+        <h3 id="s8-11-est">8.11 BOXPLOT Visualizations</h3>
+        <p>The <strong>BOXPLOT</strong> tab provides a graphical cost distribution and statistical breakdown of the estimation. Clicking this tab renders box-and-whisker plots based on saved cost values. It offers the following analytical insights:</p>
+        <ul>
+          <li><strong>Median Cost (Visual Line):</strong> The line inside the box represents the median cost value across all material items or costing units, serving as the cost midpoint.</li>
+          <li><strong>Variance &amp; Dispersion (The Box):</strong> The height of the box represents the interquartile range (IQR), illustrating the distribution and spread of cost values. A larger box indicates high variance in component costs.</li>
+          <li><strong>Whiskers:</strong> Extend to show the range of typical costing limits (minimum and maximum values within 1.5 &times; IQR).</li>
+          <li><strong>Outliers (Individual Dots):</strong> Exceptionally high or low component costs are highlighted as distinct data points outside the whiskers, signaling line items that significantly deviate from normal price patterns (e.g. expensive alloys or specialized labor packages).</li>
+        </ul>
+        <p>Estimators use this tab to quickly sanity-check the cost balance and identify areas of high cost concentration before final submission.</p>
+
+        <hr class="section-divider">
+
+        <h3 id="s8-12-est">8.12 Exporting and Finalizing the Estimation</h3>
+        <p>Once all data has been entered and saved across the costing tabs, the user can export the complete cost worksheet:</p>
+        <ol class="step-list">
+          <li>Ensure all changes are saved by clicking <strong>Save Draft</strong>.</li>
+          <li>Locate the **Export Excel** button on the top-right control bar of the Edit/Create Estimation page.</li>
+          <li>Click **Export Excel**.</li>
+          <li>The system will compile all saved data, mathematical formulas, and cost summaries, generating a comprehensive Excel spreadsheet (.xlsx format).</li>
+          <li>The browser will automatically trigger the download of the file to the local system.</li>
+        </ol>
+        <p><strong>Result:</strong> The downloaded spreadsheet contains the compiled structure of all cost categories (Material, Labour &amp; Machine, Other Expenses, and Material Handling), making it ideal for offline reviews, customer proposals, and archiving purposes.</p>
       </div>
-
-
 
       <div class="section" id="ch9">
         <h2 class="section-title">9. Administrative Workflows</h2>
@@ -4684,7 +5042,7 @@ Complete Estimation</pre>
 
   <ul>
     <li>Weight Calculator Module</li>
-    <li>Estimation Module – Section A (Material Cost)</li>
+    <li>Estimation Module (Material Cost tab)</li>
     <li>Procurement Cost Calculation</li>
     <li>Material Consumption Analysis</li>
     <li>Cost Validation Activities</li>
@@ -5176,6 +5534,12 @@ Finished Weight = Ring − Bolt Weight + Hub Weight
           expandChapter(current.link.parentL1);
         } else if (current.link.classList.contains('toc-l1') && current.link.classList.contains('collapsed')) {
           expandChapter(current.link);
+        }
+
+        // Auto-scroll sidebar to make active link visible
+        if (current.link !== window.lastActiveLink) {
+          window.lastActiveLink = current.link;
+          current.link.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       }
     }

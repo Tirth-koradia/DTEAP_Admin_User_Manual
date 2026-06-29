@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rod - 3D Material Estimator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+    :root {
+      --bg-primary: #f0f4f8;
+      --bg-secondary: #ffffff;
+      --bg-panel: #f7f9fc;
+      --bg-card: #ffffff;
+      --bg-input: #f0f4f8;
+      --accent: #2563eb;
+      --accent-dim: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.10);
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+      --border: rgba(15, 23, 42, 0.10);
+      --border-accent: rgba(37, 99, 235, 0.35);
+      --steel: #64748b;
+      --grid-color: #e2e8f0;
+      --canvas-bg: #e8eef5;
+      --shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 20px;
+      height: 50px;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      z-index: 100;
+      box-shadow: var(--shadow);
+    }
+
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: var(--text-primary);
+    }
+
+    .topbar-logo span {
+      color: var(--accent);
+    }
+
+    .topbar-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+
+    .topbar-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .topbar-spacer {
+      flex: 1;
+    }
+
+    .view-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: all 0.15s;
+    }
+
+    .view-btn:hover {
+      border-color: var(--border-accent);
+      color: var(--accent);
+      background: #eff6ff;
+    }
+
+    .view-btn.active {
+      background: var(--accent);
+      border-color: var(--accent-dim);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+
+    /* MAIN LAYOUT */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* LEFT PANEL */
+    .panel-left {
+      width: 288px;
+      flex-shrink: 0;
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .panel-section {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    /* Category selector */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+
+    .cat-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 8px 6px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      text-align: center;
+      transition: all 0.15s;
+      line-height: 1.3;
+      box-shadow: var(--shadow);
+    }
+
+    .cat-btn:hover {
+      border-color: var(--border-accent);
+      color: var(--accent);
+      background: #eff6ff;
+    }
+
+    .cat-btn.active {
+      background: #eff6ff;
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
+
+    /* Inputs */
+    .input-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+    }
+
+    .input-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .input-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .input-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .field-group {
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .field-unit {
+      font-size: 10px;
+      color: var(--text-muted);
+      background: var(--bg-input);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+    }
+
+    .field-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      color: var(--text-primary);
+      padding: 7px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: 'Inter', system-ui, sans-serif;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .field-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .field-input.error {
+      border-color: var(--danger);
+    }
+
+    .field-error {
+      font-size: 10px;
+      color: var(--danger);
+      margin-top: 3px;
+    }
+
+    /* Material selector */
+    .mat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+    }
+
+    .mat-btn {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      color: var(--text-secondary);
+      padding: 7px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+      box-shadow: var(--shadow);
+    }
+
+    .mat-btn:hover {
+      border-color: var(--border-accent);
+      background: #eff6ff;
+    }
+
+    .mat-btn.active {
+      border-color: var(--accent);
+      background: #eff6ff;
+      color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
+
+    .mat-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    /* Fit View btn (replaces generate) */
+    .gen-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: all 0.15s;
+      margin-top: 6px;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    .gen-btn:hover {
+      background: var(--accent-dim);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    .gen-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Live update badge */
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--success);
+      background: rgba(22, 163, 74, 0.10);
+      border: 1px solid rgba(22, 163, 74, 0.25);
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8)
+      }
+    }
+
+    /* CANVAS AREA */
+    .canvas-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: var(--canvas-bg);
+    }
+
+    #canvas3d {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+
+    #canvas3d:active {
+      cursor: grabbing;
+    }
+    
+    body.coord-mode-active #canvas3d {
+      cursor: crosshair !important;
+    }
+    
+    body.coord-mode-active .dim-annotation {
+      pointer-events: none !important;
+    }
+
+    /* Rotate hint */
+    .rotate-hint {
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 500;
+      pointer-events: none;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Axes label overlay */
+    .axes-labels {
+      position: absolute;
+      pointer-events: none;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .axis-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 5px;
+    }
+
+    .axis-x {
+      background: rgba(220, 38, 38, 0.12);
+      color: #dc2626;
+      border: 1px solid rgba(220, 38, 38, 0.25);
+    }
+
+    .axis-y {
+      background: rgba(22, 163, 74, 0.10);
+      color: #16a34a;
+      border: 1px solid rgba(22, 163, 74, 0.25);
+    }
+
+    .axis-z {
+      background: rgba(37, 99, 235, 0.10);
+      color: #2563eb;
+      border: 1px solid rgba(37, 99, 235, 0.25);
+    }
+
+    /* Right panel */
+    .panel-right {
+      width: 264px;
+      flex-shrink: 0;
+      background: var(--bg-panel);
+      border-left: 1px solid var(--border);
+      display: none; /* Removed entirely per user request */
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .right-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+    }
+
+    .right-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .right-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    /* Metadata cards */
+    .meta-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .meta-card-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-card-title::before {
+      content: '';
+      width: 3px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    }
+
+    .meta-row:last-child {
+      border-bottom: none;
+    }
+
+    .meta-key {
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .meta-val {
+      color: var(--text-primary);
+      font-size: 12px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .meta-val.accent {
+      color: var(--accent);
+    }
+
+    .meta-val.success {
+      color: var(--success);
+    }
+
+    .meta-val.warning {
+      color: var(--warning);
+    }
+
+    /* Weight cards */
+    .weight-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .weight-block-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .weight-block-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+
+    .weight-block-unit {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .weight-block-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .weight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    /* Dimension annotation */
+    .dim-annotation {
+      position: absolute;
+      pointer-events: auto;
+      font-size: 11px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--border-accent);
+      padding: 2px 8px;
+      border-radius: 4px;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.10);
+      backdrop-filter: blur(2px);
+      opacity: 0.15;
+      transition: opacity 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    .dim-annotation:hover,
+    .dim-annotation.active,
+    .dim-annotation.hovered {
+      opacity: 1.0;
+      transform: translate(-50%, -50%) scale(1.05);
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.2);
+    }
+
+    /* Status bar */
+    .statusbar {
+      height: 28px;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .status-item {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .status-dot.warn {
+      background: var(--warning);
+    }
+
+    .status-dot.err {
+      background: var(--danger);
+    }
+
+    /* Validation notice */
+    .val-notice {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .val-notice.err {
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      color: var(--danger);
+    }
+
+    .val-notice.ok {
+      background: rgba(22, 163, 74, 0.08);
+      border: 1px solid rgba(22, 163, 74, 0.20);
+      color: var(--success);
+    }
+
+    .val-notice.warn {
+      background: rgba(217, 119, 6, 0.08);
+      border: 1px solid rgba(217, 119, 6, 0.30);
+      color: var(--warning);
+    }
+
+    .density-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .density-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .density-val {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ======================================================
+     WELD ASSEMBLY MODULE
+  ====================================================== */
+    .weld-panel {
+      width: 288px;
+      flex-shrink: 0;
+      background: var(--bg-panel);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .weld-header {
+      padding: 13px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+    }
+
+    .weld-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .weld-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .weld-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+    }
+
+    .weld-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .weld-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .weld-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 10px 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .weld-connection-item {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 9px;
+      padding: 10px 12px;
+      margin-bottom: 9px;
+      box-shadow: var(--shadow);
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .weld-connection-item:hover {
+      border-color: var(--border-accent);
+      background: rgba(37, 99, 235, 0.01);
+    }
+
+    .weld-connection-item.selected {
+      border-color: var(--accent);
+      background: rgba(37, 99, 235, 0.04);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .weld-connection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 9px;
+    }
+
+    .weld-connection-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .weld-conn-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .weld-remove-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .weld-remove-btn:hover {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger);
+    }
+
+    .weld-mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .weld-mini-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      margin-bottom: 3px;
+    }
+
+    .weld-mini-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      color: var(--text-primary);
+      padding: 5px 7px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-family: 'Inter', system-ui, sans-serif;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .weld-mini-input:focus {
+      border-color: var(--accent);
+    }
+
+    .weld-select {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      color: var(--text-primary);
+      padding: 5px 7px;
+      border-radius: 5px;
+      font-size: 12px;
+      font-family: 'Inter', system-ui, sans-serif;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .weld-select:focus {
+      border-color: var(--accent);
+    }
+
+    .add-conn-btn {
+      width: 100%;
+      background: rgba(37, 99, 235, 0.06);
+      border: 1.5px dashed var(--border-accent);
+      color: var(--accent);
+      padding: 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: 'Inter', system-ui, sans-serif;
+      margin-top: 2px;
+    }
+
+    .add-conn-btn:hover {
+      background: #eff6ff;
+      border-color: var(--accent);
+    }
+
+    .add-conn-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-style: solid;
+    }
+
+    .weld-fit-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 9px;
+      border-radius: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.15s;
+      font-family: 'Inter', system-ui, sans-serif;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    }
+
+    .weld-fit-btn:hover {
+      background: var(--accent-dim);
+    }
+
+    .weld-mode-btn {
+      background: #eff6ff;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      padding: 5px 13px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .weld-mode-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .weld-mode-btn.active {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    }
+
+    .weld-analysis-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .weld-analysis-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .weld-color-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .weld-tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+
+    .weld-tag-fillet {
+      background: rgba(245, 158, 11, 0.12);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .weld-note {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+      padding: 8px 10px;
+      background: rgba(37, 99, 235, 0.05);
+      border-radius: 6px;
+      border-left: 3px solid var(--accent);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-logo">&#11041; <span>IND</span>VIZ</div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-tag">3D Material Estimator</div>
+    <div class="topbar-spacer"></div>
+    
+    
+    <div class="topbar-divider"></div>
+    <button class="view-btn active" onclick="setView('iso')" id="vb-iso">Isometric</button>
+    <button class="view-btn" onclick="setView('front')" id="vb-front">Front</button>
+    <button class="view-btn" onclick="setView('side')" id="vb-side">Side</button>
+    <button class="view-btn" onclick="setView('top')" id="vb-top">Top</button>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- LEFT PANEL -->
+    <div class="panel-left">
+      
+
+      
+
+      <div class="panel-section">
+        <div class="panel-section-title">Orientation</div>
+        <select class="field-input" id="orientationSelect" onchange="generateModel(true)" style="cursor:pointer; width:100%">
+          <option value="auto">Auto (Default)</option>
+          <option value="horizontal">Horizontal</option>
+          <option value="vertical">Vertical</option>
+        </select>
+      </div>
+
+      <div id="inputScroll" class="input-scroll">
+        <div id="validationNotice"></div>
+        <div id="dynFields"></div>
+        <div class="field-group">
+          <div class="field-label">Quantity <span class="field-unit">pcs</span></div>
+          <input type="number" class="field-input" id="qtyInput" value="1" min="1" step="1" onchange="onDimChange()">
+        </div>
+        <div class="live-badge"><span class="live-dot"></span>Live Preview — updates as you type</div>
+        <button class="gen-btn" onclick="fitCamera(currentMesh)">&#8982; Fit to View</button>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <div class="canvas-wrap" id="canvasWrap">
+      <canvas id="canvas3d"></canvas>
+      <div class="rotate-hint">🖱 Drag to rotate &nbsp;|&nbsp; Scroll to zoom &nbsp;|&nbsp; Right-drag to pan</div>
+      <div class="axes-labels">
+        <span class="axis-tag axis-x">X</span>
+        <span class="axis-tag axis-y">Y</span>
+        <span class="axis-tag axis-z">Z</span>
+      </div>
+      <div id="dimAnnotations"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="panel-right">
+      <div class="right-scroll" id="rightScroll">
+        <div
+          style="padding:4px 0 10px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); font-weight:600;">
+          Model Info</div>
+
+        <div class="meta-card" id="shapeInfoCard">
+          <div class="meta-card-title">Shape</div>
+          <div id="shapeInfoRows">
+            <div style="color:var(--text-muted);font-size:12px;">No model generated</div>
+          </div>
+        </div>
+
+        <div class="meta-card" id="bboxCard">
+          <div class="meta-card-title">Bounding Box</div>
+          <div id="bboxRows">
+            <div style="color:var(--text-muted);font-size:12px;">—</div>
+          </div>
+        </div>
+
+        <div class="meta-card">
+          <div class="meta-card-title">Density (g/cc)</div>
+          <div class="density-row" style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="density-label" id="densityLabel">—</span>
+            <input type="number" id="densityInput" class="field-input"
+              style="width: 70px; padding: 4px 6px; font-size: 13px; font-weight: 600; text-align: right; margin: 0;"
+              step="0.01" min="0.1" onchange="onCustomDensityChange()" oninput="onCustomDensityChange()">
+          </div>
+        </div>
+
+        <div
+          style="font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); font-weight:600; padding:4px 0 10px;">
+          Weight</div>
+
+        <div class="weight-grid">
+          <div class="weight-block">
+            <div class="weight-block-label">Raw</div>
+            <div class="weight-block-value" id="wRaw">—</div>
+            <div class="weight-block-unit" id="wRawUnit">kg</div>
+          </div>
+          <div class="weight-block">
+            <div class="weight-block-label">Finished</div>
+            <div class="weight-block-value" id="wFinished">—</div>
+            <div class="weight-block-unit" id="wFinishedUnit">kg</div>
+          </div>
+        </div>
+
+        <div class="meta-card">
+          <div class="meta-card-title">Formula Used</div>
+          <div id="formulaDisplay"
+            style="font-size:11px; color:var(--text-secondary); line-height:1.7; font-family:monospace;"></div>
+        </div>
+      </div>
+      <!-- WELD ANALYSIS RIGHT PANEL -->
+      <div class="right-scroll" id="weldRightScroll" style="display:none;flex:1;overflow-y:auto;padding:12px 14px;">
+        <div
+          style="padding:4px 0 10px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);font-weight:700;">
+          Weld Analysis</div>
+        <div class="weld-note">Formulas: Fillet weld · Circumferential joint<br><em
+            style="color:var(--accent);">Placeholder — replace with your own formulas later</em></div>
+        <div id="weldAnalysisContent">
+          <div style="color:var(--text-muted);font-size:12px;">No connections added yet.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <div class="status-item">
+      <div class="status-dot" id="statusDot"></div><span id="statusText">Ready</span>
+    </div>
+    <div class="status-item" id="polyInfo"></div>
+    <div class="status-item" style="margin-left:auto;">Dimensions shown as entered (no scaling)</div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/materials.js"></script>
+  <script src="js/shapes.js"></script>
+  <script src="js/weights.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    currentShape = "rod";
+  </script>
+</body>
+</html>
